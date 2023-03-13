@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:soares_administradora_condominios/pagina_principal/pagina.principal.dart';
+import 'package:soares_administradora_condominios/main_page/main.page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
-          '/': (_) => const PaginaPrincipal(),
+          '/': (_) => const MainPage(),
         },
         title: 'Soares Administradora de Condomínios',
       );

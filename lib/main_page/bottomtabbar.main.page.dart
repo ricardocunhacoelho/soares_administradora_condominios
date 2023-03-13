@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import '../../app.style.dart';
 import '../../size.config.dart';
 
-class BottomTabBarLista extends StatefulWidget {
+class BottomTabBarList extends StatefulWidget {
   final Function onChange;
   final int indexSelecionado;
 
-  const BottomTabBarLista(
+  const BottomTabBarList(
       {super.key, required this.onChange, required this.indexSelecionado});
 
   @override
-  State<BottomTabBarLista> createState() => _BottomTabBarListState();
+  State<BottomTabBarList> createState() => _BottomTabBarListState();
 }
 
-class _BottomTabBarListState extends State<BottomTabBarLista> {
+class _BottomTabBarListState extends State<BottomTabBarList> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
