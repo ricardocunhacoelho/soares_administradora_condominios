@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "707537672788",
+    "project_id": "soares-administradora-condomin",
+    "storage_bucket": "soares-administradora-condomin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707537672788:android:23060c0026eb1d2ddaebc1",
+        "android_client_info": {
+          "package_name": "com.example.treino_designer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707537672788-a3tbrhlq44c85s3du7tgf2d58uopvrd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWNXD6MiIIqaU5U5eob1NGZhQSCoAEuY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707537672788-a3tbrhlq44c85s3du7tgf2d58uopvrd8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

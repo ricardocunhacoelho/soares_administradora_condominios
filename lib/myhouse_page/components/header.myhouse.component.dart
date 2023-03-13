@@ -27,12 +27,12 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                     height: 51,
                     width: 51,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(kBorderRadius),
-                      color: kLightWhite,
-                      // image: const DecorationImage(
-                      //     image: AssetImage('assets/imagem_perfil.png'),
-                      //     fit: BoxFit.contain),
-                    )),
+                        borderRadius: BorderRadius.circular(kBorderRadius),
+                        color: kLightWhite,
+                        image: DecorationImage(
+                            image: NetworkImage(
+                                'https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2017/05/formacao_a-familia-foi-criada-por-deus-para-ser-a-base-da-sociedade-1.jpg'),
+                            fit: BoxFit.cover))),
                 SizedBox(width: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
