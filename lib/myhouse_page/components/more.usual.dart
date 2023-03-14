@@ -32,7 +32,7 @@ class MoreUsual extends StatelessWidget {
             children: <Widget>[
               ItemMoreUsual(
                 image:
-                    "https://images.prismic.io/portal-de-planos/bb71d223-1dbd-4ee9-b877-2ed2d7893652_como-ler-qr-code.webp?auto=compress,format&rect=0,59,724,366&w=740&h=374",
+                    "assets/qrcodeimage.png",
                 title: 'QRCODE',
                 icon: 'assets/qrcode.png',
                 details:
@@ -41,7 +41,7 @@ class MoreUsual extends StatelessWidget {
               ),
               ItemMoreUsual(
                 image:
-                    "https://conviverapp.com.br/contrate/wp-content/uploads/2021/10/O-condom%C3%ADnio-pode-proibir-o-recebimento-das-encomendas-dos-moradores.jpg",
+                    "assets/encomendafoto.png",
                 title: 'Encomendas',
                 icon: 'assets/encomenda.png',
                 details:
@@ -50,7 +50,7 @@ class MoreUsual extends StatelessWidget {
               ),
               ItemMoreUsual(
                 image:
-                    "https://blog.bompracredito.com.br/wp-content/uploads/como-organizar-contas-conferir-bpc.png",
+                    "assets/boletosfoto.png",
                 title: 'Boletos',
                 icon: 'assets/boleto.png',
                 details: 'Segunda via de boletos e historico dos pagamentos',

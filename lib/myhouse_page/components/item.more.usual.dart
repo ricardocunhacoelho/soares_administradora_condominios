@@ -46,7 +46,7 @@ class ItemMoreUsual extends StatelessWidget {
                     topRight: Radius.circular(kBorderRadius)),
                 color: kWhite,
                 image: DecorationImage(
-                    image: NetworkImage(image), fit: BoxFit.cover)),
+                    image: AssetImage(image), fit: BoxFit.cover)),
           ),
           const SizedBox(height: 15),
           Container(

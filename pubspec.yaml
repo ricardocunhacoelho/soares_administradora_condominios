@@ -44,6 +44,11 @@ dependencies:
   flutter_bloc: ^8.1.1
   provider: ^6.0.4
   firebase_core: ^2.7.1
+  firebase_storage: ^11.0.15
+  image_picker: ^0.8.7
+  flutter_native_splash: ^2.2.18
+  firebase_auth: ^4.2.10
+  shared_preferences: ^2.0.18
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +88,9 @@ flutter:
     - assets/qrcode.png
     - assets/encomenda.png
     - assets/boleto.png
+    - assets/qrcodeimage.png
+    - assets/boletosfoto.png
+    - assets/encomendafoto.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -109,3 +117,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/splash.png

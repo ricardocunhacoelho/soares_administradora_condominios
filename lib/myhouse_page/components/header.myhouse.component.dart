@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../app.style.dart';
@@ -11,6 +12,7 @@ class HeaderMyHouse extends StatefulWidget {
 }
 
 class _HeaderMyHouseState extends State<HeaderMyHouse> {
+  var auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,7 +53,9 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
             ),
           ),
           GestureDetector(
-              onTap: () {},
+              onTap: () {
+                auth.signOut();
+              },
               child: Icon(
                 Icons.logout_outlined,
                 color: kLightWhite,
