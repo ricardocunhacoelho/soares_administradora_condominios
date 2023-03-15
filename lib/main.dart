@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                 future: _inicializacao,
                 builder: (context, app) {
                   if (app.connectionState == ConnectionState.done) {
-                    return const TestStorage();
+                    return const MainPage();
                   }
                   if (app.hasError) {
                     return const ErrorPage();

@@ -43,7 +43,7 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                         style: kPoppinsSemiBold.copyWith(
                             fontSize: SizeConfig.blockSizeHorizontal! * 3,
                             color: kLightWhite)),
-                    Text('Olá, Familia Muniz',
+                    Text('Olá, Casa Muniz',
                         style: kPoppinsBold.copyWith(
                             fontSize: SizeConfig.blockSizeHorizontal! * 4,
                             color: kLightWhite)),

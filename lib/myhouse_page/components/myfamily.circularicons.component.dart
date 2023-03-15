@@ -17,7 +17,7 @@ class MyFamilyCircularIcons extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Minha Família',
+              Text('Minha Casa',
                   style: kPoppinsBold.copyWith(
                       fontSize: SizeConfig.blockSizeHorizontal! * 4,
                       color: kDarkBlue)),

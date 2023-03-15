@@ -25,7 +25,7 @@ class _MyHouseState extends State<MyHouse> {
           //HEADER MY HOUSE
           HeaderMyHouse(),
           SizedBox(height: 25),
-          //MY FAMILY CIRCULAR ICONS
+          //MY HOUSE CIRCULAR ICONS
           MyFamilyCircularIcons(),
           SizedBox(height: 30),
           //HOME SERVICES PROVIDERS
