@@ -5,12 +5,11 @@ import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
 import 'package:soares_administradora_condominios/main_page/main.page.dart';
-import 'package:soares_administradora_condominios/login_page/login.page.dart';
+import 'package:soares_administradora_condominios/login/login.page.dart';
 import 'package:soares_administradora_condominios/main_page/loading.page.dart';
 import 'package:soares_administradora_condominios/main_page/error.page.dart';
 
 import 'package:soares_administradora_condominios/test_storage/test.storage.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,6 +61,21 @@ class _MyAppState extends State<MyApp> {
                 future: _inicializacao,
                 builder: (context, app) {
                   if (app.connectionState == ConnectionState.done) {
+                    // final uid =
+                    //     FirebaseAuth.instance.currentUser!.uid.toString();
+                    // context
+                    //     .read<LoginBloc>()
+                    //     .add(BuscarUsuarioLoginEventos(uid));
+                    // if (loginEstados is CompletoBuscarUsuarioLoginEstado) {
+                    //   return const MainPage();
+                    // }
+                    // if else(loginEstados is ErrorBuscarUsuarioLoginEstado){
+                    //                       return const ErrorPage();
+
+                    // }else{
+                    //                     return const LoadingPage();
+
+                    // }
                     return const MainPage();
                   }
                   if (app.hasError) {
