@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/events/login.events.dart';
+import 'package:soares_administradora_condominios/login/states/login.states.dart';
 
 import '../../app.style.dart';
 
@@ -28,7 +32,7 @@ class _MyHouseState extends State<MyHouse> {
           //MY HOUSE CIRCULAR ICONS
           MyFamilyCircularIcons(),
           SizedBox(height: 30),
-          //HOME SERVICES PROVIDERS
+           //HOME SERVICES PROVIDERS
           HomeServiceProviders(),
           SizedBox(height: 25),
           //divisor

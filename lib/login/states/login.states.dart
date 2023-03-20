@@ -1,25 +1,40 @@
+
 import 'package:soares_administradora_condominios/home_unit/domain/entity/home.unit.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
 
 abstract class LoginStates {}
 
 class InitialLoginState implements LoginStates {}
 
-class LoadingFetchHomeUnitLoginState implements LoginStates {}
+class LoadingFetchUserLoginState implements LoginStates {}
 
-class CompleteFetchHomeUnitLoginState implements LoginStates {
+class CompleteFetchUserHomeUnitLoginState implements LoginStates {
   final HomeUnitEntity homeUnitEntity;
 
-  CompleteFetchHomeUnitLoginState(this.homeUnitEntity);
+  CompleteFetchUserHomeUnitLoginState(this.homeUnitEntity);
+
 }
 
-class ErrorFetchHomeUnitLoginState implements LoginStates {
+class CompleteFetchUserWorkerLoginState implements LoginStates {
+  final WorkerEntity workerEntity;
+
+  CompleteFetchUserWorkerLoginState(this.workerEntity);
+
+}
+
+class ErrorFetchUserLoginState implements LoginStates {
   final String message;
 
-  ErrorFetchHomeUnitLoginState(this.message);
+  ErrorFetchUserLoginState(this.message);
 }
 
-class AuthenticateHomeUnitLoadingLoginState implements LoginStates {}
+class AuthenticateUserLoadingLoginState implements LoginStates {}
 
-class AuthenticateHomeUnitCompleteLoginState implements LoginStates {}
+class AuthenticateUserCompleteLoginState implements LoginStates {}
 
-class AuthenticateHomeUnitErrorLoginState implements LoginStates {}
+class AuthenticateUserErrorLoginState implements LoginStates {
+  final String message;
+
+  AuthenticateUserErrorLoginState(this.message);
+}

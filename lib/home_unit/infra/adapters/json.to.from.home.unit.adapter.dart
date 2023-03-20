@@ -4,6 +4,7 @@ import 'package:soares_administradora_condominios/house_service_provider/infra/a
 import 'package:soares_administradora_condominios/resident/infra/adapters/json.to.from.resident.entity.dart';
 import 'package:soares_administradora_condominios/single_notification/infra/adapters/json.to.from.unit.entity.single.notification.dart';
 import 'package:soares_administradora_condominios/unit/infra/adapters/json.to.from.unit.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 import 'package:soares_administradora_condominios/vehicle/infra/adapters/json.to.from.visitor.vehicle.dart';
 import 'package:soares_administradora_condominios/visitor/infra/adapters/json.to.from.visitor.dart';
 
@@ -11,6 +12,9 @@ class JsonToFromHomeUnitEntity {
   static Map<String, dynamic> toMap(HomeUnitEntity homeUnit) {
     return {
       'id': homeUnit.id,
+      'email': homeUnit.email,
+      'userType': homeUnit.userType.name,
+      'phoneNumber': homeUnit.phoneNumber,
       'title': homeUnit.title,
       'residents': homeUnit.residents
           .map((e) => JsonToFromResidentEntity.toMap(e))
@@ -38,6 +42,11 @@ class JsonToFromHomeUnitEntity {
   static HomeUnitEntity fromMap(dynamic json) {
     return HomeUnitEntity(
       id: json['id'],
+      userType: EUserType.values.firstWhere(
+        (element) => element.name == json['userType'],
+      ),
+      email: json['email'],
+      phoneNumber: json['phoneNumber'],
       title: json['title'],
       residents: json.containsKey('residents')
           ? (json['residents'] as List)

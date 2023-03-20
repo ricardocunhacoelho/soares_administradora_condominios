@@ -1,9 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:soares_administradora_condominios/login/auth_interface.dart';
-import 'package:soares_administradora_condominios/login/custom_firebase_auth.dart';
+import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/events/login.events.dart';
+import 'package:soares_administradora_condominios/login/states/login.states.dart';
 
-import '../app.style.dart';
+import '../../app.style.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,8 +18,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
-  final AuthInterface _auth = CustomFirebaseAuth();
-
   var controllerUser = TextEditingController();
   var controllerPass = TextEditingController();
 
@@ -24,6 +25,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final loginbloc = context.watch<LoginBloc>();
+    final loginstate = loginbloc.state;
     return Scaffold(
         backgroundColor: kLightWhite,
         body: _isLoading
@@ -56,20 +59,24 @@ class _LoginPageState extends State<LoginPage> {
                             onPressed: () async {
                               String user = controllerUser.text;
                               String pass = controllerPass.text;
-
-                              var result = await _auth.login(user, pass);
-                              if (result.isSuccess) {
-                                setState(() => errorMsg = null);
-                                print('Sucess Login');
-                              } else {
-                                setState(() => errorMsg = result.msgError);
+                              context.read<LoginBloc>().add(
+                                  AuthenticateUserLoginEvent(user, pass));
+                              if (loginstate
+                                  is AuthenticateUserCompleteLoginState) {
+                                final uid = FirebaseAuth
+                                    .instance.currentUser!.uid
+                                    .toString();
+                                context
+                                    .read<LoginBloc>()
+                                    .add(FetchUserLoginEvent(uid));
                               }
                             },
                             child: const Text('Login')),
                       ],
                     ),
                   ),
-                  if (errorMsg != null) Text(errorMsg!)
+                  if (loginstate is AuthenticateUserErrorLoginState)
+                    Text(loginstate.message)
                 ],
               )));
   }

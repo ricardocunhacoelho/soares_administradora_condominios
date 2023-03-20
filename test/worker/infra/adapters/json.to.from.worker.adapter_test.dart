@@ -1,11 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
 import 'package:soares_administradora_condominios/worker/infra/adapters/json.to.from.worker.entity.adapter.dart';
 
 void main() {
   test('deve converter um WorkEntity em map ', () {
     final workerEntity = WorkerEntity(
-        id: 'idtransformarmap',
+        id: 'idWorker',
+        userType: EUserType.worker,
+        email: 'email',
+        phoneNumber: '12333333333',
         qrid: 'qridtransformarmap',
         name: 'José',
         picture: 'picture',
@@ -19,6 +23,9 @@ void main() {
   test('deve converter um map em um WorkEntity', () {
     final workerEntity = JsonToFromWorkerEntity.fromMap({
       'id': 'idWorker',
+      'userType': 'worker',
+      'email': 'email',
+      'phoneNumber': '12333333333',
       'qrid': 'idqrcode',
       'name': 'José',
       'picture': 'httppicture',

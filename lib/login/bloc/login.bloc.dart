@@ -2,32 +2,46 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/usecase/authenticate.user.usecase.dart';
+import 'package:soares_administradora_condominios/user/domain/usecase/fetch.user.usecase.dart';
 
 class LoginBloc extends Bloc<LoginEvents, LoginStates> {
-  final IAuthenticateHomeUnit authenticateHomeUnitUsecase;
-  final IFetchHomeUnit fetchHomeUnitUsecase;
+  final IAuthenticateUser authenticateUserUsecase;
+  final IFetchUser fetchUserUsecase;
 
   LoginBloc(
-    this.authenticateHomeUnitUsecase,
-    this.fetchHomeUnitUsecase,
+    this.authenticateUserUsecase,
+    this.fetchUserUsecase,
   ) : super(InitialLoginState()) {
-    on<AuthenticateHomeUnitLoginEvent>(_authenticateHomeUnitLoginEvent,
+    on<AuthenticateUserLoginEvent>(_authenticateUserLoginEvent,
         transformer: restartable());
-    on<FetchHomeUnitLoginEvent>(_fetchHomeUnitLoginEvent,
-        transformer: restartable());
+    on<FetchUserLoginEvent>(_fetchUserLoginEvent, transformer: restartable());
   }
 
-  Future<void> _authenticateHomeUnitLoginEvent(
-      AuthenticateHomeUnitLoginEvent event, Emitter<LoginStates> emit) async {
-    emit(AuthenticateHomeUnitLoadingLoginState());
-    await authenticateHomeUnitUsecase.call(event.email, event.pass);
-    emit(AuthenticateHomeUnitCompleteLoginState());
+  Future<void> _authenticateUserLoginEvent(
+      AuthenticateUserLoginEvent event, Emitter<LoginStates> emit) async {
+    emit(AuthenticateUserLoadingLoginState());
+    final result = await authenticateUserUsecase.call(event.email, event.pass);
+    if (result.isSuccess) {
+      emit(AuthenticateUserCompleteLoginState());
+      print('Sucess Login');
+    } else {
+      emit(AuthenticateUserErrorLoginState(result.msgError!));
+    }
   }
 
-  Future<void> _fetchHomeUnitLoginEvent(
-      FetchHomeUnitLoginEvent event, Emitter<LoginStates> emit) async {
-    emit(LoadingFetchHomeUnitLoginState());
-    final homeUnit = await fetchHomeUnitUsecase.call(event.uid);
-    emit(CompleteFetchHomeUnitLoginState(homeUnit));
+  Future<void> _fetchUserLoginEvent(
+      FetchUserLoginEvent event, Emitter<LoginStates> emit) async {
+    emit(LoadingFetchUserLoginState());
+    await emit.forEach<dynamic>(
+      fetchUserUsecase.call(event.uid),
+      onData: (user) {
+        return user.userType == EUserType.homeUnit
+            ? CompleteFetchUserHomeUnitLoginState(user)
+            : CompleteFetchUserWorkerLoginState(user);
+      },
+      onError: (error, st) => ErrorFetchUserLoginState(error.toString()),
+    );
   }
 }

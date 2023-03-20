@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/states/login.states.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/add.profile.image.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -13,8 +17,11 @@ class HeaderMyHouse extends StatefulWidget {
 
 class _HeaderMyHouseState extends State<HeaderMyHouse> {
   var auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
+    final loginbloc = context.watch<LoginBloc>();
+    final loginstate = loginbloc.state;
     return Container(
       color: kDarkBlue,
       padding: const EdgeInsets.all(20),
@@ -25,30 +32,75 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
             width: 250,
             child: Row(
               children: [
-                Container(
+                if (loginstate is CompleteFetchUserHomeUnitLoginState)
+                  loginstate.homeUnitEntity.profileImage == ''
+                      ? Container(
+                          height: 51,
+                          width: 51,
+                          child: Center(
+                            child: IconButton(
+                              icon: Icon(Icons.add_a_photo_outlined),
+                              onPressed: () {
+                                showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AddProfileImageDialogComponente();
+                                });
+                              },
+                            ),
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(kBorderRadius),
+                            color: kLightWhite,
+                          ))
+                      : Container(
+                          height: 51,
+                          width: 51,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadius),
+                              color: kLightWhite,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      loginstate.homeUnitEntity.profileImage),
+                                  fit: BoxFit.cover))),
+                if (loginstate is LoadingFetchUserLoginState)
+                  Container(
                     height: 51,
                     width: 51,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(kBorderRadius),
-                        color: kLightWhite,
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                'https://img.cancaonova.com/cnimages/canais/uploads/sites/6/2017/05/formacao_a-familia-foi-criada-por-deus-para-ser-a-base-da-sociedade-1.jpg'),
-                            fit: BoxFit.cover))),
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                      color: kLightWhite,
+                    ),
+                    child: const CircularProgressIndicator(),
+                  ),
+                if (loginstate is ErrorFetchUserLoginState)
+                  Container(
+                    height: 51,
+                    width: 51,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                      color: kLightWhite,
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.refresh),
+                      onPressed: () {},
+                    ),
+                  ),
                 SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Bom dia',
-                        style: kPoppinsSemiBold.copyWith(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 3,
-                            color: kLightWhite)),
-                    Text('Olá, Casa Muniz',
-                        style: kPoppinsBold.copyWith(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                            color: kLightWhite)),
-                  ],
-                ),
+                if (loginstate is CompleteFetchUserHomeUnitLoginState)
+                  Container(
+                    width: 150,
+                    child: Expanded(
+                      child: Text(
+                          'Olá, Casa ${loginstate.homeUnitEntity.title}',
+                          style: kPoppinsBold.copyWith(
+                              fontSize: SizeConfig.blockSizeHorizontal! * 4,
+                              color: kLightWhite)),
+                    ),
+                  ),
+                if (loginstate is LoadingFetchUserLoginState)
+                  CircularProgressIndicator(),
               ],
             ),
           ),

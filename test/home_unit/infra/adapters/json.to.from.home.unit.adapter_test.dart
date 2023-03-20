@@ -6,6 +6,7 @@ import 'package:soares_administradora_condominios/house_service_provider/domain/
 import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
 import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 import 'package:soares_administradora_condominios/vehicle/domain/entity/vehicle.entity.dart';
 import 'package:soares_administradora_condominios/visitor/domain/entity/visitor.entity.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
@@ -14,6 +15,9 @@ void main() {
   test('deve converter um HomeUnitEntity em map ', () {
     final homeUnitEntity = HomeUnitEntity(
         id: 'id',
+        email: 'email',
+        userType: EUserType.homeUnit,
+        phoneNumber: 'phoneNumber',
         title: 'title',
         residents: [
           ResidentEntity(
@@ -164,7 +168,10 @@ void main() {
               unit:
                   UnitEntity(id: 'id', qrid: 'qrid', block: 'block', number: 2),
               author: WorkerEntity(
-                  id: 'id',
+                  id: 'idWorker',
+                  userType: EUserType.worker,
+                  email: 'email',
+                  phoneNumber: '12333333333',
                   qrid: 'qrid',
                   name: 'name',
                   picture: 'picture',
@@ -182,7 +189,9 @@ void main() {
   test('deve converter um map em um HomeUnitEntity', () {
     final homeUnitEntity = JsonToFromHomeUnitEntity.fromMap({
       'id': 'id',
-      'qrid': 'qrid',
+      'userType': 'homeUnit',
+      'phoneNumber': 'phoneNumber',
+      'email': 'email',
       'title': 'title',
       'residents': [
         {
@@ -297,7 +306,10 @@ void main() {
           'id': 'id',
           'unit': {'id': 'id', 'qrid': 'qrid', 'block': 'block', 'number': 2},
           'author': {
-            'id': 'id',
+            'id': 'idWorker',
+            'userType': 'worker',
+            'email': 'email',
+            'phoneNumber': '12333333333',
             'qrid': 'qrid',
             'name': 'name',
             'picture': 'picture',

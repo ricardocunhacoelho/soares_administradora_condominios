@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
 import 'package:soares_administradora_condominios/single_notification/infra/adapters/json.to.from.unit.entity.single.notification.dart';
 import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
 
 void main() {
@@ -10,7 +11,10 @@ void main() {
         id: 'id',
         unit: UnitEntity(id: 'id', qrid: 'qrid', block: 'block', number: 2),
         author: WorkerEntity(
-            id: 'id',
+            id: 'idWorker',
+            userType: EUserType.worker,
+            email: 'email',
+            phoneNumber: '12333333333',
             qrid: 'qrid',
             name: 'name',
             picture: 'picture',
@@ -31,7 +35,10 @@ void main() {
       'id': 'id',
       'unit': {'id': 'id', 'qrid': 'qrid', 'block': 'block', 'number': 2},
       'author': {
-        'id': 'id',
+        'id': 'idWorker',
+        'userType': 'worker',
+        'email': 'email',
+        'phoneNumber': '12333333333',
         'qrid': 'qrid',
         'name': 'name',
         'picture': 'picture',
