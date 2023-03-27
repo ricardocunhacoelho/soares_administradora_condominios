@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
+import 'package:soares_administradora_condominios/size.config.dart';
 
 import '../../app.style.dart';
 
@@ -20,6 +21,7 @@ class MyHouse extends StatefulWidget {
 }
 
 class _MyHouseState extends State<MyHouse> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

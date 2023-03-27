@@ -14,11 +14,8 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>
-    with CompleteStateMixinMainPage {
+class _MainPageState extends State<MainPage> {
   @override
-  void completeState() {}
-
   int _indexSelecionado = 0;
 
   void _click(int index) {

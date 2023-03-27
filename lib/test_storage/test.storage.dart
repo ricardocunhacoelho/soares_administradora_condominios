@@ -32,8 +32,9 @@ class _TestStorageState extends State<TestStorage> {
 
   loadImages() async{
     //usar a ref salva no firebase firestore
-    refs = (await storage.ref('images').listAll()).items;
-
+    // refs = (await storage.ref('images').listAll()).items;
+    refs.add(await storage.ref().child('images/thumb_zQwMGCy4RIO8UoXXWNXP0LwwGix2.jpg'));
+    
     for(var ref in refs){
       arquivos.add(await ref.getDownloadURL());
     }

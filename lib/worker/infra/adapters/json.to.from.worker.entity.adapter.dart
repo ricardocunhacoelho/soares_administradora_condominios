@@ -1,4 +1,5 @@
 import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+import 'package:soares_administradora_condominios/user/infra/adapters/json.to.from.profile.image.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
 
 class JsonToFromWorkerEntity {
@@ -12,7 +13,7 @@ class JsonToFromWorkerEntity {
       'cpf': workerEntity.cpf,
       'bornDate': workerEntity.bornDate.toIso8601String(),
       'name': workerEntity.name,
-      'picture': workerEntity.picture,
+      'profileImage': workerEntity.profileImage,
       'function': workerEntity.function.name,
     };
   }
@@ -27,7 +28,7 @@ class JsonToFromWorkerEntity {
       phoneNumber: json['phoneNumber'],
       qrid: json['qrid'],
       name: json['name'],
-      picture: json['picture'],
+      profileImage: json['profileImage'],
       cpf: json['cpf'],
       bornDate: DateTime.parse(json['bornDate']),
       function: EFunctionWorkerEntity.values.firstWhere(

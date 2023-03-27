@@ -2,9 +2,10 @@ import 'package:soares_administradora_condominios/delivery_received/infra/adapte
 import 'package:soares_administradora_condominios/home_unit/domain/entity/home.unit.entity.dart';
 import 'package:soares_administradora_condominios/house_service_provider/infra/adapters/json.to.from.house.service.provider.dart';
 import 'package:soares_administradora_condominios/resident/infra/adapters/json.to.from.resident.entity.dart';
-import 'package:soares_administradora_condominios/single_notification/infra/adapters/json.to.from.unit.entity.single.notification.dart';
+import 'package:soares_administradora_condominios/single_notification/infra/adapters/json.to.from.single.notification.dart';
 import 'package:soares_administradora_condominios/unit/infra/adapters/json.to.from.unit.entity.dart';
 import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+import 'package:soares_administradora_condominios/user/infra/adapters/json.to.from.profile.image.dart';
 import 'package:soares_administradora_condominios/vehicle/infra/adapters/json.to.from.visitor.vehicle.dart';
 import 'package:soares_administradora_condominios/visitor/infra/adapters/json.to.from.visitor.dart';
 

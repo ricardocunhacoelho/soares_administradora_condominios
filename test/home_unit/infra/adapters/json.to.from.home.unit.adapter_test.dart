@@ -7,12 +7,13 @@ import 'package:soares_administradora_condominios/resident/domain/entity/residen
 import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
 import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
 import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/valueobjects/profile.image.object.value.dart';
 import 'package:soares_administradora_condominios/vehicle/domain/entity/vehicle.entity.dart';
 import 'package:soares_administradora_condominios/visitor/domain/entity/visitor.entity.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
 
 void main() {
-  test('deve converter um HomeUnitEntity em map ', () {
+  test('deve converter um HomeUnitEntity em map ', () async {
     final homeUnitEntity = HomeUnitEntity(
         id: 'id',
         email: 'email',
@@ -22,7 +23,8 @@ void main() {
         residents: [
           ResidentEntity(
               id: 'id',
-              qrid: 'qrid',
+              email: 'email',
+              phoneNumber: 'qrid',
               name: 'name',
               picture: 'picture',
               cpf: 'cpf',
@@ -31,7 +33,8 @@ void main() {
                   id: 'id', qrid: 'qrid', block: 'block', number: 2)),
           ResidentEntity(
               id: 'id',
-              qrid: 'qrid',
+              email: 'email',
+              phoneNumber: 'qrid',
               name: 'name',
               picture: 'picture',
               cpf: 'cpf',
@@ -40,7 +43,8 @@ void main() {
                   id: 'id', qrid: 'qrid', block: 'block', number: 2)),
           ResidentEntity(
               id: 'id',
-              qrid: 'qrid',
+              email: 'email',
+              phoneNumber: 'qrid',
               name: 'name',
               picture: 'picture',
               cpf: 'cpf',
@@ -161,7 +165,7 @@ void main() {
               withdrawnDateResident: DateTime.now()),
         ],
         unit: UnitEntity(id: 'id', qrid: 'qrid', block: 'block', number: 2),
-        profileImage: 'profileImage',
+        profileImage: '',
         singleNotifications: [
           SingleNotificationEntity(
               id: 'id',
@@ -174,7 +178,7 @@ void main() {
                   phoneNumber: '12333333333',
                   qrid: 'qrid',
                   name: 'name',
-                  picture: 'picture',
+                  profileImage: '',
                   cpf: 'cpf',
                   bornDate: DateTime.now(),
                   function: EFunctionWorkerEntity.porteiro),
@@ -196,7 +200,8 @@ void main() {
       'residents': [
         {
           'id': 'id',
-          'qrid': 'qrid',
+          'email': 'email',
+          'phoneNumber': '28988035072',
           'name': 'name',
           'picture': 'picture',
           'cpf': 'cpf',
@@ -312,7 +317,11 @@ void main() {
             'phoneNumber': '12333333333',
             'qrid': 'qrid',
             'name': 'name',
-            'picture': 'picture',
+            'profileImage': {
+              'getDownloadURL':
+                  'https://firebasestorage.googleapis.com/v0/b/soares-administradora-condomin.appspot.com/o/images%2FFBxri6tHsYhwf9QIqRl9q769jS53.jpg?alt=media&token=e7fcd587-221a-4efb-afa6-7e54321d8028',
+              'refImage': 'images/FBxri6tHsYhwf9QIqRl9q769jS53.jpg'
+            },
             'cpf': '1231331312332',
             'bornDate': '2022-04-21 21:30:00',
             'function': 'porteiro'
@@ -323,7 +332,11 @@ void main() {
           'text': 'text'
         }
       ],
-      'profileImage': 'profileImage',
+      'profileImage': {
+        'getDownloadURL':
+            'https://firebasestorage.googleapis.com/v0/b/soares-administradora-condomin.appspot.com/o/images%2FFBxri6tHsYhwf9QIqRl9q769jS53.jpg?alt=media&token=e7fcd587-221a-4efb-afa6-7e54321d8028',
+        'refImage': 'images/FBxri6tHsYhwf9QIqRl9q769jS53.jpg'
+      },
       'unit': {'id': 'id', 'qrid': 'qrid', 'block': 'block', 'number': 2},
     });
     expect(homeUnitEntity, isA<HomeUnitEntity>());

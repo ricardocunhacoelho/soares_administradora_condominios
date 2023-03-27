@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.resident.form.dart';
+import 'package:soares_administradora_condominios/myhouse_page/myhouse.modules.dart';
+import 'package:soares_administradora_condominios/myhouse_page/pages/residents.page.dart';
+import 'package:soares_administradora_condominios/resident/resident.modules.dart';
 import 'package:soares_administradora_condominios/user/user.modules.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
-import 'package:soares_administradora_condominios/home_unit/home.unit.modules.dart';
 import 'package:soares_administradora_condominios/login/login.modules.dart';
 
 import 'package:soares_administradora_condominios/main_page/main.page.dart';
@@ -64,6 +67,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ...UserModules,
         ...loginModules,
+        ...residentModules,
+        ...myHouseModules,
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -75,9 +80,7 @@ class _MyAppState extends State<MyApp> {
                     if (app.connectionState == ConnectionState.done) {
                       final uid =
                           FirebaseAuth.instance.currentUser!.uid.toString();
-                      context
-                          .read<LoginBloc>()
-                          .add(FetchUserLoginEvent(uid));
+                      context.read<LoginBloc>().add(FetchUserLoginEvent(uid));
                       return const MainPage();
                     }
                     if (app.hasError) {
@@ -86,6 +89,8 @@ class _MyAppState extends State<MyApp> {
                     return const LoadingPage();
                   })
               : LoginPage(),
+          '/residentsPage': (_) => ResidentPage(),
+          '/registerResidentForm': (_) => RegisterResidentForm(),
         },
         title: 'Soares Administradora de Condomínios',
       ),

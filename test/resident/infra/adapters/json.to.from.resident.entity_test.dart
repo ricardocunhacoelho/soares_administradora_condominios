@@ -7,7 +7,8 @@ void main() {
   test('deve converter um ResidentEntity em map ', () {
     final residentEntity = ResidentEntity(
         id: 'id',
-        qrid: 'qrid',
+        email: 'email',
+        phoneNumber: 'qrid',
         name: 'name',
         picture: 'picture',
         cpf: 'cpf',
@@ -19,7 +20,8 @@ void main() {
   test('deve converter um map em um ResidentEntity', () {
     final residentEntity = JsonToFromResidentEntity.fromMap({
       'id': 'id',
-      'qrid': 'qrid',
+      'email': 'email',
+      'phoneNumber': '28988035072',
       'name': 'name',
       'picture': 'picture',
       'cpf': 'cpf',

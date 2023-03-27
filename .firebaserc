@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "soares-administradora-condomin"
-  }
+    "default": "soares-administradora-condomin",
+    "y": "soares-administradora-condomin"
+  },
+  "targets": {},
+  "etags": {}
 }

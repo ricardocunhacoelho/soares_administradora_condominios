@@ -5,7 +5,8 @@ class JsonToFromResidentEntity {
   static Map<String, dynamic> toMap(ResidentEntity residentEntity) {
     return {
       'id': residentEntity.id,
-      'qrid': residentEntity.qrid,
+      'email': residentEntity.email,
+      'phoneNumber': residentEntity.phoneNumber,
       'name': residentEntity.name,
       'picture': residentEntity.picture,
       'cpf': residentEntity.cpf,
@@ -17,7 +18,8 @@ class JsonToFromResidentEntity {
   static ResidentEntity fromMap(dynamic json) {
     return ResidentEntity(
       id: json['id'],
-      qrid: json['qrid'],
+      email: json['email'],
+      phoneNumber: json['phoneNumber'],
       name: json['name'],
       picture: json['picture'],
       cpf: json['cpf'],

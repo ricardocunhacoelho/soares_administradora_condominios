@@ -3,7 +3,8 @@ import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity
 
 class ResidentEntity {
   final String id;
-  final String qrid;
+  final String email;
+  final String phoneNumber;
   final String name;
   final String picture;
   final String cpf;
@@ -11,7 +12,8 @@ class ResidentEntity {
   final UnitEntity unit;
   ResidentEntity({
     required this.id,
-    required this.qrid,
+    required this.email,
+    required this.phoneNumber,
     required this.name,
     required this.picture,
     required this.cpf,

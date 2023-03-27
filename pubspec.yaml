@@ -49,6 +49,9 @@ dependencies:
   flutter_native_splash: ^2.2.18
   firebase_auth: ^4.2.10
   cloud_firestore: ^4.4.5
+  cached_network_image: ^3.2.3
+  mask_text_input_formatter: ^2.4.0
+  cpf_cnpj_validator: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +63,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  firebase_storage_mocks: ^0.6.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -91,6 +95,7 @@ flutter:
     - assets/qrcodeimage.png
     - assets/boletosfoto.png
     - assets/encomendafoto.png
+    - assets/cadastro.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -34,18 +34,20 @@ class MyFamilyCircularIcons extends StatelessWidget {
                 image: "assets/family.png",
                 nome: 'Moradores',
                 index: 0,
+                route: '/residentsPage',
               ),
               ItemMyFamilyCircularIcon(
                 image: "assets/traffic-jam.png",
                 nome: 'Veículos',
                 index: 1,
+                route: '',
               ),
               ItemMyFamilyCircularIcon(
                 image: "assets/visitor.png",
                 nome: 'Visitantes',
                 index: 2,
+                route: '',
               ),
-             
             ],
           ),
         ),
