@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
+import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/controler/register.form.controller.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
+import 'package:soares_administradora_condominios/myhouse_page/models/myhouse.model.dart';
 
 import '../../../app.style.dart';
 import '../../../size.config.dart';
+import '../../bloc/myhouse.bloc.dart';
 
 class RegisterResidentForm extends StatefulWidget {
   const RegisterResidentForm({super.key});
@@ -89,7 +92,7 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
 
   Widget fieldBornDate() {
     MaskTextInputFormatter maskFormatterBornDate = MaskTextInputFormatter(
-        mask: '##-##-####',
+        mask: '##/##/####',
         filter: {"#": RegExp(r'[0-9]')},
         type: MaskAutoCompletionType.lazy);
     return TextFormField(
@@ -106,6 +109,12 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
 
   @override
   Widget build(BuildContext context) {
+    final loginbloc = context.watch<LoginBloc>();
+    final loginstate = loginbloc.state;
+    if (loginstate is CompleteFetchUserHomeUnitLoginState) {
+      print('passou certinho no completofetch 222222');
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -127,53 +136,87 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
       ),
       backgroundColor: kLightWhite,
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Form(
-            key: _registerFormController.formKey,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  //NAME FIELD
-                  fieldName(),
-                  //space
-                  SizedBox(height: 15),
-                  fieldEmail(),
-                  //space
-                  SizedBox(height: 15),
-                  fieldPhoneNumber(),
-                  //space
-                  SizedBox(height: 15),
-                  fieldCpf(),
-                  //space
-                  SizedBox(height: 15),
-                  fieldBornDate(),
-                  SizedBox(height: 15),
-
-                  TextButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.orange),
-                      ),
-                      onPressed: () {
-                        final isValid = _registerFormController.validate(
-                            formKey: _registerFormController.formKey);
-                        if (isValid) {
-                          // context
-                          //     .read<MyHouseBloc>()
-                          //     .add(RegisterResidentMyHouseEvent());
-                        } else {
-                          print('formValido nao valido');
-                        }
-                      },
-                      child: const Text(
-                        'Entrar',
-                        style: TextStyle(color: Colors.white),
-                      )),
-                ],
+          child: SingleChildScrollView(
+            child: Column(
+        children: [
+            Container(
+              height: 150,
+              width: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(kBorderRadius),
+                color: kLightWhite,
               ),
-            )),
-      )),
+              child: _registerFormController.image == null
+                  ? Center(
+                      child: IconButton(onPressed: (){
+                        _registerFormController.getImage();
+                      }, icon: Icon(Icons.add_a_photo)),
+                    )
+                  : Image.file(
+                  _registerFormController.image!,
+                  fit: BoxFit.cover,
+                ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Form(
+                  key: _registerFormController.formKey,
+                  
+                    child: Column(
+                      children: [
+                        //NAME FIELD
+                        fieldName(),
+                        //space
+                        SizedBox(height: 15),
+                        fieldEmail(),
+                        //space
+                        SizedBox(height: 15),
+                        fieldPhoneNumber(),
+                        //space
+                        SizedBox(height: 15),
+                        fieldCpf(),
+                        //space
+                        SizedBox(height: 15),
+                        fieldBornDate(),
+                        //space
+                        SizedBox(height: 15),
+
+                        TextButton(
+                            style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(Colors.orange),
+                            ),
+                            onPressed: () {
+                              final isValid = _registerFormController.validate(
+                                  formKey: _registerFormController.formKey);
+                              if (isValid) {
+                                print('valido');
+                                if (loginstate
+                                    is CompleteFetchUserHomeUnitLoginState) {
+                                  var resident = _registerFormController
+                                      .generateResidentForm(
+                                          loginstate.homeUnitEntity);
+                                  if(_registerFormController.image != null){
+                                    _registerFormController.finalizeUpload();
+                                  }
+                                  context.read<MyHouseBloc>().add(
+                                      RegisterResidentMyHouseEvent(resident));
+                                }
+                              } else {
+                                print('formValido nao valido');
+                              }
+                            },
+                            child: const Text(
+                              'Entrar',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ],
+                    ),
+                  ),
+            ),
+        ],
+      ),
+          )),
     );
   }
 }

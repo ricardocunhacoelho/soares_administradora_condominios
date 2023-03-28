@@ -33,7 +33,7 @@ class _AddProfileImageDialogComponenteState
     });
     final uid = FirebaseAuth.instance.currentUser!.uid.toString();
     Reference ref = storage.ref().child('images/${uid}_60x60.jpg');
-    context.read<MyHouseBloc>().add(UpdateValueUserUsecaseMyHouseEvent(
+    context.read<MyHouseBloc>().add(UpdateValueUserMyHouseEvent(
         'home_units', await ref.getDownloadURL()));
   }
 
@@ -42,7 +42,7 @@ class _AddProfileImageDialogComponenteState
   updateValueUser() {
     context
         .read<MyHouseBloc>()
-        .add(UpdateValueUserUsecaseMyHouseEvent('home_units', 'ref'));
+        .add(UpdateValueUserMyHouseEvent('home_units', 'ref'));
   }
 
   late final controller = ProfileImageController(() {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/registered.residents.component.dart';
 
 import '../../app.style.dart';
@@ -24,7 +26,9 @@ class _ResidentPageState extends State<ResidentPage> {
                 color: kDarkGrey,
                 size: SizeConfig.blockSizeHorizontal! * 7.5,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             );
           },
         ),

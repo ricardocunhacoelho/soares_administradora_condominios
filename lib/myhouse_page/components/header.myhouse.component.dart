@@ -30,7 +30,7 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
     });
     final uid = FirebaseAuth.instance.currentUser!.uid.toString();
     Reference ref = storage.ref().child('images/${uid}_60x60.jpg');
-    context.read<MyHouseBloc>().add(UpdateValueUserUsecaseMyHouseEvent(
+    context.read<MyHouseBloc>().add(UpdateValueUserMyHouseEvent(
         'home_units', await ref.getDownloadURL()));
   }
 
@@ -115,10 +115,16 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                                     padding: const EdgeInsets.all(10),
                                     child: CircularProgressIndicator(),
                                   )
-                                : Image(
-                                    image: NetworkImage(loginstate
-                                        .homeUnitEntity.profileImage!),
-                                    fit: BoxFit.cover),
+                                : Container(
+                                    decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(kBorderRadius),
+                                    color: kWhite,
+                                    image: DecorationImage(
+                                        image: NetworkImage(loginstate
+                                            .homeUnitEntity.profileImage!),
+                                        fit: BoxFit.cover),
+                                  )),
                           ),
                         ),
                 if (loginstate is ErrorFetchUserLoginState)

@@ -3,12 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/resident/domain/irepository/irepository.resident.dart';
+import 'package:soares_administradora_condominios/resident/domain/usecases/delete.resident.usecase.dart';
 import 'package:soares_administradora_condominios/resident/domain/usecases/register.resident.usecase.dart';
+import 'package:soares_administradora_condominios/resident/domain/usecases/update.value.resident.usecase.dart';
 import 'package:soares_administradora_condominios/resident/external/resident.firebase.external.dart';
 import 'package:soares_administradora_condominios/resident/infra/datasource/datasource.resident.dart';
 import 'package:soares_administradora_condominios/resident/infra/repositories/repository.resident.dart';
-
-
 
 final residentModules = [
   Provider<FirebaseFirestore>.value(
@@ -28,4 +28,8 @@ final residentModules = [
   //usecases
   Provider<IRegisterResident>(
       create: (context) => RegisterResident(context.read())),
+  Provider<IUpdateValueResident>(
+      create: (context) => UpdateValueResident(context.read())),
+  Provider<IDeleteResident>(
+      create: (context) => DeleteResident(context.read())),
 ];

@@ -21,3 +21,14 @@ class RegisterResidentLoadingMyHouseState implements MyHouseStates {}
 class RegisterResidentErrorMyHouseState implements MyHouseStates {}
 
 class RegisterResidentCompleteMyHouseState implements MyHouseStates {}
+
+class UpdateValueResidentLoadingMyHouseState implements MyHouseStates {}
+
+class UpdateValueResidentCompleteMyHouseState implements MyHouseStates {}
+
+class UpdateValueResidentErrorMyHouseState implements MyHouseStates {}
+
+class DeleteResidentLoadingMyHouseState implements MyHouseStates {}
+
+class DeleteResidentCompleteMyHouseState implements MyHouseStates {}
+

@@ -1,4 +1,3 @@
-
 import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
 
 class ResidentEntity {

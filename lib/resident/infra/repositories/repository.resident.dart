@@ -12,4 +12,16 @@ class ResidentRepository implements IResidentRepository {
     final mapResident = JsonToFromResidentEntity.toMap(resident);
     await residentDataSource.registerResident(mapResident);
   }
+
+  @override
+  Future<void> updateValueResident(
+      ResidentEntity residentEntity, int index) async {
+    final mapResident = JsonToFromResidentEntity.toMap(residentEntity);
+    await residentDataSource.updateValueResident(mapResident, index);
+  }
+  
+  @override
+  Future<void> deleteResident(String cpf, int index) async {
+    await residentDataSource.deleteResident(cpf, index);
+  }
 }

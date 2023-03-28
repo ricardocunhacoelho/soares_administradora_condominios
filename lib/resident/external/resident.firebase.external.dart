@@ -24,4 +24,36 @@ class ResidentFirebase implements IResidentDataSource {
       await ref.update({'residents': docResidents});
     });
   }
+
+  @override
+  Future<void> updateValueResident(
+      Map<String, dynamic> mapResident, int index) async {
+    final uid = firebaseAuth.currentUser!.uid;
+    var ref = firebaseFirestore.collection('home_units').doc(uid);
+    final getdocumento = ref.get();
+    await getdocumento.then((documentoSnap) async {
+      final map = documentoSnap.data();
+      final docResidents = map!['residents'] as List;
+      if (docResidents[index]['cpf'] == mapResident['cpf']) {
+        docResidents[index] = mapResident;
+        print(docResidents[index]['picture']);
+        await ref.update({'residents': docResidents});
+      }
+    });
+  }
+
+  @override
+  Future<void> deleteResident(String cpf, int index) async {
+    final uid = firebaseAuth.currentUser!.uid;
+    var ref = firebaseFirestore.collection('home_units').doc(uid);
+    final getdocumento = ref.get();
+    await getdocumento.then((documentoSnap) async {
+      final map = documentoSnap.data();
+      final docResidents = map!['residents'] as List;
+      if (docResidents[index]['cpf'] == cpf) {
+        docResidents.removeAt(index);
+        await ref.update({'residents': docResidents});
+      }
+    });
+  }
 }

@@ -27,12 +27,12 @@ class _MyHouseState extends State<MyHouse> {
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.only(bottom: 40),
-        children: const [
+        children: [
           //HEADER MY HOUSE
           HeaderMyHouse(),
           SizedBox(height: 25),
           //MY HOUSE CIRCULAR ICONS
-          MyFamilyCircularIcons(),
+          MyFamilyCircularIcons(context),
           SizedBox(height: 30),
            //HOME SERVICES PROVIDERS
           HomeServiceProviders(),
