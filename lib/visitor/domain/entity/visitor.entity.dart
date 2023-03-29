@@ -1,13 +1,20 @@
+import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
 import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 
-class VisitorEntity {
+class VisitorEntity implements UserEntity {
   final String id;
-  final String qrid;
   final String name;
-  final UnitEntity unit;
-  final String cpf;
   final DateTime bornDate;
+  final String cpf;
+  final String phoneNumber;
+  final String email;
+  final String? profileImage;
   final String picture;
+  final EUserType userType;
+  final List<SingleNotificationEntity> notifications;
+  final bool access;
+  final UnitEntity unit;
   final bool freePass;
   final DateTime startaccessDate;
   final DateTime? startTimeAccessDay;
@@ -15,12 +22,17 @@ class VisitorEntity {
   final DateTime? finishaccessDate;
   VisitorEntity({
     required this.id,
-    required this.qrid,
     required this.name,
-    required this.unit,
     required this.cpf,
+    required this.userType,
+    required this.email,
     required this.bornDate,
+    required this.phoneNumber,
+    required this.profileImage,
     required this.picture,
+    required this.notifications,
+    required this.access,
+    required this.unit,
     required this.freePass,
     required this.startaccessDate,
     required this.startTimeAccessDay,

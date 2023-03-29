@@ -1,11 +1,12 @@
-import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
+import 'package:soares_administradora_condominios/home_unit/domain/entity/home.unit.entity.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
 
 class SingleNotificationEntity{
   final String id;
-  final UnitEntity unit;
+  final HomeUnitEntity? unit;
   final WorkerEntity author;
-  final String receiver;
+  final UserEntity? receiver;
   final DateTime date;
   final String title;
   final String text;
