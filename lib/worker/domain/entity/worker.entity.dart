@@ -9,6 +9,7 @@ class WorkerEntity implements UserEntity {
   final String phoneNumber;
   final String email;
   final String? profileImage;
+  final String? profileImageThumb;
   final String picture;
   final EUserType userType;
   final List<SingleNotificationEntity> notifications;
@@ -22,6 +23,7 @@ class WorkerEntity implements UserEntity {
     required this.phoneNumber,
     required this.email,
     required this.profileImage,
+    required this.profileImageThumb,
     required this.picture,
     required this.userType,
     required this.notifications,

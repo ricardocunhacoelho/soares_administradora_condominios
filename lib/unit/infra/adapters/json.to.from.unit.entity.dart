@@ -4,7 +4,6 @@ class JsonToFromUnitEntity {
   static Map<String, dynamic> toMap(UnitEntity unitEntity) {
     return {
       'id': unitEntity.id,
-      'qrid': unitEntity.qrid,
       'block': unitEntity.block,
       'number': unitEntity.number,
     };
@@ -13,7 +12,6 @@ class JsonToFromUnitEntity {
   static UnitEntity fromMap(dynamic json) {
     return UnitEntity(
       id: json['id'],
-      qrid: json['qrid'],
       block: json['block'],
       number: json['number'],
     );

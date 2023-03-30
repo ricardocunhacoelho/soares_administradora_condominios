@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:soares_administradora_condominios/login/states/login.states.dart
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/add.profile.image.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
-import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -31,7 +29,7 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
     final uid = FirebaseAuth.instance.currentUser!.uid.toString();
     Reference ref = storage.ref().child('images/${uid}_60x60.jpg');
     context.read<MyHouseBloc>().add(UpdateValueUserMyHouseEvent(
-        'home_units', await ref.getDownloadURL()));
+        'users', 'profileImageThumb', await ref.getDownloadURL()));
   }
 
   String url = '';
@@ -43,10 +41,10 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
     final loginbloc = context.watch<LoginBloc>();
     final loginstate = loginbloc.state;
 
-    if (loginstate is CompleteFetchUserHomeUnitLoginState) {
-      url = loginstate.homeUnitEntity.profileImage!;
-      title = loginstate.homeUnitEntity.title;
-      if (loginstate.homeUnitEntity.profileImage == 'ref') {
+    if (loginstate is CompleteFetchUserResidentLoginState) {
+      url = loginstate.resident.profileImage!;
+      title = loginstate.resident.name;
+      if (loginstate.resident.profileImage == 'ref') {
         loadImages();
         setState(() {
           loading = false;
@@ -66,8 +64,8 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
             width: 250,
             child: Row(
               children: [
-                if (loginstate is CompleteFetchUserHomeUnitLoginState)
-                  loginstate.homeUnitEntity.profileImage == ''
+                if (loginstate is CompleteFetchUserResidentLoginState)
+                  loginstate.resident.profileImage == ''
                       ? Container(
                           height: 51,
                           width: 51,
@@ -109,7 +107,7 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                               color: kLightWhite,
                             ),
                             child: loading ||
-                                    loginstate.homeUnitEntity.profileImage ==
+                                    loginstate.resident.profileImage ==
                                         'ref'
                                 ? Padding(
                                     padding: const EdgeInsets.all(10),
@@ -122,7 +120,7 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                                     color: kWhite,
                                     image: DecorationImage(
                                         image: NetworkImage(loginstate
-                                            .homeUnitEntity.profileImage!),
+                                            .resident.profileImage!),
                                         fit: BoxFit.cover),
                                   )),
                           ),
@@ -145,10 +143,10 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                 const SizedBox(width: 20),
                 Container(
                   width: 150,
-                  child: loginstate is CompleteFetchUserHomeUnitLoginState
+                  child: loginstate is CompleteFetchUserResidentLoginState
                       ? Container(
                           child: Text(
-                              'Olá, Casa ${loginstate.homeUnitEntity.title}',
+                              'Olá, ${loginstate.resident.name}!',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: kPoppinsBold.copyWith(

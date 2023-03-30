@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/states/login.states.dart';
+import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/registered.residents.component.dart';
+import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
+import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -16,6 +20,10 @@ class ResidentPage extends StatefulWidget {
 class _ResidentPageState extends State<ResidentPage> {
   @override
   Widget build(BuildContext context) {
+    final myHouseBloc = context.watch<MyHouseBloc>();
+    final myHouseState = myHouseBloc.state;
+
+  
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -58,8 +66,14 @@ class _ResidentPageState extends State<ResidentPage> {
                       fontSize: SizeConfig.blockSizeHorizontal! * 5,
                       color: kDarkBlue)),
             ),
+            //LOADING
+            if (myHouseState is LoadingFetchHomeUnitMyHouseState)
+              Center(
+                child: CircularProgressIndicator(),
+              ),
             //REGISTERED RESIDENTS
-            const RegisteredResidents(),
+            if (myHouseState is CompleteFetchHomeUnitMyHouseState)
+              const RegisteredResidents(),
           ],
         ),
       ),

@@ -26,23 +26,29 @@ class _AddProfileImageDialogComponenteState
   List<Reference> refs = [];
   List<String> arquivos = [];
   bool loading = false;
+  String urlValida = '';
 
   loadImages() async {
     setState(() {
       loading = true;
     });
     final uid = FirebaseAuth.instance.currentUser!.uid.toString();
-    Reference ref = storage.ref().child('images/${uid}_60x60.jpg');
+    Reference ref = storage.ref().child('images/${uid}_200x200.jpg');
+    final url = await ref.getDownloadURL();
     context.read<MyHouseBloc>().add(UpdateValueUserMyHouseEvent(
-        'home_units', await ref.getDownloadURL()));
+        'users', 'profileImage', await ref.getDownloadURL()));
+    setState(() {
+      urlValida = url;
+    });
   }
 
   final FirebaseStorage storage = FirebaseStorage.instance;
 
-  updateValueUser() {
+  updateValueUser() async {
     context
         .read<MyHouseBloc>()
-        .add(UpdateValueUserMyHouseEvent('home_units', 'ref'));
+        .add(UpdateValueUserMyHouseEvent('users', 'profileImage', 'ref'));
+    setState(() {});
   }
 
   late final controller = ProfileImageController(() {
@@ -54,11 +60,11 @@ class _AddProfileImageDialogComponenteState
     final loginbloc = context.watch<LoginBloc>();
     final loginstate = loginbloc.state;
 
-    if (loginstate is CompleteFetchUserHomeUnitLoginState) {
+    if (loginstate is CompleteFetchUserResidentLoginState) {
       setState(() {
-        controller.url = loginstate.homeUnitEntity.profileImage!;
+        controller.url = loginstate.resident.profileImage!;
       });
-      if (loginstate.homeUnitEntity.profileImage == 'ref') {
+      if (loginstate.resident.profileImage == 'ref') {
         loadImages();
         setState(() {
           loading = false;
@@ -73,7 +79,7 @@ class _AddProfileImageDialogComponenteState
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (loginstate is CompleteFetchUserHomeUnitLoginState)
+            if (loginstate is CompleteFetchUserResidentLoginState)
               controller.url == ''
                   ? Container(
                       height: 150,
@@ -116,14 +122,13 @@ class _AddProfileImageDialogComponenteState
                       ),
                       child: loading ||
                               controller.uploading ||
-                              loginstate.homeUnitEntity.profileImage == 'ref'
+                              loginstate.resident.profileImage == 'ref'
                           ? const Padding(
                               padding: EdgeInsets.all(10),
                               child: CircularProgressIndicator(),
                             )
                           : Image(
-                              image: NetworkImage(
-                                  loginstate.homeUnitEntity.profileImage!),
+                              image: NetworkImage(controller.url),
                               fit: BoxFit.cover),
                     ),
             const SizedBox(height: 15),
@@ -135,7 +140,7 @@ class _AddProfileImageDialogComponenteState
                   color: kLightWhite,
                 )),
             const SizedBox(height: 15),
-            if (loginstate is CompleteFetchUserHomeUnitLoginState)
+            if (loginstate is CompleteFetchUserResidentLoginState)
               Column(
                 children: [
                   Container(
@@ -164,7 +169,7 @@ class _AddProfileImageDialogComponenteState
                                 ))),
                   ),
                   if (controller.url != '' &&
-                      loginstate.homeUnitEntity.profileImage != 'ref')
+                      loginstate.resident.profileImage != 'ref')
                     Column(
                       children: [
                         const SizedBox(height: 15),
@@ -178,7 +183,7 @@ class _AddProfileImageDialogComponenteState
                           child: TextButton(
                               onPressed: () {
                                 // controller.deleteImage(
-                                //     loginstate.homeUnitEntity.profileImage);
+                                //     loginstate.Entity.profileImage);
                               },
                               child: controller.uploading
                                   ? const Padding(

@@ -7,6 +7,6 @@ abstract class IUserRepository {
   Future<AuthResult> authenticateUser(String email, String pass);
   Stream<UserEntity> fetchUser(String uid);
   Future<ResultUploadImageValueObject> addProfileImageUser();
-  Future<void> updateValueUser(String library, dynamic data);
+  Future<void> updateValueUser(String library, String key,dynamic data);
   Future<ResultUploadImageValueObject> deleteProfileImageUser();
 }

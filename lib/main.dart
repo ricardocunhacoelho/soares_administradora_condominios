@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:soares_administradora_condominios/home_unit/home.unit.modules.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.resident.form.dart';
@@ -65,10 +66,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ...UserModules,
-        ...loginModules,
+        ...userModules,
         ...residentModules,
+        ...homeUnitModules,
         ...myHouseModules,
+        ...loginModules,
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,30 +1,32 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:soares_administradora_condominios/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  test('Counter increments smoke test', () {
+    // const string = '21042021';
+    // DateTime generateDateForm(String date) {
+    //   List<String> list = date.split('');
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    //   String yearStr = '${list[4]}${list[5]}${list[6]}${list[7]}';
+    //   int? year = int.tryParse(yearStr);
+    //   String monthStr = '${list[2]}${list[3]}';
+    //   int? month = int.tryParse(monthStr);
+    //   String dayStr = '${list[0]}${list[1]}';
+    //   int? day = int.tryParse(dayStr);
+    //   return DateTime(year!, month!, day!);
+    // }
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    DateTime lastDayOfMonth(DateTime month) {
+      var beginningNextMonth = (month.month < 12)
+          ? new DateTime(month.year, month.month + 1, 1)
+          : new DateTime(month.year + 1, 1, 1);
+      return beginningNextMonth.subtract(new Duration(days: 1));
+    }
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // final day = DateTime.january.toInt();
+    // DateTime test = generateDateForm(string);
+    print('dia do mes janeiro ${lastDayOfMonth(DateTime(2023, 2)).day}');
+    // print(test.day);
+    // print(day);
   });
 }

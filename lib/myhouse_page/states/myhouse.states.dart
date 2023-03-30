@@ -1,3 +1,5 @@
+import 'package:soares_administradora_condominios/home_unit/domain/entity/home.unit.entity.dart';
+
 abstract class MyHouseStates {}
 
 class InitialMyHouseState implements MyHouseStates {}
@@ -32,3 +34,16 @@ class DeleteResidentLoadingMyHouseState implements MyHouseStates {}
 
 class DeleteResidentCompleteMyHouseState implements MyHouseStates {}
 
+class LoadingFetchHomeUnitMyHouseState implements MyHouseStates {}
+
+class CompleteFetchHomeUnitMyHouseState implements MyHouseStates {
+  final HomeUnitEntity homeUnitEntity;
+
+  CompleteFetchHomeUnitMyHouseState(this.homeUnitEntity);
+}
+
+class ErrorFetchHomeUnitMyHouseState implements MyHouseStates {
+  final String message;
+
+  ErrorFetchHomeUnitMyHouseState(this.message);
+}

@@ -12,7 +12,7 @@ import 'package:soares_administradora_condominios/user/external/user.firebase.ex
 import 'package:soares_administradora_condominios/user/infra/datasource/datasource.user.dart';
 import 'package:soares_administradora_condominios/user/infra/repositories/repository.user.dart';
 
-final UserModules = [
+final userModules = [
   Provider<FirebaseFirestore>.value(
     value: FirebaseFirestore.instance,
   ),

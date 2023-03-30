@@ -5,6 +5,6 @@ abstract class IUserDataSource {
   Future<AuthResult> authenticateUser(String email, String pass);
   Stream<Map> fetchUser(String uid);
   Future<ResultUploadImageValueObject> addProfileImageUser(String path);
-  Future<void> updateValueUser(String library, dynamic data);
+  Future<void> updateValueUser(String library, String key, dynamic data);
   Future<void> deleteProfileImageUser();
 }

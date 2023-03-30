@@ -13,10 +13,6 @@ class JsonToFromHomeUnitEntity {
   static Map<String, dynamic> toMap(HomeUnitEntity homeUnit) {
     return {
       'id': homeUnit.id,
-      'email': homeUnit.email,
-      'userType': homeUnit.userType.name,
-      'phoneNumber': homeUnit.phoneNumber,
-      'title': homeUnit.title,
       'residents': homeUnit.residents
           .map((e) => JsonToFromResidentEntity.toMap(e))
           .toList(),
@@ -29,11 +25,7 @@ class JsonToFromHomeUnitEntity {
       'houseServiceProviders': homeUnit.houseServiceProviders
           .map((e) => JsonToFromHouseServiceProviderEntity.toMap(e))
           .toList(),
-      'deliveriesReceived': homeUnit.deliveriesReceived
-          .map((e) => JsonToFromDeliveryReceivedEntity.toMap(e))
-          .toList(),
       'unit': JsonToFromUnitEntity.toMap(homeUnit.unit),
-      'profileImage': homeUnit.profileImage,
       'singleNotifications': homeUnit.singleNotifications
           .map((e) => JsonToFromSingleNotificationEntity.toMap(e))
           .toList(),
@@ -43,12 +35,6 @@ class JsonToFromHomeUnitEntity {
   static HomeUnitEntity fromMap(dynamic json) {
     return HomeUnitEntity(
       id: json['id'],
-      userType: EUserType.values.firstWhere(
-        (element) => element.name == json['userType'],
-      ),
-      email: json['email'],
-      phoneNumber: json['phoneNumber'],
-      title: json['title'],
       residents: json.containsKey('residents')
           ? (json['residents'] as List)
               .map(JsonToFromResidentEntity.fromMap)
@@ -69,13 +55,7 @@ class JsonToFromHomeUnitEntity {
               .map(JsonToFromHouseServiceProviderEntity.fromMap)
               .toList()
           : [],
-      deliveriesReceived: json.containsKey('deliveriesReceived')
-          ? (json['deliveriesReceived'] as List)
-              .map(JsonToFromDeliveryReceivedEntity.fromMap)
-              .toList()
-          : [],
       unit: JsonToFromUnitEntity.fromMap(json['unit']),
-      profileImage: json['profileImage'],
       singleNotifications: json.containsKey('singleNotifications')
           ? (json['singleNotifications'] as List)
               .map(JsonToFromSingleNotificationEntity.fromMap)

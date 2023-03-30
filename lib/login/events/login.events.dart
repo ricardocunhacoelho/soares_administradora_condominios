@@ -12,3 +12,4 @@ class FetchUserLoginEvent implements LoginEvents {
 
   FetchUserLoginEvent(this.uid);
 }
+

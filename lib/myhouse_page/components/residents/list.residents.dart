@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
-import 'package:soares_administradora_condominios/login/states/login.states.dart';
+import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/item.resident.dart';
+import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 class ListResidents extends StatefulWidget {
   const ListResidents({super.key});
@@ -16,29 +14,29 @@ class ListResidents extends StatefulWidget {
 class _ListResidentsState extends State<ListResidents> {
   @override
   Widget build(BuildContext context) {
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
+    final myHouseBloc = context.watch<MyHouseBloc>();
+    final myHouseState = myHouseBloc.state;
 
     return Column(
       children: [
-        if (loginstate is CompleteFetchUserHomeUnitLoginState)
+        if (myHouseState is CompleteFetchHomeUnitMyHouseState)
           ListView.builder(
-              itemCount: loginstate.homeUnitEntity.residents.length,
+              itemCount: myHouseState.homeUnitEntity.residents.length,
               shrinkWrap: true,
               physics: ScrollPhysics(),
               itemBuilder: (context, index) {
-                final resident = loginstate.homeUnitEntity.residents[index];
+                final resident = myHouseState.homeUnitEntity.residents[index];
                 return ItemResident(
                   residentEntity: resident,
                   index: index,
                 );
               }),
-        if (loginstate is LoadingFetchUserLoginState ||
-            loginstate is InitialLoginState)
+        if (myHouseState is LoadingFetchHomeUnitMyHouseState ||
+            myHouseState is InitialMyHouseState)
           const Center(child: CircularProgressIndicator()),
-        if (loginstate is ErrorFetchUserLoginState)
+        if (myHouseState is ErrorFetchHomeUnitMyHouseState)
           Center(
-            child: Text('Erro ${loginstate.message}'),
+            child: Text('Erro ${myHouseState.message}'),
           )
       ],
     );

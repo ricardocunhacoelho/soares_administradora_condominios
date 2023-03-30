@@ -10,6 +10,7 @@ class HouseServiceProviderEntity implements UserEntity {
   final String phoneNumber;
   final String email;
   final String? profileImage;
+  final String? profileImageThumb;
   final String picture;
   final EUserType userType;
   final List<SingleNotificationEntity> notifications;
@@ -30,6 +31,7 @@ class HouseServiceProviderEntity implements UserEntity {
     required this.bornDate,
     required this.phoneNumber,
     required this.profileImage,
+    required this.profileImageThumb,
     required this.picture,
     required this.notifications,
     required this.access,

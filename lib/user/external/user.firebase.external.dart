@@ -39,7 +39,7 @@ class UserFirebase implements IUserDataSource {
 
   @override
   Stream<Map<dynamic, dynamic>> fetchUser(String uid) {
-    final docRef = firebaseFirestore.collection("home_units").doc(uid);
+    final docRef = firebaseFirestore.collection("users").doc(uid);
     final snapshots = docRef.snapshots();
     return snapshots.map(_convert);
   }
@@ -69,10 +69,10 @@ class UserFirebase implements IUserDataSource {
   }
 
   @override
-  Future<void> updateValueUser(String library, data) async {
+  Future<void> updateValueUser(String library, String key,data) async {
     final uid = firebaseAuth.currentUser!.uid;
     var ref = firebaseFirestore.collection(library).doc(uid);
-    await ref.update({'profileImage': data});
+    await ref.update({key: data});
   }
 
   @override

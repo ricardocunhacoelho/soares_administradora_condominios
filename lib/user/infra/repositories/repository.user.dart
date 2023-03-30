@@ -1,8 +1,8 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:soares_administradora_condominios/home_unit/infra/adapters/json.to.from.home.unit.adapter.dart';
 import 'package:soares_administradora_condominios/login/auth.result.dart';
+import 'package:soares_administradora_condominios/resident/infra/adapters/json.to.from.resident.entity.dart';
 import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 import 'package:soares_administradora_condominios/user/domain/irepositories/irepository.user.unit.dart';
 import 'package:soares_administradora_condominios/user/domain/valueobjects/result.upload.image.value.object.dart';
@@ -32,8 +32,8 @@ class UserRepository implements IUserRepository {
   }
 
   UserEntity _convert(Map<dynamic, dynamic> map) {
-    return map['userType'] == 'homeUnit'
-        ? JsonToFromHomeUnitEntity.fromMap(map)
+    return map['userType'] == 'resident'
+        ? JsonToFromResidentEntity.fromMap(map)
         : JsonToFromWorkerEntity.fromMap(map);
   }
 
@@ -57,8 +57,8 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<void> updateValueUser(String library, dynamic data) async {
-    await userDataSource.updateValueUser(library, data);
+  Future<void> updateValueUser(String library, String key, dynamic data) async {
+    await userDataSource.updateValueUser(library, key, data);
   }
 
   @override

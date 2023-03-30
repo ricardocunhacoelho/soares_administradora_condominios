@@ -15,10 +15,10 @@ class ProfileImageController {
   final VoidCallback refresh;
   String url = '';
   String ref = '';
-  final String uid;
+  final String uidFix;
   final Function updateValueUser;
 
-  ProfileImageController(this.refresh, this.uid, this.updateValueUser);
+  ProfileImageController(this.refresh, this.uidFix, this.updateValueUser);
 
   Future<XFile?> getImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -48,11 +48,12 @@ class ProfileImageController {
           refresh();
         } else if (snapshot.state == TaskState.success) {
           refresh();
-          uploading = false;
-          refresh();
         }
       });
+      await Future.delayed(Duration(seconds: 5));
       await updateValueUser();
+      uploading = false;
+      refresh();
     } else {
       print('erro ao pegar caminho da imagem');
     }

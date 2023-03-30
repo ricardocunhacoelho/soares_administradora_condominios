@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/home_unit/domain/irepositories/irepository.home.unit.dart';
-import 'package:soares_administradora_condominios/home_unit/domain/usecases/authenticate.home.unit.usecase.dart';
 import 'package:soares_administradora_condominios/home_unit/domain/usecases/fetch.home.unit.usecase.dart';
 import 'package:soares_administradora_condominios/home_unit/external/home.unit.firebase.external.dart';
 import 'package:soares_administradora_condominios/home_unit/infra/datasource/datasource.home.unit.dart';
@@ -20,7 +19,5 @@ final homeUnitModules = [
   Provider<IHomeUnitRepository>(
       create: (context) => HomeUnitRepository(context.read())),
   //usecases
-  Provider<IAuthenticateHomeUnit>(
-      create: (context) => AuthenticateHomeUnit(context.read())),
   Provider<IFetchHomeUnit>(create: (context) => FetchHomeUnit(context.read())),
 ];

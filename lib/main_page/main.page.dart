@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/myhouse.page.dart';
 
 import '../app.style.dart';
@@ -36,13 +39,20 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final loginbloc = context.watch<LoginBloc>();
+    final loginstate = loginbloc.state;
 
     return Scaffold(
         backgroundColor: kLightWhite,
-        body: IndexedStack(index: _indexSelecionado, children: screens),
-        bottomNavigationBar: BottomTabBarList(
-          onChange: _click,
-          indexSelecionado: _indexSelecionado,
-        ));
+        body: loginstate is CompleteFetchUserResidentLoginState
+            ? IndexedStack(index: _indexSelecionado, children: screens)
+            : const SizedBox(
+                child: Center(child: CircularProgressIndicator())),
+        bottomNavigationBar: loginstate is CompleteFetchUserResidentLoginState
+            ? BottomTabBarList(
+                onChange: _click,
+                indexSelecionado: _indexSelecionado,
+              )
+            : null);
   }
 }

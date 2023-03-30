@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
+import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/list.residents.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.new.resident.dart';
+import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 import '../../../app.style.dart';
 import '../../../size.config.dart';
@@ -18,20 +20,20 @@ class RegisteredResidents extends StatefulWidget {
 class _RegisteredResidentsState extends State<RegisteredResidents> {
   @override
   Widget build(BuildContext context) {
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
+    final myHouseBloc = context.watch<MyHouseBloc>();
+    final myHouseState = myHouseBloc.state;
 
     return Expanded(
       child: Column(
         children: <Widget>[
-          if (loginstate is CompleteFetchUserHomeUnitLoginState)
-            loginstate.homeUnitEntity.residents.isNotEmpty
+          if (myHouseState is CompleteFetchHomeUnitMyHouseState)
+            myHouseState.homeUnitEntity.residents.isNotEmpty
                 ? Column(
                     children: const [
                       //REGISTER
                       RegisterNewResident(),
                       SizedBox(height: 25),
-                      //LISTA LIVROS
+                      //LIST RESIDENTS
                       ListResidents(),
                     ],
                   )

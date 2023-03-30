@@ -1,6 +1,5 @@
 
-import 'package:soares_administradora_condominios/home_unit/domain/entity/home.unit.entity.dart';
-import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
 
 abstract class LoginStates {}
@@ -9,17 +8,16 @@ class InitialLoginState implements LoginStates {}
 
 class LoadingFetchUserLoginState implements LoginStates {}
 
-class CompleteFetchUserHomeUnitLoginState implements LoginStates {
-  final HomeUnitEntity homeUnitEntity;
+class CompleteFetchUserResidentLoginState implements LoginStates {
+  final ResidentEntity resident;
 
-  CompleteFetchUserHomeUnitLoginState(this.homeUnitEntity);
-
+  CompleteFetchUserResidentLoginState(this.resident);
 }
 
 class CompleteFetchUserWorkerLoginState implements LoginStates {
-  final WorkerEntity workerEntity;
+  final WorkerEntity worker;
 
-  CompleteFetchUserWorkerLoginState(this.workerEntity);
+  CompleteFetchUserWorkerLoginState(this.worker);
 
 }
 

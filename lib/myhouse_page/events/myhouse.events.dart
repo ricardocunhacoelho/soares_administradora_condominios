@@ -4,8 +4,9 @@ abstract class MyHouseEvents {}
 
 class UpdateValueUserMyHouseEvent implements MyHouseEvents {
   final String library;
+  final String key;
   final dynamic data;
-  UpdateValueUserMyHouseEvent(this.library, this.data);
+  UpdateValueUserMyHouseEvent(this.library, this.key,this.data);
 }
 
 class AddProfileImageMyHouseEvent implements MyHouseEvents {
@@ -32,4 +33,10 @@ class DeleteResidentMyHouseEvent implements MyHouseEvents {
 final String cpf;
 final int index;
   DeleteResidentMyHouseEvent(this.cpf, this.index);
+}
+
+class FetchHomeUnitMyHouseEvent implements MyHouseEvents {
+  final String id;
+
+  FetchHomeUnitMyHouseEvent(this.id);
 }

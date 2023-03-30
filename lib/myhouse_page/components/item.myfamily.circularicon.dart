@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
+import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
+import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
+import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
 
-Widget ItemMyFamilyCircularIcon(
-    String image, String nome, int index, String route, BuildContext context) {
+Widget itemMyFamilyCircularIcon(
+    String image,
+    String nome,
+    int index,
+    String route,
+    BuildContext context,
+    ResidentEntity resident,
+    MyHouseStates myHouseState) {
   return GestureDetector(
     onTap: () {
+      if (myHouseState is! CompleteFetchHomeUnitMyHouseState) {
+        context
+            .read<MyHouseBloc>()
+            .add(FetchHomeUnitMyHouseEvent(resident.homeUnitEntity));
+      }
       Navigator.pushNamed(context, route);
     },
     child: Column(

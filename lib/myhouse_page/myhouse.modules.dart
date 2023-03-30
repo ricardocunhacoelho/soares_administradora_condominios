@@ -3,5 +3,5 @@ import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc
 
 final myHouseModules = [
   BlocProvider<MyHouseBloc>(
-      create: (context) => MyHouseBloc(context.read(),context.read(),context.read(),context.read(),context.read(), context.read())),
+      create: (context) => MyHouseBloc(context.read(),context.read(),context.read(),context.read(),context.read(),context.read(), context.read())),
 ];

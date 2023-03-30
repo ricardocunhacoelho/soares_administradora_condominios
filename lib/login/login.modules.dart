@@ -3,5 +3,6 @@ import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 
 final loginModules = [
   BlocProvider<LoginBloc>(
-      create: (context) => LoginBloc(context.read(), context.read())),
+      create: (context) =>
+          LoginBloc(context.read(), context.read())),
 ];

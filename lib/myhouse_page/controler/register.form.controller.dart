@@ -6,9 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:soares_administradora_condominios/home_unit/domain/entity/home.unit.entity.dart';
 import 'package:soares_administradora_condominios/myhouse_page/models/myhouse.model.dart';
+import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 
 class RegisterFormController {
   final VoidCallback refresh;
+  final Function register;
   final formKey = GlobalKey<FormState>();
   final FirebaseStorage storage = FirebaseStorage.instance;
   String? name;
@@ -17,12 +19,14 @@ class RegisterFormController {
   String? phone;
   String? borndate;
   File? image;
+  File? imageProfile;
   bool uploadingImage = false;
   double totalProgressUploadImage = 0;
+  String pictureUrl = '';
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  RegisterFormController(this.refresh);
+  RegisterFormController(this.refresh, this.register);
 
   String? validateName(String? name) =>
       name!.isNotEmpty ? null : 'Nome Inválido';
@@ -31,12 +35,16 @@ class RegisterFormController {
       email!.isNotEmpty ? null : 'Email inválido';
 
   String? validatePhone(String? phone) =>
-      phone!.isNotEmpty ? null : 'Phone inválido';
+      phone!.isNotEmpty && phone.length == 16 ? null : 'Phone inválido';
 
-  String? validateCpf(String? cpf) => cpf!.isNotEmpty ? null : 'Cpf inválido';
+  String? validateCpf(String? cpf) =>
+      cpf!.isNotEmpty && cpf.length == 14 ? null : 'Cpf inválido';
 
   String? validateBornDate(String? bornDate) =>
-      bornDate!.isNotEmpty ? null : 'Inválido Data';
+    checkDateForm(bornDate!) == true && bornDate.isNotEmpty && bornDate.length == 10
+        ? null
+        : 'Está data é inválida';
+  
 
   bool validate({required GlobalKey<FormState> formKey}) {
     final form = formKey.currentState!;
@@ -48,7 +56,8 @@ class RegisterFormController {
     }
   }
 
-  MyHouseResidentModel generateResidentForm(HomeUnitEntity homeUnitEntity) {
+  MyHouseResidentModel generateResidentForm(
+      HomeUnitEntity homeUnitEntity, String ulr) {
     var resident = MyHouseResidentModel.empty();
     DateTime date = generateDateForm(borndate!);
     String cpfUnmasked = generateCpfForm(cpf!);
@@ -59,7 +68,11 @@ class RegisterFormController {
     resident = resident.copyWith(phoneNumber: phone);
     resident = resident.copyWith(id: '${homeUnitEntity.id}_${cpfUnmasked}');
     resident = resident.copyWith(unit: homeUnitEntity.unit);
-    resident = resident.copyWith(picture: image != null ? 'ref' : '');
+    resident = resident.copyWith(picture: ulr);
+    resident =
+        resident.copyWith(profileImage: imageProfile != null ? 'ref' : '');
+    resident = resident.copyWith(userType: EUserType.resident);
+    resident = resident.copyWith(homeUnitEntity: homeUnitEntity.id);
     return resident;
   }
 
@@ -70,6 +83,64 @@ class RegisterFormController {
     int? month = int.tryParse(list[1]);
     int? day = int.tryParse(list[0]);
     return DateTime(year!, month!, day!);
+  }
+
+  static DateTime lastDayOfMonth(DateTime month) {
+    var beginningNextMonth = (month.month < 12)
+        ? new DateTime(month.year, month.month + 1, 1)
+        : new DateTime(month.year + 1, 1, 1);
+    return beginningNextMonth.subtract(new Duration(days: 1));
+  }
+
+  bool checkDateForm(String date) {
+    List<String> list = date.split('/');
+    final now = DateTime.now();
+    int? year = int.tryParse(list[2]);
+    int? month = int.tryParse(list[1]);
+    int? day = int.tryParse(list[0]);
+    if (year! > now.year) {
+      return false;
+    } else if (year < (now.year - 100)) {
+      return false;
+    } else if (month! > 12) {
+      return false;
+    } else if (day! > 31) {
+      return false;
+    } else if (month == 01 && day > lastDayOfMonth(DateTime(2023, 1)).day) {
+      return false;
+    } else if (month == 02 && day > lastDayOfMonth(DateTime(2023, 2)).day) {
+      return false;
+    } else if (month == 03 && day > lastDayOfMonth(DateTime(2023, 3)).day) {
+      return false;
+    } else if (month == 04 && day > lastDayOfMonth(DateTime(2023, 4)).day) {
+      return false;
+    } else if (month == 05 && day > lastDayOfMonth(DateTime(2023, 5)).day) {
+      return false;
+    } else if (month == 05 && day > lastDayOfMonth(DateTime(2023, 5)).day) {
+      return false;
+    } else if (month == 06 && day > lastDayOfMonth(DateTime(2023, 6)).day) {
+      return false;
+    } else if (month == 07 && day > lastDayOfMonth(DateTime(2023, 7)).day) {
+      return false;
+    } else if (month == 08 && day > lastDayOfMonth(DateTime(2023, 8)).day) {
+      return false;
+    } else if (month == 09 && day > lastDayOfMonth(DateTime(2023, 9)).day) {
+      return false;
+    } else if (month == 10 && day > lastDayOfMonth(DateTime(2023, 10)).day) {
+      return false;
+    } else if (month == 11 && day > lastDayOfMonth(DateTime(2023, 11)).day) {
+      return false;
+    } else if (month == 12 && day > lastDayOfMonth(DateTime(2023, 12)).day) {
+      return false;
+    }else if (month == 00) {
+      return false;
+    }else if (day == 00) {
+      return false;
+    }else if (year == 00) {
+      return false;
+    }else{
+      return true;
+    }
   }
 
   String generateCpfForm(String cpf) {
@@ -94,15 +165,21 @@ class RegisterFormController {
     }
   }
 
-    finalizeUpload() async {
+  finalizeUpload(HomeUnitEntity homeUnitEntity) async {
     if (image != null) {
       UploadTask task = await uploadPic(image);
       task.snapshotEvents.listen((TaskSnapshot snapshot) async {
         if (snapshot.state == TaskState.running) {
           uploadingImage = true;
-          totalProgressUploadImage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          totalProgressUploadImage =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           refresh();
         } else if (snapshot.state == TaskState.success) {
+          final ref = snapshot.ref;
+          final url = await ref.getDownloadURL();
+          print('o url aqui é $url');
+          var resident = generateResidentForm(homeUnitEntity, url);
+          await register(resident);
           refresh();
           uploadingImage = false;
           refresh();
