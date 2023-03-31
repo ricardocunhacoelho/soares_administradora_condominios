@@ -45,7 +45,7 @@ class _RegisteredResidentsState extends State<RegisteredResidents> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.amber,
+                            color: kBlue,
                             borderRadius: BorderRadius.circular(kBorderRadius),
                             boxShadow: [
                               BoxShadow(

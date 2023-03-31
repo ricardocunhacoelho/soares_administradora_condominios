@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/registered.residents.component.dart';
@@ -22,8 +24,9 @@ class _ResidentPageState extends State<ResidentPage> {
   Widget build(BuildContext context) {
     final myHouseBloc = context.watch<MyHouseBloc>();
     final myHouseState = myHouseBloc.state;
+    final loginbloc = context.watch<LoginBloc>();
+    final loginstate = loginbloc.state;
 
-  
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -68,12 +71,29 @@ class _ResidentPageState extends State<ResidentPage> {
             ),
             //LOADING
             if (myHouseState is LoadingFetchHomeUnitMyHouseState)
-              Center(
+              const Center(
                 child: CircularProgressIndicator(),
               ),
             //REGISTERED RESIDENTS
             if (myHouseState is CompleteFetchHomeUnitMyHouseState)
               const RegisteredResidents(),
+            //ERROR
+            if (myHouseState is ErrorFetchHomeUnitMyHouseState ||
+                loginstate is ErrorFetchUserLoginState)
+              Center(
+                child: IconButton(
+                    onPressed: () async {
+                      final uid =
+                          FirebaseAuth.instance.currentUser!.uid.toString();
+                      context.read<LoginBloc>().add(FetchUserLoginEvent(uid));
+                      if (loginstate is CompleteFetchUserResidentLoginState) {
+                        context.read<MyHouseBloc>().add(
+                            FetchHomeUnitMyHouseEvent(
+                                loginstate.resident.homeUnitEntity));
+                      }
+                    },
+                    icon: const Icon(Icons.refresh)),
+              ),
           ],
         ),
       ),

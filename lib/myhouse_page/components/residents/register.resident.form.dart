@@ -3,6 +3,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/residents/resident.form.add.picture.dialog.dart';
 import 'package:soares_administradora_condominios/myhouse_page/controler/register.form.controller.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/models/myhouse.model.dart';
@@ -140,105 +141,302 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
       backgroundColor: kLightWhite,
       body: SafeArea(
           child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 150,
-              width: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(kBorderRadius),
-                color: kGrey,
-              ),
-              child: _registerFormController.image == null
-                  ? Center(
-                      child: IconButton(
-                          onPressed: () {
-                            _registerFormController.getImage();
-                          },
-                          icon: Icon(Icons.add_a_photo)),
-                    )
-                  : Image.file(
-                      _registerFormController.image!,
-                      fit: BoxFit.cover,
-                    ),
-            ),
-            const SizedBox(height: 20),
-               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                 child: Center(
-                   child: Text(
-                      'É obrigatório entrar com uma foto do morador para reconhecimento',
-                      style: kPoppinsMedium.copyWith(
-                        fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                        color: color,
-                      ),
-                      textAlign: TextAlign.center,
-                      ),
-                 ),
-               ),
-           
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Form(
-                key: _registerFormController.formKey,
-                child: Column(
-                  children: [
-                    //NAME FIELD
-                    fieldName(),
-                    //space
-                    SizedBox(height: 15),
-                    fieldEmail(),
-                    //space
-                    SizedBox(height: 15),
-                    fieldPhoneNumber(),
-                    //space
-                    SizedBox(height: 15),
-                    fieldCpf(),
-                    //space
-                    SizedBox(height: 15),
-                    fieldBornDate(),
-                    //space
-                    SizedBox(height: 15),
-
-                    TextButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.orange),
+        child: _registerFormController.loadingFinish
+            ? const SizedBox(
+                child: Center(
+                child: CircularProgressIndicator(),
+              ))
+            : _registerFormController.finish
+                ? Padding(
+                    padding:
+                        const EdgeInsets.only(bottom: 30, right: 20, left: 20),
+                    child: Column(children: [
+                      Text(
+                        'Agradecemos o seu cadastro!',
+                        style: kPoppinsSemiBold.copyWith(
+                          fontSize: SizeConfig.blockSizeHorizontal! * 5,
+                          color: Colors.orangeAccent,
                         ),
-                        onPressed: () {
-                          if (_registerFormController.image != null) {
-                            final isValid = _registerFormController.validate(
-                                formKey: _registerFormController.formKey);
-                            if (isValid) {
-                              print('valido');
-                              if (myHouseState
-                                  is CompleteFetchHomeUnitMyHouseState) {
-                                _registerFormController.finalizeUpload(
-                                    myHouseState.homeUnitEntity);
-                              }
-                            } else {
-                              print('formValido nao valido');
-                            }
-                          }else{
-                            setState(() {
-                              color = Colors.redAccent;
-                            });
-                          }
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            'Confirmar',
-                            style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 25),
+                      Text(
+                        'Aguarde até que alguém da diretoria do condomínio aprove o acesso. A senha inicial será o CPF do morador(a) e o login o e-mail cadastrado.',
+                        style: kPoppinsMedium.copyWith(
+                          fontSize: SizeConfig.blockSizeHorizontal! * 4,
+                          color: kDarkBlue,
+                        ),
+                        textAlign: TextAlign.justify,
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        padding: EdgeInsets.all(20),
+                        color: Colors.black12,
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Nome completo: ${_registerFormController.name}',
+                              style: kPoppinsMedium.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                                color: kDarkBlue,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'E-mail: ${_registerFormController.email}',
+                              style: kPoppinsMedium.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                                color: kDarkBlue,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Telefone: ${_registerFormController.phone}',
+                              style: kPoppinsMedium.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                                color: kDarkBlue,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'CPF: ${_registerFormController.cpf}',
+                              style: kPoppinsMedium.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                                color: kDarkBlue,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Data de nascimento: ${_registerFormController.borndate}',
+                              style: kPoppinsMedium.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                                color: kDarkBlue,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: 25),
+                            Container(
+                              height: 200,
+                              width: 200,
+                              decoration: BoxDecoration(
+                                  color: kLighterBlue,
+                                  borderRadius:
+                                      BorderRadius.circular(kBorderRadius),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kDarkBlue.withOpacity(0.051),
+                                        offset: const Offset(0.0, 3.0),
+                                        blurRadius: 24.0,
+                                        spreadRadius: 0.0)
+                                  ]),
+                              child: _registerFormController.image == null
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                            width: 70,
+                                            height: 70,
+                                            decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/portrait.png'),
+                                                  fit: BoxFit.contain),
+                                            )),
+                                      ],
+                                    )
+                                  : Image.file(
+                                      _registerFormController.image!,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AddPictureDialog(
+                                      controller: _registerFormController);
+                                });
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 200,
+                                width: 200,
+                                decoration: BoxDecoration(
+                                    color: kLighterBlue,
+                                    borderRadius:
+                                        BorderRadius.circular(kBorderRadius),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kDarkBlue.withOpacity(0.051),
+                                          offset: const Offset(0.0, 3.0),
+                                          blurRadius: 24.0,
+                                          spreadRadius: 0.0)
+                                    ]),
+                                child: _registerFormController.image == null
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                              width: 70,
+                                              height: 70,
+                                              decoration: const BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: AssetImage(
+                                                        'assets/portrait.png'),
+                                                    fit: BoxFit.contain),
+                                              )),
+                                        ],
+                                      )
+                                    : Image.file(
+                                        _registerFormController.image!,
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                              if (_registerFormController.image != null)
+                                Positioned(
+                                    bottom: 15,
+                                    right: 15,
+                                    child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            color: kLightWhite,
+                                            borderRadius: BorderRadius.circular(
+                                                kBorderRadius),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: kDarkBlue
+                                                      .withOpacity(0.051),
+                                                  offset:
+                                                      const Offset(0.0, 3.0),
+                                                  blurRadius: 24.0,
+                                                  spreadRadius: 0.0)
+                                            ]),
+                                        child: Icon(Icons.edit)))
+                            ],
                           ),
-                        )),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Center(
+                            child: Text(
+                              'É obrigatório entrar com uma foto do morador(a) para o reconhecimento na portaria.',
+                              style: kPoppinsMedium.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 4,
+                                color: color,
+                              ),
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Form(
+                            key: _registerFormController.formKey,
+                            child: Column(
+                              children: [
+                                //NAME FIELD
+                                fieldName(),
+                                //space
+                                SizedBox(height: 15),
+                                fieldEmail(),
+                                //space
+                                SizedBox(height: 15),
+                                fieldPhoneNumber(),
+                                //space
+                                SizedBox(height: 15),
+                                fieldCpf(),
+                                //space
+                                SizedBox(height: 15),
+                                fieldBornDate(),
+                                //space
+                                SizedBox(height: 30),
+
+                                Container(
+                                  width: 200,
+                                  child: TextButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all(kBlue),
+                                      ),
+                                      onPressed: () async {
+                                        if (_registerFormController.image !=
+                                            null) {
+                                          final isValid =
+                                              _registerFormController.validate(
+                                                  formKey:
+                                                      _registerFormController
+                                                          .formKey);
+                                          if (isValid) {
+                                            setState(() {
+                                              _registerFormController
+                                                  .loadingFinish = true;
+                                            });
+                                            if (myHouseState
+                                                is CompleteFetchHomeUnitMyHouseState) {
+                                              _registerFormController
+                                                  .finalizeUpload(myHouseState
+                                                      .homeUnitEntity);
+                                            }
+                                            await Future.delayed(
+                                                const Duration(seconds: 5));
+                                            setState(() {
+                                              _registerFormController.finish =
+                                                  true;
+                                              _registerFormController
+                                                  .loadingFinish = false;
+                                            });
+                                          } else {
+                                            print('formValido nao valido');
+                                          }
+                                        } else {
+                                          setState(() {
+                                            color = Colors.redAccent;
+                                          });
+                                        }
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20),
+                                        child: Text(
+                                          'Confirmar',
+                                          style: kPoppinsSemiBold.copyWith(
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                4.5,
+                                            color: kLightWhite,
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
       )),
     );
   }

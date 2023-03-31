@@ -6,7 +6,6 @@ void main() {
   test('deve converter um UnitEntity em map ', () {
     final unitEntity = UnitEntity(
       id: 'idtransformarmap',
-      qrid: 'qridtransformarmap',
       block: 'qridtransformarmap',
       number: 10,
     );
@@ -16,7 +15,6 @@ void main() {
   test('deve converter um map em um UnitEntity', () {
     final unitEntity = JsonToFromUnitEntity.fromMap({
       'id': 'idWorker',
-      'qrid': 'idqrcode',
       'block': 'block',
       'number': 10,
     });

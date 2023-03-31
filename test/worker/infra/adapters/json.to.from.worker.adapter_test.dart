@@ -8,16 +8,20 @@ import 'package:soares_administradora_condominios/worker/infra/adapters/json.to.
 void main() {
   test('deve converter um WorkEntity em map ', () async {
     final workerEntity = WorkerEntity(
-        id: 'idWorker',
-        userType: EUserType.worker,
-        email: 'email',
-        phoneNumber: '12333333333',
-        qrid: 'qridtransformarmap',
-        name: 'José',
-        profileImage: '',
-        cpf: 'cpf',
-        bornDate: DateTime.now(),
-        function: EFunctionWorkerEntity.sindico);
+      id: 'idWorker',
+      name: 'Sindico Test',
+      bornDate: DateTime.now(),
+      cpf: '15097396702',
+      phoneNumber: '28988035082',
+      email: 'testesindico@gmail.com',
+      profileImage: '',
+      profileImageThumb: '',
+      picture: 'retrato',
+      userType: EUserType.workerCondominium,
+      notifications: [],
+      function: EFunctionWorkerEntity.sindico,
+      access: true,
+    );
     final map = JsonToFromWorkerEntity.toMap(workerEntity);
     expect(map, isA<Map>());
     expect(map['function'], 'sindico');
@@ -25,19 +29,18 @@ void main() {
   test('deve converter um map em um WorkEntity', () {
     final workerEntity = JsonToFromWorkerEntity.fromMap({
       'id': 'idWorker',
-      'userType': 'worker',
-      'email': 'email',
-      'phoneNumber': '12333333333',
-      'qrid': 'idqrcode',
-      'name': 'José',
-      'profileImage': {
-        'getDownloadURL':
-            'https://firebasestorage.googleapis.com/v0/b/soares-administradora-condomin.appspot.com/o/images%2FFBxri6tHsYhwf9QIqRl9q769jS53.jpg?alt=media&token=e7fcd587-221a-4efb-afa6-7e54321d8028',
-        'refImage': 'images/FBxri6tHsYhwf9QIqRl9q769jS53.jpg'
-      },
-      'cpf': '15097396702',
+      'name': 'Sindico Test',
       'bornDate': '2022-04-21 21:30:00',
+      'cpf': '15097396702',
+      'phoneNumber': '28988035082',
+      'email': 'testesindico@gmail.com',
+      'profileImage': '',
+      'profileImageThumb': '',
+      'picture': 'retrato',
+      'userType': 'workerCondominium',
+      'notifications': [],
       'function': 'sindico',
+      'access': true,
     });
     expect(workerEntity, isA<WorkerEntity>());
     expect(workerEntity.function, EFunctionWorkerEntity.sindico);

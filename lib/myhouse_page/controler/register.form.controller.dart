@@ -19,8 +19,9 @@ class RegisterFormController {
   String? phone;
   String? borndate;
   File? image;
-  File? imageProfile;
   bool uploadingImage = false;
+  bool loadingFinish = false;
+  bool finish = false;
   double totalProgressUploadImage = 0;
   String pictureUrl = '';
 
@@ -41,10 +42,11 @@ class RegisterFormController {
       cpf!.isNotEmpty && cpf.length == 14 ? null : 'Cpf inválido';
 
   String? validateBornDate(String? bornDate) =>
-    checkDateForm(bornDate!) == true && bornDate.isNotEmpty && bornDate.length == 10
-        ? null
-        : 'Está data é inválida';
-  
+      checkDateForm(bornDate!) == true &&
+              bornDate.isNotEmpty &&
+              bornDate.length == 10
+          ? null
+          : 'Está data é inválida';
 
   bool validate({required GlobalKey<FormState> formKey}) {
     final form = formKey.currentState!;
@@ -69,8 +71,6 @@ class RegisterFormController {
     resident = resident.copyWith(id: '${homeUnitEntity.id}_${cpfUnmasked}');
     resident = resident.copyWith(unit: homeUnitEntity.unit);
     resident = resident.copyWith(picture: ulr);
-    resident =
-        resident.copyWith(profileImage: imageProfile != null ? 'ref' : '');
     resident = resident.copyWith(userType: EUserType.resident);
     resident = resident.copyWith(homeUnitEntity: homeUnitEntity.id);
     return resident;
@@ -132,13 +132,13 @@ class RegisterFormController {
       return false;
     } else if (month == 12 && day > lastDayOfMonth(DateTime(2023, 12)).day) {
       return false;
-    }else if (month == 00) {
+    } else if (month == 00) {
       return false;
-    }else if (day == 00) {
+    } else if (day == 00) {
       return false;
-    }else if (year == 00) {
+    } else if (year == 00) {
       return false;
-    }else{
+    } else {
       return true;
     }
   }
@@ -147,9 +147,18 @@ class RegisterFormController {
     return cpf.replaceAll(RegExp(r'[.,-]'), "");
   }
 
-  Future<void> getImage() async {
+  Future<void> getImageGallery() async {
     final ImagePicker _picker = ImagePicker();
     XFile? imagePicked = await _picker.pickImage(source: ImageSource.gallery);
+    if (imagePicked != null) {
+      image = File(imagePicked.path);
+      refresh();
+    }
+  }
+
+  Future<void> getImageCamera() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? imagePicked = await _picker.pickImage(source: ImageSource.camera);
     if (imagePicked != null) {
       image = File(imagePicked.path);
       refresh();

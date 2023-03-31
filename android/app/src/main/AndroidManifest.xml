@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.soares_administradora_condominios">
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
    <application
         android:label="soares_administradora_condominios"
         android:name="${applicationName}"
