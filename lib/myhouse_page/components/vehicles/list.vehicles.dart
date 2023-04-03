@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/item.resident.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/vehicles/item.vehicle.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
-class ListResidents extends StatefulWidget {
-  const ListResidents({super.key});
+class ListVehicles extends StatefulWidget {
+  const ListVehicles({super.key});
 
   @override
-  State<ListResidents> createState() => _ListResidentsState();
+  State<ListVehicles> createState() => _ListVehiclesState();
 }
 
-class _ListResidentsState extends State<ListResidents> {
+class _ListVehiclesState extends State<ListVehicles> {
   @override
   Widget build(BuildContext context) {
     final myHouseBloc = context.watch<FetchUnitBloc>();
@@ -21,13 +21,13 @@ class _ListResidentsState extends State<ListResidents> {
       children: [
         if (myHouseState is CompleteFetchHomeUnitFetchStates)
           ListView.builder(
-              itemCount: myHouseState.homeUnitEntity.residents.length,
+              itemCount: myHouseState.homeUnitEntity.vehicles.length,
               shrinkWrap: true,
               physics: ScrollPhysics(),
               itemBuilder: (context, index) {
-                final resident = myHouseState.homeUnitEntity.residents[index];
-                return ItemResident(
-                  residentEntity: resident,
+                final vehicle = myHouseState.homeUnitEntity.vehicles[index];
+                return ItemVehicle(
+                  vehicleEntity: vehicle,
                   index: index,
                 );
               }),

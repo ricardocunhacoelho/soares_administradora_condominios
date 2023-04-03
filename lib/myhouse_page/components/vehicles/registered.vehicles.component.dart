@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/list.residents.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.new.resident.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/Vehicles/list.vehicles.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/vehicles/register.new.vehicle.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 import '../../../app.style.dart';
 import '../../../size.config.dart';
 
-class RegisteredResidents extends StatefulWidget {
-  const RegisteredResidents({super.key});
+class RegisteredVehicles extends StatefulWidget {
+  const RegisteredVehicles({super.key});
 
   @override
-  State<RegisteredResidents> createState() => _RegisteredResidentsState();
+  State<RegisteredVehicles> createState() => _RegisteredVehiclesState();
 }
 
-class _RegisteredResidentsState extends State<RegisteredResidents> {
+class _RegisteredVehiclesState extends State<RegisteredVehicles> {
   @override
   Widget build(BuildContext context) {
     final fetchUnitBloc = context.watch<FetchUnitBloc>();
@@ -25,19 +25,19 @@ class _RegisteredResidentsState extends State<RegisteredResidents> {
       child: Column(
         children: <Widget>[
           if (fetchState is CompleteFetchHomeUnitFetchStates)
-            fetchState.homeUnitEntity.residents.isNotEmpty
+            fetchState.homeUnitEntity.vehicles.isNotEmpty
                 ? Column(
                     children: const [
                       //REGISTER
-                      RegisterNewResident(),
+                      RegisterNewVehicle(),
                       SizedBox(height: 25),
-                      //LIST RESIDENTS
-                      ListResidents(),
+                      //LIST Vehicles
+                      ListVehicles(),
                     ],
                   )
                 : GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/registerResidentForm');
+                      Navigator.pushNamed(context, '/registerVehicleForm');
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -63,13 +63,13 @@ class _RegisteredResidentsState extends State<RegisteredResidents> {
                                   decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image:
-                                            AssetImage('assets/cadastro.png'),
+                                            AssetImage('assets/car-register.png'),
                                         fit: BoxFit.contain),
                                   )),
                               const SizedBox(width: 15),
                               Expanded(
                                 child: Text(
-                                    'Você ainda não cadastrou moradores. Toque para cadastrar.',
+                                    'Você ainda não possui veículos cadastrados. Toque para cadastrar.',
                                     style: kPoppinsMedium.copyWith(
                                         fontSize:
                                             SizeConfig.blockSizeHorizontal! *

@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import '../../../app.style.dart';
 import '../../../size.config.dart';
 
-class RegisterNewResident extends StatefulWidget {
-  const RegisterNewResident({super.key});
+class RegisterNewVehicle extends StatefulWidget {
+  const RegisterNewVehicle({super.key});
 
   @override
-  State<RegisterNewResident> createState() => _RegisterNewResidentState();
+  State<RegisterNewVehicle> createState() => _RegisterNewVehicleState();
 }
 
-class _RegisterNewResidentState extends State<RegisterNewResident> {
+class _RegisterNewVehicleState extends State<RegisterNewVehicle> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/registerResidentForm');
+        Navigator.pushNamed(context, '/registerVehicleForm');
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -46,7 +46,7 @@ class _RegisterNewResidentState extends State<RegisterNewResident> {
                 const SizedBox(width: 15),
                 Expanded(
                   child: Text(
-                      'Toque para cadastrar mais moradores em sua casa.',
+                      'Toque para cadastrar mais veículos em sua casa.',
                       style: kPoppinsMedium.copyWith(
                           fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                           color: kDarkBlue)),

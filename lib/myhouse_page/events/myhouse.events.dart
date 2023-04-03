@@ -2,11 +2,13 @@ import 'package:soares_administradora_condominios/resident/domain/entity/residen
 
 abstract class MyHouseEvents {}
 
+abstract class FetchEvents {}
+
 class UpdateValueUserMyHouseEvent implements MyHouseEvents {
   final String library;
   final String key;
   final dynamic data;
-  UpdateValueUserMyHouseEvent(this.library, this.key,this.data);
+  UpdateValueUserMyHouseEvent(this.library, this.key, this.data);
 }
 
 class AddProfileImageMyHouseEvent implements MyHouseEvents {
@@ -24,19 +26,18 @@ class RegisterResidentMyHouseEvent implements MyHouseEvents {
 }
 
 class UpdateValueResidentMyHouseEvent implements MyHouseEvents {
-final ResidentEntity residentEntity;
-final int index;
+  final ResidentEntity residentEntity;
+  final int index;
   UpdateValueResidentMyHouseEvent(this.residentEntity, this.index);
 }
 
 class DeleteResidentMyHouseEvent implements MyHouseEvents {
-final String cpf;
-final int index;
-  DeleteResidentMyHouseEvent(this.cpf, this.index);
+  final ResidentEntity resident;
+  DeleteResidentMyHouseEvent(this.resident);
 }
 
-class FetchHomeUnitMyHouseEvent implements MyHouseEvents {
+class FetchHomeUnitFetchEvents implements FetchEvents {
   final String id;
 
-  FetchHomeUnitMyHouseEvent(this.id);
+  FetchHomeUnitFetchEvents(this.id);
 }

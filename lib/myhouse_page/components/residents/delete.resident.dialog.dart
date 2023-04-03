@@ -31,7 +31,7 @@ class _DeleteResidentDialogState
             onPressed: () {
               context
                   .read<MyHouseBloc>()
-                  .add(DeleteResidentMyHouseEvent(widget.residentEntity.cpf, widget.index));
+                  .add(DeleteResidentMyHouseEvent(widget.residentEntity));
               Navigator.pop(context);
             },
             child: Text('Sim')),

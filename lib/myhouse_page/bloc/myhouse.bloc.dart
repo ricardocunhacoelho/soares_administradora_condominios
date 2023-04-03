@@ -1,6 +1,8 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:soares_administradora_condominios/adm/requests_adm/domain/entity/request.entity.dart';
+import 'package:soares_administradora_condominios/adm/requests_adm/domain/usecases/add.request.access.resident.usecase.dart';
+import 'package:soares_administradora_condominios/adm/requests_adm/domain/usecases/generate.request.access.resident.usecase.dart';
 import 'package:soares_administradora_condominios/home_unit/domain/usecases/fetch.home.unit.usecase.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
@@ -19,6 +21,8 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
   final IUpdateValueResident updateValueResidentUsecase;
   final IDeleteResident deleteResidentUsecase;
   final IFetchHomeUnit fetchHomeUnitUsecase;
+  final IAddRequestResident addRequestResidentUsecase;
+  final IGenerateRequestResident generateRequestResidentUsecase;
   MyHouseBloc(
     this.addProfileImageUserUsecase,
     this.updateValueUserUsecase,
@@ -27,6 +31,8 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
     this.updateValueResidentUsecase,
     this.deleteResidentUsecase,
     this.fetchHomeUnitUsecase,
+    this.addRequestResidentUsecase,
+    this.generateRequestResidentUsecase,
   ) : super(InitialMyHouseState()) {
     on<UpdateValueUserMyHouseEvent>(_updateValueUserMyHouseEvent,
         transformer: sequential());
@@ -35,8 +41,6 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
     on<UpdateValueResidentMyHouseEvent>(_updateValueResidentMyHouseEvent,
         transformer: sequential());
     on<DeleteResidentMyHouseEvent>(_deleteResidentMyHouseEvent,
-        transformer: sequential());
-    on<FetchHomeUnitMyHouseEvent>(_fetchHomeUnitMyHouseEvent,
         transformer: sequential());
   }
 
@@ -51,6 +55,9 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
       RegisterResidentMyHouseEvent event, Emitter<MyHouseStates> emit) async {
     emit(RegisterResidentLoadingMyHouseState());
     await registerResidentUsecase.call(event.resident);
+    final requestAccess = generateRequestResidentUsecase.call(
+        event.resident, ERequestType.access);
+    await addRequestResidentUsecase.call(requestAccess, ERequestType.access);
     emit(RegisterResidentCompleteMyHouseState());
   }
 
@@ -65,17 +72,9 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
   Future<void> _deleteResidentMyHouseEvent(
       DeleteResidentMyHouseEvent event, Emitter<MyHouseStates> emit) async {
     emit(DeleteResidentLoadingMyHouseState());
-    await deleteResidentUsecase.call(event.cpf, event.index);
+    final requestDelete = generateRequestResidentUsecase.call(
+        event.resident, ERequestType.delete);
+    await addRequestResidentUsecase.call(requestDelete, ERequestType.delete);
     emit(DeleteResidentCompleteMyHouseState());
-  }
-
-  Future<void> _fetchHomeUnitMyHouseEvent(
-      FetchHomeUnitMyHouseEvent event, Emitter<MyHouseStates> emit) async {
-    emit(LoadingFetchHomeUnitMyHouseState());
-    await emit.forEach<dynamic>(
-      fetchHomeUnitUsecase.call(event.id),
-      onData: (homeUnit) => CompleteFetchHomeUnitMyHouseState(homeUnit),
-      onError: (error, st) => ErrorFetchHomeUnitMyHouseState(error.toString()),
-    );
   }
 }

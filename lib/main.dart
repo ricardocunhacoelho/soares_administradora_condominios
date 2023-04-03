@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:soares_administradora_condominios/adm/requests_adm/requests.adm.modules.dart';
 import 'package:soares_administradora_condominios/home_unit/home.unit.modules.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.resident.form.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/vehicles/register.vehicle.form.dart';
 import 'package:soares_administradora_condominios/myhouse_page/myhouse.modules.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/residents.page.dart';
+import 'package:soares_administradora_condominios/myhouse_page/pages/vehicles.page.dart';
 import 'package:soares_administradora_condominios/resident/resident.modules.dart';
 import 'package:soares_administradora_condominios/user/user.modules.dart';
 import 'firebase_options.dart';
@@ -19,7 +22,6 @@ import 'package:soares_administradora_condominios/login/pages/login.page.dart';
 import 'package:soares_administradora_condominios/main_page/loading.page.dart';
 import 'package:soares_administradora_condominios/main_page/error.page.dart';
 
-import 'package:soares_administradora_condominios/test_storage/test.storage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,6 +71,7 @@ class _MyAppState extends State<MyApp> {
         ...userModules,
         ...residentModules,
         ...homeUnitModules,
+        ...requestsAdmModules,
         ...myHouseModules,
         ...loginModules,
       ],
@@ -93,6 +96,8 @@ class _MyAppState extends State<MyApp> {
               : LoginPage(),
           '/residentsPage': (_) => ResidentPage(),
           '/registerResidentForm': (_) => RegisterResidentForm(),
+          '/vehiclePage' : (_) => VehiclesPage(),
+          '/registerVehicleForm': (_) => RegisterVehicleForm(),
         },
         title: 'Soares Administradora de Condomínios',
       ),

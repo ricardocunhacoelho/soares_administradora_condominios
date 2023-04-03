@@ -8,7 +8,7 @@ import 'package:soares_administradora_condominios/home_unit/domain/entity/home.u
 import 'package:soares_administradora_condominios/myhouse_page/models/myhouse.model.dart';
 import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 
-class RegisterFormController {
+class RegisterResidentFormController {
   final VoidCallback refresh;
   final Function register;
   final formKey = GlobalKey<FormState>();
@@ -27,7 +27,7 @@ class RegisterFormController {
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
-  RegisterFormController(this.refresh, this.register);
+  RegisterResidentFormController(this.refresh, this.register);
 
   String? validateName(String? name) =>
       name!.isNotEmpty ? null : 'Nome Inválido';
@@ -186,7 +186,6 @@ class RegisterFormController {
         } else if (snapshot.state == TaskState.success) {
           final ref = snapshot.ref;
           final url = await ref.getDownloadURL();
-          print('o url aqui é $url');
           var resident = generateResidentForm(homeUnitEntity, url);
           await register(resident);
           refresh();

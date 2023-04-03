@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
-import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
-import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/resident.form.add.picture.dialog.dart';
 import 'package:soares_administradora_condominios/myhouse_page/controler/register.form.controller.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
-import 'package:soares_administradora_condominios/myhouse_page/models/myhouse.model.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 
@@ -15,49 +12,48 @@ import '../../../app.style.dart';
 import '../../../size.config.dart';
 import '../../bloc/myhouse.bloc.dart';
 
-class RegisterResidentForm extends StatefulWidget {
-  const RegisterResidentForm({super.key});
+class RegisterVehicleForm extends StatefulWidget {
+  const RegisterVehicleForm({super.key});
 
   @override
-  State<RegisterResidentForm> createState() => _RegisterResidentFormState();
+  State<RegisterVehicleForm> createState() => _RegisterVehicleFormState();
 }
 
-class _RegisterResidentFormState extends State<RegisterResidentForm> {
+class _RegisterVehicleFormState extends State<RegisterVehicleForm> {
   register(ResidentEntity resident) {
     context.read<MyHouseBloc>().add(RegisterResidentMyHouseEvent(resident));
   }
 
-  final _controllerName = TextEditingController();
-  final _controllerEmail = TextEditingController();
-  final _controllerPhone = TextEditingController();
-  final _controllerCpf = TextEditingController();
-  final _controllerBornDate = TextEditingController();
+  final _controllerModel = TextEditingController();
+  final _controllerColor = TextEditingController();
+  final _controllerPlate = TextEditingController();
+  final _controllerYear = TextEditingController();
 
-  late final RegisterResidentFormController _registerFormController =
-      RegisterResidentFormController(() {
+  late final RegisterVehicleFormController _registerFormController =
+      RegisterVehicleFormController(() {
     setState(() {});
   }, register);
 
-  Widget fieldName() {
+  Widget fieldModel() {
     return TextFormField(
       onSaved: (newValue) => _registerFormController.name = newValue,
       validator: (value) =>
-          _registerFormController.validateName(_controllerName.text),
-      controller: _controllerName,
+          _registerFormController.validateModel(_controllerModel.text),
+      controller: _controllerModel,
       decoration: const InputDecoration(
-        label: Text('Nome Completo'),
+        label: Text('Modelo'),
       ),
     );
   }
 
-  Widget fieldEmail() {
+  Widget fieldColor() {
     return TextFormField(
-      onSaved: (newValue) => _registerFormController.email = newValue,
+      onSaved: (newValue) => _registerFormController.Color = newValue,
       validator: (value) =>
-          _registerFormController.validateEmail(_controllerEmail.text),
-      controller: _controllerEmail,
+          _registerFormController.validateColor(_controllerColor.text),
+      controller: _controllerColor,
       decoration: const InputDecoration(
-          label: Text('Email'), hintText: 'exemplo@gmail.com'),
+          label: Text('Color'), hintText: 'exemplo@gmail.com'),
     );
   }
 

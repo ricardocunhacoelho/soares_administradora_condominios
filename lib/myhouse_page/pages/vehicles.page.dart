@@ -5,22 +5,21 @@ import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/registered.residents.component.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/vehicles/registered.vehicles.component.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
 
-class ResidentPage extends StatefulWidget {
-  const ResidentPage({super.key});
+class VehiclesPage extends StatefulWidget {
+  const VehiclesPage({super.key});
 
   @override
-  State<ResidentPage> createState() => _ResidentPageState();
+  State<VehiclesPage> createState() => _VehiclesPageState();
 }
 
-class _ResidentPageState extends State<ResidentPage> {
+class _VehiclesPageState extends State<VehiclesPage> {
   @override
   Widget build(BuildContext context) {
     final fetchBloc = context.watch<FetchUnitBloc>();
@@ -70,7 +69,7 @@ class _ResidentPageState extends State<ResidentPage> {
             //TITULO
             Padding(
               padding: EdgeInsets.all(20),
-              child: Text('Moradores',
+              child: Text('Veículos',
                   style: kPoppinsBold.copyWith(
                       fontSize: SizeConfig.blockSizeHorizontal! * 5,
                       color: kDarkBlue)),
@@ -82,7 +81,7 @@ class _ResidentPageState extends State<ResidentPage> {
               ),
             //REGISTERED RESIDENTS
             if (fetchState is CompleteFetchHomeUnitFetchStates)
-              const RegisteredResidents(),
+              const RegisteredVehicles(),
             //ERROR
             if (fetchState is ErrorFetchHomeUnitFetchStates ||
                 loginstate is ErrorFetchUserLoginState)
