@@ -12,6 +12,8 @@ import 'package:soares_administradora_condominios/resident/domain/usecases/updat
 import 'package:soares_administradora_condominios/user/domain/usecase/add.profile.image.user.usecase.dart';
 import 'package:soares_administradora_condominios/user/domain/usecase/delete.profile.image.user.usecase.dart';
 import 'package:soares_administradora_condominios/user/domain/usecase/update.value.user.usecase.dart';
+import 'package:soares_administradora_condominios/vehicle/domain/usecases/delete.vehicle.usecase.dart';
+import 'package:soares_administradora_condominios/vehicle/domain/usecases/register.vehicle.usecase.dart';
 
 class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
   final IAddProfileImageUser addProfileImageUserUsecase;
@@ -23,6 +25,9 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
   final IFetchHomeUnit fetchHomeUnitUsecase;
   final IAddRequestResident addRequestResidentUsecase;
   final IGenerateRequestResident generateRequestResidentUsecase;
+  final IRegisterVehicle registerVehicleUsecase;
+  final IDeleteVehicle deleteVehicleUsecase;
+
   MyHouseBloc(
     this.addProfileImageUserUsecase,
     this.updateValueUserUsecase,
@@ -33,6 +38,8 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
     this.fetchHomeUnitUsecase,
     this.addRequestResidentUsecase,
     this.generateRequestResidentUsecase,
+    this.registerVehicleUsecase,
+    this.deleteVehicleUsecase,
   ) : super(InitialMyHouseState()) {
     on<UpdateValueUserMyHouseEvent>(_updateValueUserMyHouseEvent,
         transformer: sequential());
@@ -41,6 +48,10 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
     on<UpdateValueResidentMyHouseEvent>(_updateValueResidentMyHouseEvent,
         transformer: sequential());
     on<DeleteResidentMyHouseEvent>(_deleteResidentMyHouseEvent,
+        transformer: sequential());
+    on<RegisterVehicleMyHouseEvent>(_registerVehicleMyHouseEvent,
+        transformer: sequential());
+    on<DeleteVehicleMyHouseEvent>(_deleteVehicleMyHouseEvent,
         transformer: sequential());
   }
 
@@ -76,5 +87,20 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
         event.resident, ERequestType.delete);
     await addRequestResidentUsecase.call(requestDelete, ERequestType.delete);
     emit(DeleteResidentCompleteMyHouseState());
+  }
+
+  Future<void> _registerVehicleMyHouseEvent(
+      RegisterVehicleMyHouseEvent event, Emitter<MyHouseStates> emit) async {
+    emit(RegisterVehicleLoadingMyHouseState());
+    await registerVehicleUsecase.call(event.vehicle, event.idUnit);
+    emit(RegisterVehicleCompleteMyHouseState());
+  }
+
+  Future<void> _deleteVehicleMyHouseEvent(
+      DeleteVehicleMyHouseEvent event, Emitter<MyHouseStates> emit) async {
+    emit(DeleteVehicleLoadingMyHouseState());
+    await deleteVehicleUsecase.call(event.idUnit, event.vehicle.plate, event.index);
+    emit(DeleteVehicleCloseMyHouseState());
+    emit(DeleteVehicleCompleteMyHouseState());
   }
 }

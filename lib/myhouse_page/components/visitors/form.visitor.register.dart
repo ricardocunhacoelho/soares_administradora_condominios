@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/resident.form.add.picture.dialog.dart';
-import 'package:soares_administradora_condominios/myhouse_page/controler/register.form.controller.resident.dart';
+import 'package:soares_administradora_condominios/myhouse_page/controler/visitor.controller.register.form.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
-import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 
 import '../../../app.style.dart';
 import '../../../size.config.dart';
 import '../../bloc/myhouse.bloc.dart';
 
-class RegisterResidentForm extends StatefulWidget {
-  const RegisterResidentForm({super.key});
+class RegisterVisitorForm extends StatefulWidget {
+  const RegisterVisitorForm({super.key});
 
   @override
-  State<RegisterResidentForm> createState() => _RegisterResidentFormState();
+  State<RegisterVisitorForm> createState() => _RegisterVisitorFormState();
 }
 
-class _RegisterResidentFormState extends State<RegisterResidentForm> {
+class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
   register(ResidentEntity resident) {
     context.read<MyHouseBloc>().add(RegisterResidentMyHouseEvent(resident));
   }
 
   final _controllerName = TextEditingController();
-  final _controllerEmail = TextEditingController();
   final _controllerPhone = TextEditingController();
   final _controllerCpf = TextEditingController();
   final _controllerBornDate = TextEditingController();
+  final _controllerFinishaccessDate = TextEditingController();
+  final _controllerStartTimeAccessDay = TextEditingController();
+  final _controllerEndTimeAccessDay = TextEditingController();
 
-  late final RegisterResidentFormController _registerFormController =
-      RegisterResidentFormController(() {
+  late final VisitorControllerRegister _registerFormController =
+      VisitorControllerRegister(() {
     setState(() {});
   }, register);
 
@@ -44,17 +46,6 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
       decoration: const InputDecoration(
         label: Text('Nome Completo'),
       ),
-    );
-  }
-
-  Widget fieldEmail() {
-    return TextFormField(
-      onSaved: (newValue) => _registerFormController.email = newValue,
-      validator: (value) =>
-          _registerFormController.validateEmail(_controllerEmail.text),
-      controller: _controllerEmail,
-      decoration: const InputDecoration(
-          label: Text('Email'), hintText: 'exemplo@gmail.com'),
     );
   }
 
@@ -110,7 +101,92 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
     );
   }
 
-  Color color = kDarkBlue;
+  Widget fieldFinishaccessDate() {
+    return TextField(
+      enabled: _registerFormController.freePass ? false : true,
+      controller: _controllerFinishaccessDate,
+      keyboardType: TextInputType.none,
+      decoration: const InputDecoration(
+          icon: Icon(Icons.punch_clock_rounded),
+          labelText: "Data para expirar acesso ao condominio"),
+      onTap: _registerFormController.freePass
+          ? null
+          : () async {
+              DateTime? pickeddate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2101));
+              if (pickeddate != null) {
+                setState(() {
+                  _controllerFinishaccessDate.text =
+                      DateFormat('dd-MM-yyyy').format(pickeddate);
+                  _registerFormController.finishaccessDate =
+                      DateFormat('dd-MM-yyyy').format(pickeddate);
+                });
+              }
+            },
+    );
+  }
+
+  Widget fieldStartTimeAccessDay() {
+    return TextField(
+      enabled: _registerFormController.freePass ? false : true,
+      controller: _controllerStartTimeAccessDay,
+      keyboardType: TextInputType.none,
+      decoration: const InputDecoration(
+          icon: Icon(Icons.punch_clock_rounded),
+          labelText: "Entrada a partir de: "),
+      onTap: _registerFormController.freePass
+          ? null
+          : () async {
+              TimeOfDay? _picked = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay(hour: 23, minute: 15));
+              if (_picked != null) {
+                setState(() {
+                  _controllerStartTimeAccessDay.text =
+                      _picked.hour.toString().padLeft(2, '0') +
+                          ':' +
+                          _picked.minute.toString().padLeft(2, '0');
+                  _registerFormController.startTimeAccessDay =
+                      _picked.hour.toString().padLeft(2, '0') +
+                          ':' +
+                          _picked.minute.toString().padLeft(2, '0');
+                });
+              }
+            },
+    );
+  }
+
+  Widget fieldEndTimeAccessDay() {
+    return TextField(
+      enabled: _registerFormController.freePass ? false : true,
+      controller: _controllerStartTimeAccessDay,
+      keyboardType: TextInputType.none,
+      decoration: const InputDecoration(
+          icon: Icon(Icons.punch_clock_rounded), labelText: "até: "),
+      onTap: _registerFormController.freePass
+          ? null
+          : () async {
+              TimeOfDay? _picked = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay(hour: 23, minute: 15));
+              if (_picked != null) {
+                setState(() {
+                  _controllerEndTimeAccessDay.text =
+                      _picked.hour.toString().padLeft(2, '0') +
+                          ':' +
+                          _picked.minute.toString();
+                  _registerFormController.endTimeAccessDay =
+                      _picked.hour.toString().padLeft(2, '0') +
+                          ':' +
+                          _picked.minute.toString();
+                });
+              }
+            },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +226,7 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
                         const EdgeInsets.only(bottom: 30, right: 20, left: 20),
                     child: Column(children: [
                       Text(
-                        'Agradecemos o seu cadastro!',
+                        'Agradecemos o cadastro!',
                         style: kPoppinsSemiBold.copyWith(
                           fontSize: SizeConfig.blockSizeHorizontal! * 5,
                           color: Colors.orangeAccent,
@@ -159,7 +235,7 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
                       ),
                       const SizedBox(height: 25),
                       Text(
-                        'Aguarde até que alguém da diretoria do condomínio aprove o acesso. A senha inicial será o CPF do morador(a) e o login o e-mail cadastrado.',
+                        'Basta que o visitante apresente o QRCODE gerado na portaria junto ao cpf e documento com foto.',
                         style: kPoppinsMedium.copyWith(
                           fontSize: SizeConfig.blockSizeHorizontal! * 4,
                           color: kDarkBlue,
@@ -176,15 +252,6 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
                           children: [
                             Text(
                               'Nome completo: ${_registerFormController.name}',
-                              style: kPoppinsMedium.copyWith(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
-                                color: kDarkBlue,
-                              ),
-                              textAlign: TextAlign.left,
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'E-mail: ${_registerFormController.email}',
                               style: kPoppinsMedium.copyWith(
                                 fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
                                 color: kDarkBlue,
@@ -265,12 +332,12 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return AddPictureDialog(
-                                      controller: _registerFormController);
-                                });
+                            // showDialog(
+                            //     context: context,
+                            //     builder: (_) {
+                            //       return AddPictureDialog(
+                            //           controller: _registerFormController);
+                            //     });
                           },
                           child: Stack(
                             children: [
@@ -338,10 +405,10 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Center(
                             child: Text(
-                              'É obrigatório entrar com uma foto do morador(a) para o reconhecimento na portaria.',
+                              'É opcional entrar com uma foto do visitante. Para reconhecimento basta apresentar o QRCODE gerado e documento com foto.',
                               style: kPoppinsMedium.copyWith(
                                 fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                                color: color,
+                                color: kDarkBlue,
                               ),
                               textAlign: TextAlign.justify,
                             ),
@@ -358,19 +425,96 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
                                 fieldName(),
                                 //space
                                 SizedBox(height: 15),
-                                fieldEmail(),
-                                //space
-                                SizedBox(height: 15),
+                                //PHONE FIELD
                                 fieldPhoneNumber(),
                                 //space
                                 SizedBox(height: 15),
+                                //CPF FIELD
                                 fieldCpf(),
                                 //space
                                 SizedBox(height: 15),
+                                //BORN FIELD
                                 fieldBornDate(),
                                 //space
                                 SizedBox(height: 30),
-
+                                Container(
+                                  color: Colors.black12,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 20,
+                                          top: 20,
+                                          right: 20,
+                                        ),
+                                        child: Text(
+                                          'Deseja que este visitante tenha passe livre e possa entrar no condominio à qualquer dia/hora?',
+                                          style: kPoppinsMedium.copyWith(
+                                            fontSize: SizeConfig
+                                                    .blockSizeHorizontal! *
+                                                4,
+                                            color: kDarkBlue,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ),
+                                      Checkbox(
+                                        value: _registerFormController.freePass,
+                                        onChanged: (value) => setState(() {
+                                          if (value!) {
+                                            _controllerFinishaccessDate.text =
+                                                '';
+                                            _controllerStartTimeAccessDay.text =
+                                                '';
+                                            _controllerEndTimeAccessDay.text =
+                                                '';
+                                          }
+                                          _registerFormController
+                                              .changeFreepass(value);
+                                        }),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(20),
+                                        child: Column(
+                                          children: [
+                                            if (!_registerFormController
+                                                .freePass)
+                                              Text(
+                                                'Defina uma data para expirar o acesso do visitante ao condomínio',
+                                                style: kPoppinsMedium.copyWith(
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      4,
+                                                  color: kDarkBlue,
+                                                ),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            fieldFinishaccessDate(),
+                                            const SizedBox(height: 15),
+                                            if (!_registerFormController
+                                                .freePass)
+                                              Text(
+                                                'Defina um horário de acesso liberado durante o dia.',
+                                                style: kPoppinsMedium.copyWith(
+                                                  fontSize: SizeConfig
+                                                          .blockSizeHorizontal! *
+                                                      4,
+                                                  color: kDarkBlue,
+                                                ),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            fieldStartTimeAccessDay(),
+                                            const SizedBox(height: 10),
+                                            fieldEndTimeAccessDay()
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 30),
                                 Container(
                                   width: 200,
                                   child: TextButton(
@@ -379,40 +523,39 @@ class _RegisterResidentFormState extends State<RegisterResidentForm> {
                                             MaterialStateProperty.all(kBlue),
                                       ),
                                       onPressed: () async {
-                                        if (_registerFormController.image !=
-                                            null) {
-                                          final isValid =
-                                              _registerFormController.validate(
-                                                  formKey:
-                                                      _registerFormController
-                                                          .formKey);
-                                          if (isValid) {
-                                            setState(() {
-                                              _registerFormController
-                                                  .loadingFinish = true;
-                                            });
-                                            if (fetchState
-                                                is CompleteFetchHomeUnitFetchStates) {
-                                              _registerFormController
-                                                  .finalizeUpload(fetchState
-                                                      .homeUnitEntity);
-                                            }
-                                            await Future.delayed(
-                                                const Duration(seconds: 5));
-                                            setState(() {
-                                              _registerFormController.finish =
-                                                  true;
-                                              _registerFormController
-                                                  .loadingFinish = false;
-                                            });
-                                          } else {
-                                            print('formValido nao valido');
-                                          }
-                                        } else {
-                                          setState(() {
-                                            color = Colors.redAccent;
-                                          });
-                                        }
+                                        // if (_registerFormController.image !=
+                                        //     null) {
+                                        //   final isValid =
+                                        //       _registerFormController.validate(
+                                        //           formKey:
+                                        //               _registerFormController
+                                        //                   .formKey);
+                                        //   if (isValid) {
+                                        //     setState(() {
+                                        //       _registerFormController
+                                        //           .loadingFinish = true;
+                                        //     });
+                                        //     if (fetchState
+                                        //         is CompleteFetchHomeUnitFetchStates) {
+                                        //       _registerFormController
+                                        //           .finalizeUpload(fetchState
+                                        //               .homeUnitEntity);
+                                        //     }
+                                        //     await Future.delayed(
+                                        //         const Duration(seconds: 5));
+                                        //     setState(() {
+                                        //       _registerFormController.finish =
+                                        //           true;
+                                        //       _registerFormController
+                                        //           .loadingFinish = false;
+                                        //     });
+                                        //   } else {
+                                        //     print('formValido nao valido');
+                                        //   }
+                                        // } else {
+                                        //   setState(() {
+                                        //   });
+                                        // }
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(

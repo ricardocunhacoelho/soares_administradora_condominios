@@ -33,7 +33,7 @@ Widget myFamilyCircularIcons(
                 '/residentsPage', context, resident, myHouseState),
             itemMyFamilyCircularIcon("assets/traffic-jam.png", 'Veículos', 1,
                 '/vehiclePage', context, resident, myHouseState),
-            itemMyFamilyCircularIcon("assets/visitor.png", 'Visitantes', 2, '',
+            itemMyFamilyCircularIcon("assets/visitor.png", 'Visitantes', 2, '/visitorPage',
                 context, resident, myHouseState),
           ],
         ),

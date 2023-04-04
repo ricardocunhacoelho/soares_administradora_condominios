@@ -9,16 +9,9 @@ class JsonToFromVisitorEntity {
       'id': visitorEntity.id,
       'name': visitorEntity.name,
       'cpf': visitorEntity.cpf,
-      'userType': visitorEntity.userType.name,
-      'email': visitorEntity.email,
       'bornDate': visitorEntity.bornDate.toIso8601String(),
       'phoneNumber': visitorEntity.phoneNumber,
-      'profileImage': visitorEntity.profileImage,
-      'profileImageThumb': visitorEntity.profileImageThumb,
       'picture': visitorEntity.picture,
-      'notifications': visitorEntity.notifications
-          .map((e) => JsonToFromSingleNotificationEntity.toMap(e))
-          .toList(),
       'access': visitorEntity.access,
       'unit': JsonToFromUnitEntity.toMap(visitorEntity.unit),
       'freePass': visitorEntity.freePass,
@@ -40,20 +33,9 @@ class JsonToFromVisitorEntity {
       id: json['id'],
       name: json['name'],
       cpf: json['cpf'],
-      userType: EUserType.values.firstWhere(
-        (element) => element.name == json['userType'],
-      ),
-      email: json['email'],
       bornDate: DateTime.parse(json['bornDate']),
       phoneNumber: json['phoneNumber'],
-      profileImage: json.containsKey('profileImage') ? json['profileImage'] : null,
-      profileImageThumb: json.containsKey('profileImageThumb') ? json['profileImageThumb'] : null,
       picture: json['picture'],
-      notifications: json.containsKey('notifications')
-          ? (json['notifications'] as List)
-              .map(JsonToFromSingleNotificationEntity.fromMap)
-              .toList()
-          : [],
       access: json['access'],
       unit: JsonToFromUnitEntity.fromMap(json['unit']),
       freePass: json['freePass'],

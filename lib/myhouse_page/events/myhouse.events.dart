@@ -1,4 +1,5 @@
 import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
+import 'package:soares_administradora_condominios/vehicle/domain/entity/vehicle.entity.dart';
 
 abstract class MyHouseEvents {}
 
@@ -25,6 +26,12 @@ class RegisterResidentMyHouseEvent implements MyHouseEvents {
   RegisterResidentMyHouseEvent(this.resident);
 }
 
+class RegisterVehicleMyHouseEvent implements MyHouseEvents {
+  final VehicleEntity vehicle;
+  final String idUnit;
+  RegisterVehicleMyHouseEvent(this.vehicle, this.idUnit);
+}
+
 class UpdateValueResidentMyHouseEvent implements MyHouseEvents {
   final ResidentEntity residentEntity;
   final int index;
@@ -40,4 +47,11 @@ class FetchHomeUnitFetchEvents implements FetchEvents {
   final String id;
 
   FetchHomeUnitFetchEvents(this.id);
+}
+
+class DeleteVehicleMyHouseEvent implements MyHouseEvents {
+  final VehicleEntity vehicle;
+  final int index;
+  final String idUnit;
+  DeleteVehicleMyHouseEvent(this.idUnit, this.vehicle, this.index);
 }

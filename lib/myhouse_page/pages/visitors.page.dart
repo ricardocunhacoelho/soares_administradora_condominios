@@ -5,21 +5,21 @@ import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/registered.residents.component.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/visitors/registered.visitors.component.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
 
-class ResidentsPage extends StatefulWidget {
-  const ResidentsPage({super.key});
+class VisitorsPage extends StatefulWidget {
+  const VisitorsPage({super.key});
 
   @override
-  State<ResidentsPage> createState() => _ResidentPageState();
+  State<VisitorsPage> createState() => _VisitorsPageState();
 }
 
-class _ResidentPageState extends State<ResidentsPage> {
+class _VisitorsPageState extends State<VisitorsPage> {
   @override
   Widget build(BuildContext context) {
     final fetchBloc = context.watch<FetchUnitBloc>();
@@ -27,11 +27,6 @@ class _ResidentPageState extends State<ResidentsPage> {
     final loginbloc = context.watch<LoginBloc>();
     final loginstate = loginbloc.state;
 
-    if (loginstate is CompleteFetchUserResidentLoginState) {
-      context
-          .read<FetchUnitBloc>()
-          .add(FetchHomeUnitFetchEvents(loginstate.resident.homeUnitEntity));
-    }
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -69,7 +64,7 @@ class _ResidentPageState extends State<ResidentsPage> {
             //TITULO
             Padding(
               padding: EdgeInsets.all(20),
-              child: Text('Moradores',
+              child: Text('Visitantes',
                   style: kPoppinsBold.copyWith(
                       fontSize: SizeConfig.blockSizeHorizontal! * 5,
                       color: kDarkBlue)),
@@ -79,9 +74,9 @@ class _ResidentPageState extends State<ResidentsPage> {
               const Center(
                 child: CircularProgressIndicator(),
               ),
-            //REGISTERED RESIDENTS
+            //REGISTERED VISITORS
             if (fetchState is CompleteFetchHomeUnitFetchStates)
-              const RegisteredResidents(),
+              const RegisteredVisitors(),
             //ERROR
             if (fetchState is ErrorFetchHomeUnitFetchStates ||
                 loginstate is ErrorFetchUserLoginState)

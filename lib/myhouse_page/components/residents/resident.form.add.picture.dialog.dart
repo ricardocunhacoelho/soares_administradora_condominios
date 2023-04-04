@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soares_administradora_condominios/myhouse_page/controler/register.form.controller.dart';
+import 'package:soares_administradora_condominios/myhouse_page/controler/register.form.controller.resident.dart';
 
 import '../../../app.style.dart';
 import '../../../size.config.dart';
 
 class AddPictureDialog extends StatefulWidget {
-  final RegisterFormController controller;
+  final RegisterResidentFormController controller;
 
   const AddPictureDialog({super.key, required this.controller});
   @override

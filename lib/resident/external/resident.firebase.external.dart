@@ -15,7 +15,7 @@ class ResidentFirebase implements IResidentDataSource {
   @override
   Future<void> registerResident(Map<String, dynamic> residentMap) async {
     final uid = firebaseAuth.currentUser!.uid;
-    var ref = firebaseFirestore.collection('home_units').doc('blockunit_0');
+    var ref = firebaseFirestore.collection('home_units').doc('${residentMap['homeUnitEntity']}');
     final getdocumento = ref.get();
     await getdocumento.then((documentoSnap) async {
       final map = documentoSnap.data();

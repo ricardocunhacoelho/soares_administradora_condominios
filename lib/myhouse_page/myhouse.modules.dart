@@ -13,6 +13,8 @@ final myHouseModules = [
           context.read(),
           context.read(),
           context.read(),
+          context.read(),
+          context.read(),
           context.read())),
   BlocProvider<FetchUnitBloc>(
       create: (context) => FetchUnitBloc(context.read())),
