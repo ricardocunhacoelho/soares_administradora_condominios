@@ -5,8 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:soares_administradora_condominios/home_unit/domain/entity/home.unit.entity.dart';
-import 'package:soares_administradora_condominios/myhouse_page/models/myhouse.model.dart';
-import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+import 'package:soares_administradora_condominios/myhouse_page/models/visitor.model.dart';
 
 class VisitorControllerRegister {
   final VoidCallback refresh;
@@ -22,17 +21,16 @@ class VisitorControllerRegister {
   bool loadingFinish = false;
   bool finish = false;
   double totalProgressUploadImage = 0;
-  String pictureUrl = '';
   bool freePass = false;
-  String? endTimeAccessDay;
-  String? finishaccessDate;
-  String? startTimeAccessDay;
+  TimeOfDay? endTimeAccessDay;
+  DateTime? finishaccessDate;
+  TimeOfDay? startTimeAccessDay;
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   VisitorControllerRegister(this.refresh, this.register);
 
-  changeFreepass(bool value){
+  changeFreepass(bool value) {
     freePass = value;
     refresh();
   }
@@ -66,21 +64,23 @@ class VisitorControllerRegister {
     }
   }
 
-  MyHouseResidentModel generateResidentForm(
-      HomeUnitEntity homeUnitEntity, String ulr) {
-    var resident = MyHouseResidentModel.empty();
+  VisitorModel generateVisitorForm(HomeUnitEntity homeUnitEntity, String? ulr) {
+    var visitor = VisitorModel.empty();
     DateTime date = generateDateForm(borndate!);
     String cpfUnmasked = generateCpfForm(cpf!);
-    resident = resident.copyWith(bornDate: date);
-    resident = resident.copyWith(name: name);
-    resident = resident.copyWith(cpf: cpfUnmasked);
-    resident = resident.copyWith(phoneNumber: phone);
-    resident = resident.copyWith(id: '${homeUnitEntity.id}_${cpfUnmasked}');
-    resident = resident.copyWith(unit: homeUnitEntity.unit);
-    resident = resident.copyWith(picture: ulr);
-    resident = resident.copyWith(userType: EUserType.resident);
-    resident = resident.copyWith(homeUnitEntity: homeUnitEntity.id);
-    return resident;
+    visitor = visitor.copyWith(id: '${homeUnitEntity.id}_${cpfUnmasked}');
+    visitor = visitor.copyWith(name: name);
+    visitor = visitor.copyWith(bornDate: date);
+    visitor = visitor.copyWith(cpf: cpfUnmasked);
+    visitor = visitor.copyWith(phoneNumber: phone);
+    visitor = visitor.copyWith(picture: ulr);
+    visitor = visitor.copyWith(unit: homeUnitEntity.unit);
+    visitor = visitor.copyWith(access: freePass);
+    visitor = visitor.copyWith(startaccessDate: DateTime.now());
+    visitor = visitor.copyWith(startTimeAccessDay: startTimeAccessDay);
+    visitor = visitor.copyWith(endTimeAccessDay: endTimeAccessDay);
+    visitor = visitor.copyWith(finishaccessDate: finishaccessDate);
+    return visitor;
   }
 
   DateTime generateDateForm(String date) {
@@ -193,8 +193,8 @@ class VisitorControllerRegister {
         } else if (snapshot.state == TaskState.success) {
           final ref = snapshot.ref;
           final url = await ref.getDownloadURL();
-          var resident = generateResidentForm(homeUnitEntity, url);
-          await register(resident);
+          var visitor = generateVisitorForm(homeUnitEntity, url);
+          await register(visitor);
           refresh();
           uploadingImage = false;
           refresh();

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:soares_administradora_condominios/house_service_provider/domain/entity/house.service.provider.entity.dart';
 import 'package:soares_administradora_condominios/house_service_provider/infra/adapters/json.to.from.house.service.provider.dart';
@@ -7,17 +8,17 @@ void main() {
   test('deve converter um HouseServiceProvider em map ', () {
     final houseServiceProviderEntity = HouseServiceProviderEntity(
       id: 'id',
-      qrid: 'qrid',
-      unit: UnitEntity(id: 'id', qrid: 'qrid', block: 'block', number: 2),
+      unit: UnitEntity(id: 'id', block: 'block', number: 2),
       name: 'name',
+      phoneNumber: '12020202001',
       bornDate: DateTime.now(),
       cpf: 'cpf',
       picture: 'picture',
-      typeService: EtypeService.cleaning,
       recurringService: true,
+      freePass: false,
       startWorkDate: DateTime.now(),
-      workStartTimeDay: DateTime.now(),
-      endOfWorkTimeDay: DateTime.now(),
+      workStartTimeDay: TimeOfDay.now(),
+      endOfWorkTimeDay: TimeOfDay.now(),
       finishWorkDate: DateTime.now(),
     );
     final map =
@@ -29,17 +30,17 @@ void main() {
     final houseServiceProviderEntity =
         JsonToFromHouseServiceProviderEntity.fromMap({
       'id': 'id',
-      'qrid': 'qrid',
-      'unit': {'id': 'id', 'qrid': 'qrid', 'block': 'block', 'number': 2},
+      'unit': {'id': 'id', 'block': 'block', 'number': 2},
       'name': 'name',
       'bornDate': '2022-04-21 21:30:00',
       'cpf': 'cpf',
+      'phoneNumber': '1239191992012',
       'picture': 'picture',
-      'typeService': 'cleaning',
       'recurringService': true,
+      'freePass': false,
       'startWorkDate': '2022-04-21 21:30:00',
-      'workStartTimeDay': '2022-04-21 21:30:00',
-      'endOfWorkTimeDay': '2022-04-21 21:30:00',
+      'workStartTimeDay': '10:30',
+      'endOfWorkTimeDay': '15:20',
       'finishWorkDate': '2022-04-21 21:30:00',
     });
     expect(houseServiceProviderEntity, isA<HouseServiceProviderEntity>());

@@ -5,18 +5,22 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:soares_administradora_condominios/adm/requests_adm/requests.adm.modules.dart';
 import 'package:soares_administradora_condominios/home_unit/home.unit.modules.dart';
+import 'package:soares_administradora_condominios/house_service_provider/house.service.provider.modules.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/house_service_provider/form.house.service.provider.register.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.resident.form.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/vehicles/register.vehicle.form.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/visitors/form.visitor.register.dart';
 import 'package:soares_administradora_condominios/myhouse_page/myhouse.modules.dart';
+import 'package:soares_administradora_condominios/myhouse_page/pages/house.service.provider.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/residents.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/vehicles.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/visitors.page.dart';
 import 'package:soares_administradora_condominios/resident/resident.modules.dart';
 import 'package:soares_administradora_condominios/user/user.modules.dart';
 import 'package:soares_administradora_condominios/vehicle/vehicle.modules.dart';
+import 'package:soares_administradora_condominios/visitor/visitor.modules.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
@@ -77,6 +81,8 @@ class _MyAppState extends State<MyApp> {
         ...homeUnitModules,
         ...requestsAdmModules,
         ...vehicleModules,
+        ...visitorModules,
+        ...houseServiceProviderModules,
         ...myHouseModules,
         ...loginModules,
       ],
@@ -110,6 +116,9 @@ class _MyAppState extends State<MyApp> {
           '/registerVehicleForm': (_) => RegisterVehicleForm(),
           '/visitorPage': (_) => VisitorsPage(),
           '/registerVisitorForm': (_) => RegisterVisitorForm(),
+          '/houseServiceProviderPage': (_) => HouseServiceProviderPage(),
+          '/registerHouseServiceProviderForm': (_) =>
+              RegisterHouseServiceProviderForm(),
         },
         title: 'Soares Administradora de Condomínios',
       ),

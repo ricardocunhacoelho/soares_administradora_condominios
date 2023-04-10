@@ -1,48 +1,36 @@
-import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
+import 'package:flutter/material.dart';
 import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
-import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 
-class HouseServiceProviderEntity implements UserEntity {
+class HouseServiceProviderEntity{
   final String id;
   final String name;
   final DateTime bornDate;
   final String cpf;
   final String phoneNumber;
-  final String email;
-  final String? profileImage;
-  final String? profileImageThumb;
-  final String picture;
-  final EUserType userType;
-  final List<SingleNotificationEntity> notifications;
-  final bool access;
+  final String? picture;
+  final bool freePass;
   final UnitEntity unit;
-  final EtypeService typeService;
-  final bool recurringService;
   final DateTime startWorkDate;
-  final DateTime workStartTimeDay;
-  final DateTime endOfWorkTimeDay;
+  final TimeOfDay? workStartTimeDay;
+  final TimeOfDay? endOfWorkTimeDay;
   final DateTime? finishWorkDate;
+  final bool recurringService;
+  final List daysWeekAccess;
+
   HouseServiceProviderEntity({
     required this.id,
     required this.name,
     required this.cpf,
-    required this.userType,
-    required this.email,
     required this.bornDate,
     required this.phoneNumber,
-    required this.profileImage,
-    required this.profileImageThumb,
-    required this.picture,
-    required this.notifications,
-    required this.access,
+    this.picture,
+    required this.freePass,
     required this.unit,
-    required this.typeService,
-    required this.recurringService,
     required this.startWorkDate,
-    required this.workStartTimeDay,
-    required this.endOfWorkTimeDay,
+    this.workStartTimeDay,
+    this.endOfWorkTimeDay,
     this.finishWorkDate,
+    required this.recurringService,
+    required this.daysWeekAccess,
   });
 }
-
-enum EtypeService { masonry, woodwork, network, cleaning, security }

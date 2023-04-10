@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/vehicles/delete.vehicle.dialog.dart';
-import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 import 'package:soares_administradora_condominios/vehicle/domain/entity/vehicle.entity.dart';
 
 import '../../../app.style.dart';
@@ -40,6 +39,15 @@ class _DetailsVehicleDialogState extends State<DetailsVehicleDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              widget.vehicle.vehicleType == EVehicleType.car ? 'Carro' : 'Moto',
+              style: kPoppinsMedium.copyWith(
+                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                color: kDarkBlue,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            const SizedBox(height: 10),
             Text(
               'Placa: ${widget.vehicle.plate}',
               style: kPoppinsMedium.copyWith(

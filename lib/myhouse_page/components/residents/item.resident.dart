@@ -2,7 +2,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/delete.resident.dialog.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/details.resident.dialog.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/models/myhouse.model.dart';

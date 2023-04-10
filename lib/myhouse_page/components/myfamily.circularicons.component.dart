@@ -11,19 +11,6 @@ Widget myFamilyCircularIcons(
     BuildContext context, ResidentEntity resident, MyHouseStates myHouseState) {
   return Column(
     children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('Minha Casa',
-                style: kPoppinsBold.copyWith(
-                    fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                    color: kDarkBlue)),
-          ],
-        ),
-      ),
-      const SizedBox(height: 15),
       Container(
         height: SizeConfig.blockSizeHorizontal! * 25,
         child: ListView(
@@ -33,8 +20,8 @@ Widget myFamilyCircularIcons(
                 '/residentsPage', context, resident, myHouseState),
             itemMyFamilyCircularIcon("assets/traffic-jam.png", 'Veículos', 1,
                 '/vehiclePage', context, resident, myHouseState),
-            itemMyFamilyCircularIcon("assets/visitor.png", 'Visitantes', 2, '/visitorPage',
-                context, resident, myHouseState),
+            itemMyFamilyCircularIcon("assets/visitor.png", 'Visitantes', 2,
+                '/visitorPage', context, resident, myHouseState),
           ],
         ),
       ),

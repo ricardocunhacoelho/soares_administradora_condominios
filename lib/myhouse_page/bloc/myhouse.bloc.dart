@@ -4,6 +4,9 @@ import 'package:soares_administradora_condominios/adm/requests_adm/domain/entity
 import 'package:soares_administradora_condominios/adm/requests_adm/domain/usecases/add.request.access.resident.usecase.dart';
 import 'package:soares_administradora_condominios/adm/requests_adm/domain/usecases/generate.request.access.resident.usecase.dart';
 import 'package:soares_administradora_condominios/home_unit/domain/usecases/fetch.home.unit.usecase.dart';
+import 'package:soares_administradora_condominios/house_service_provider/domain/usecases/delete.house.service.provider.usecase.dart';
+import 'package:soares_administradora_condominios/house_service_provider/domain/usecases/register.house.service.provider.usecase.dart';
+import 'package:soares_administradora_condominios/house_service_provider/domain/usecases/update.value.hosue.service.provider.usecase.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 import 'package:soares_administradora_condominios/resident/domain/usecases/delete.resident.usecase.dart';
@@ -14,6 +17,9 @@ import 'package:soares_administradora_condominios/user/domain/usecase/delete.pro
 import 'package:soares_administradora_condominios/user/domain/usecase/update.value.user.usecase.dart';
 import 'package:soares_administradora_condominios/vehicle/domain/usecases/delete.vehicle.usecase.dart';
 import 'package:soares_administradora_condominios/vehicle/domain/usecases/register.vehicle.usecase.dart';
+import 'package:soares_administradora_condominios/visitor/domain/usecases/delete.visitor.usecase.dart';
+import 'package:soares_administradora_condominios/visitor/domain/usecases/update.value.visitor.usecase.dart';
+import 'package:soares_administradora_condominios/visitor/domain/usecases/visitor.register.usecase.dart';
 
 class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
   final IAddProfileImageUser addProfileImageUserUsecase;
@@ -27,6 +33,12 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
   final IGenerateRequestResident generateRequestResidentUsecase;
   final IRegisterVehicle registerVehicleUsecase;
   final IDeleteVehicle deleteVehicleUsecase;
+  final IRegisterVisitor registerVisitorUsecase;
+  final IRegisterHouseServiceProvider registerHouseServiceProviderUsecase;
+  final IUpdateValueVisitor updateValueVisitorUsecase;
+  final IDeleteVisitor deleteVisitorUsecase;
+  final IUpdateValueHouseServiceProvider updateValueHouseServiceProviderUsecase;
+  final IDeleteHouseServiceProvider deleteHouseServiceProviderUsecase;
 
   MyHouseBloc(
     this.addProfileImageUserUsecase,
@@ -40,6 +52,12 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
     this.generateRequestResidentUsecase,
     this.registerVehicleUsecase,
     this.deleteVehicleUsecase,
+    this.registerVisitorUsecase,
+    this.registerHouseServiceProviderUsecase,
+    this.updateValueVisitorUsecase,
+    this.deleteVisitorUsecase,
+    this.updateValueHouseServiceProviderUsecase,
+    this.deleteHouseServiceProviderUsecase,
   ) : super(InitialMyHouseState()) {
     on<UpdateValueUserMyHouseEvent>(_updateValueUserMyHouseEvent,
         transformer: sequential());
@@ -52,6 +70,21 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
     on<RegisterVehicleMyHouseEvent>(_registerVehicleMyHouseEvent,
         transformer: sequential());
     on<DeleteVehicleMyHouseEvent>(_deleteVehicleMyHouseEvent,
+        transformer: sequential());
+    on<RegisterVisitorMyHouseEvent>(_registerVisitorMyHouseEvent,
+        transformer: sequential());
+    on<RegisterHouseServiceProviderMyHouseEvent>(
+        _registerHouseServiceProviderMyHouseEvent,
+        transformer: sequential());
+    on<UpdateValueVisitorEvent>(_updateValueVisitorEvent,
+        transformer: sequential());
+    on<DeleteVisistorMyHouseEvent>(_deleteVisistorMyHouseEvent,
+        transformer: sequential());
+    on<UpdateValueHouseServiceProviderEvent>(
+        _updateValueHouseServiceProviderEvent,
+        transformer: sequential());
+    on<DeleteHouseServiceProviderMyHouseEvent>(
+        _deleteHouseServiceProviderMyHouseEvent,
         transformer: sequential());
   }
 
@@ -99,8 +132,54 @@ class MyHouseBloc extends Bloc<MyHouseEvents, MyHouseStates> {
   Future<void> _deleteVehicleMyHouseEvent(
       DeleteVehicleMyHouseEvent event, Emitter<MyHouseStates> emit) async {
     emit(DeleteVehicleLoadingMyHouseState());
-    await deleteVehicleUsecase.call(event.idUnit, event.vehicle.plate, event.index);
-    emit(DeleteVehicleCloseMyHouseState());
+    await deleteVehicleUsecase.call(
+        event.idUnit, event.vehicle.plate, event.index);
     emit(DeleteVehicleCompleteMyHouseState());
+  }
+
+  Future<void> _registerVisitorMyHouseEvent(
+      RegisterVisitorMyHouseEvent event, Emitter<MyHouseStates> emit) async {
+    emit(RegisterVisitorLoadingMyHouseState());
+    await registerVisitorUsecase.call(event.visitor);
+    emit(RegisterVisitorCompleteMyHouseState());
+  }
+
+  Future<void> _registerHouseServiceProviderMyHouseEvent(
+      RegisterHouseServiceProviderMyHouseEvent event,
+      Emitter<MyHouseStates> emit) async {
+    emit(RegisterHouseServiceProviderLoadingMyHouseState());
+    await registerHouseServiceProviderUsecase.call(event.houseServiceProvider);
+    emit(RegisterHouseServiceProviderCompleteMyHouseState());
+  }
+
+  Future<void> _updateValueVisitorEvent(
+      UpdateValueVisitorEvent event, Emitter<MyHouseStates> emit) async {
+    emit(UpdateVisitorLoadingMyHouseState());
+    await updateValueVisitorUsecase.call(event.visitorEntity, event.index);
+    emit(UpdateVisitorErrorMyHouseState());
+  }
+
+  Future<void> _deleteVisistorMyHouseEvent(
+      DeleteVisistorMyHouseEvent event, Emitter<MyHouseStates> emit) async {
+    emit(DeleteVisitorLoadingMyHouseState());
+    await deleteVisitorUsecase.call(event.idUnit, event.cpf, event.index);
+    emit(DeleteVisitorCompleteMyHouseState());
+  }
+
+  Future<void> _updateValueHouseServiceProviderEvent(
+      UpdateValueHouseServiceProviderEvent event,
+      Emitter<MyHouseStates> emit) async {
+    emit(UpdateHouseServiceProviderLoadingMyHouseState());
+    await updateValueHouseServiceProviderUsecase.call(
+        event.houseServiceProviderEntity, event.index);
+    emit(UpdateHouseServiceProviderCompleteMyHouseState());
+  }
+
+  Future<void> _deleteHouseServiceProviderMyHouseEvent(
+      DeleteHouseServiceProviderMyHouseEvent event,
+      Emitter<MyHouseStates> emit) async {
+    emit(DeleteHouseServiceProviderLoadingMyHouseState());
+    await deleteHouseServiceProviderUsecase.call(event.idUnit,event.cpf,event.index);
+    emit(DeleteHouseServiceProviderCompleteMyHouseState());
   }
 }

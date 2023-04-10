@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/list.residents.dart';
-import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.new.resident.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/visitors/list.visitors.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/visitors/register.new.visitor.dart';
 import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
@@ -65,7 +63,7 @@ class _RegisteredVisitorsState extends State<RegisteredVisitors> {
                                   decoration: const BoxDecoration(
                                     image: DecorationImage(
                                         image:
-                                            AssetImage('assets/cadastro.png'),
+                                            AssetImage('assets/visitors_.png'),
                                         fit: BoxFit.contain),
                                   )),
                               const SizedBox(width: 15),

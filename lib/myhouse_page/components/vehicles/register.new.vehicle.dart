@@ -40,7 +40,7 @@ class _RegisterNewVehicleState extends State<RegisterNewVehicle> {
                     height: 50,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/cadastro.png'),
+                          image: AssetImage('assets/car-register.png'),
                           fit: BoxFit.contain),
                     )),
                 const SizedBox(width: 15),

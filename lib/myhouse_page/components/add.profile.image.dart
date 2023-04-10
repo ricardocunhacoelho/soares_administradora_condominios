@@ -7,7 +7,6 @@ import 'package:soares_administradora_condominios/login/states/login.states.dart
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/controler/profile.image.controller.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
-import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -132,7 +131,7 @@ class _AddProfileImageDialogComponenteState
                               fit: BoxFit.cover),
                     ),
             const SizedBox(height: 15),
-            Text('Casa ${widget.name}',
+            Text('Nome ${widget.name}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: kPoppinsBold.copyWith(

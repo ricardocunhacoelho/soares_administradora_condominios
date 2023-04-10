@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/myhouse_page/controler/register.form.controller.resident.dart';
 
 import '../../../app.style.dart';

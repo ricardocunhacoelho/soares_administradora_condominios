@@ -42,10 +42,10 @@ class _ItemVehicleState extends State<ItemVehicle> {
       trailing: Container(
         width: 60,
         alignment: Alignment.centerRight,
-        child: const Icon(
-          Icons.car_rental,
+        child: Icon(
+          widget.vehicleEntity.vehicleType == EVehicleType.car ? Icons.car_rental : Icons.motorcycle_sharp,
           color: Colors.greenAccent,
-          size: 17,
+          size: 20,
         ),
       ),
       title: Text(

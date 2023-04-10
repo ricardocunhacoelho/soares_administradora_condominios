@@ -1,5 +1,5 @@
-import 'package:soares_administradora_condominios/single_notification/infra/adapters/json.to.from.single.notification.dart';
-import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
+
+import 'package:flutter/material.dart';
 import 'package:soares_administradora_condominios/visitor/domain/entity/visitor.entity.dart';
 import 'package:soares_administradora_condominios/unit/infra/adapters/json.to.from.unit.entity.dart';
 
@@ -12,16 +12,15 @@ class JsonToFromVisitorEntity {
       'bornDate': visitorEntity.bornDate.toIso8601String(),
       'phoneNumber': visitorEntity.phoneNumber,
       'picture': visitorEntity.picture,
-      'access': visitorEntity.access,
       'unit': JsonToFromUnitEntity.toMap(visitorEntity.unit),
       'freePass': visitorEntity.freePass,
       'startaccessDate': visitorEntity.startaccessDate.toIso8601String(),
       'startTimeAccessDay': visitorEntity.freePass
           ? null
-          : visitorEntity.startTimeAccessDay!.toIso8601String(),
+          : '${visitorEntity.startTimeAccessDay!.hour.toString().padLeft(2, '0')}:${visitorEntity.startTimeAccessDay!.minute.toString().padLeft(2, '0')}',
       'endTimeAccessDay': visitorEntity.freePass
           ? null
-          : visitorEntity.endTimeAccessDay!.toIso8601String(),
+          : '${visitorEntity.endTimeAccessDay!.hour.toString().padLeft(2, '0')}:${visitorEntity.endTimeAccessDay!.minute.toString().padLeft(2, '0')}',
       'finishaccessDate': visitorEntity.freePass
           ? null
           : visitorEntity.finishaccessDate!.toIso8601String(),
@@ -36,14 +35,19 @@ class JsonToFromVisitorEntity {
       bornDate: DateTime.parse(json['bornDate']),
       phoneNumber: json['phoneNumber'],
       picture: json['picture'],
-      access: json['access'],
       unit: JsonToFromUnitEntity.fromMap(json['unit']),
       freePass: json['freePass'],
       startaccessDate: DateTime.parse(json['startaccessDate']),
-      startTimeAccessDay:
-          json['freePass'] ? null : DateTime.parse(json['startTimeAccessDay']),
-      endTimeAccessDay:
-          json['freePass'] ? null : DateTime.parse(json['endTimeAccessDay']),
+      startTimeAccessDay: json['freePass']
+          ? null
+          : TimeOfDay(
+              hour: int.parse(json['startTimeAccessDay'].split(":")[0]),
+              minute: int.parse(json['startTimeAccessDay'].split(":")[1])),
+      endTimeAccessDay: json['freePass']
+          ? null
+          : TimeOfDay(
+              hour: int.parse(json['endTimeAccessDay'].split(":")[0]),
+              minute: int.parse(json['endTimeAccessDay'].split(":")[1])),
       finishaccessDate:
           json['freePass'] ? null : DateTime.parse(json['finishaccessDate']),
     );

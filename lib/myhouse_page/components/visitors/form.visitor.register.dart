@@ -1,12 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/events/login.events.dart';
+import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
+import 'package:soares_administradora_condominios/myhouse_page/components/visitors/add.picture.visitor.dialog.dart';
 import 'package:soares_administradora_condominios/myhouse_page/controler/visitor.controller.register.form.dart';
 import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
-import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
+import 'package:soares_administradora_condominios/myhouse_page/states/myhouse.states.dart';
+import 'package:soares_administradora_condominios/visitor/domain/entity/visitor.entity.dart';
 
 import '../../../app.style.dart';
 import '../../../size.config.dart';
@@ -20,8 +26,8 @@ class RegisterVisitorForm extends StatefulWidget {
 }
 
 class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
-  register(ResidentEntity resident) {
-    context.read<MyHouseBloc>().add(RegisterResidentMyHouseEvent(resident));
+  register(VisitorEntity visitor) {
+    context.read<MyHouseBloc>().add(RegisterVisitorMyHouseEvent(visitor));
   }
 
   final _controllerName = TextEditingController();
@@ -121,8 +127,7 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                 setState(() {
                   _controllerFinishaccessDate.text =
                       DateFormat('dd-MM-yyyy').format(pickeddate);
-                  _registerFormController.finishaccessDate =
-                      DateFormat('dd-MM-yyyy').format(pickeddate);
+                  _registerFormController.finishaccessDate = pickeddate;
                 });
               }
             },
@@ -149,10 +154,7 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                       _picked.hour.toString().padLeft(2, '0') +
                           ':' +
                           _picked.minute.toString().padLeft(2, '0');
-                  _registerFormController.startTimeAccessDay =
-                      _picked.hour.toString().padLeft(2, '0') +
-                          ':' +
-                          _picked.minute.toString().padLeft(2, '0');
+                  _registerFormController.startTimeAccessDay = _picked;
                 });
               }
             },
@@ -162,7 +164,7 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
   Widget fieldEndTimeAccessDay() {
     return TextField(
       enabled: _registerFormController.freePass ? false : true,
-      controller: _controllerStartTimeAccessDay,
+      controller: _controllerEndTimeAccessDay,
       keyboardType: TextInputType.none,
       decoration: const InputDecoration(
           icon: Icon(Icons.punch_clock_rounded), labelText: "até: "),
@@ -178,10 +180,7 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                       _picked.hour.toString().padLeft(2, '0') +
                           ':' +
                           _picked.minute.toString();
-                  _registerFormController.endTimeAccessDay =
-                      _picked.hour.toString().padLeft(2, '0') +
-                          ':' +
-                          _picked.minute.toString();
+                  _registerFormController.endTimeAccessDay = _picked;
                 });
               }
             },
@@ -192,6 +191,8 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
   Widget build(BuildContext context) {
     final fetchBloc = context.watch<FetchUnitBloc>();
     final fetchState = fetchBloc.state;
+    final loginBloc = context.watch<LoginBloc>();
+    final loginState = loginBloc.state;
 
     return Scaffold(
       appBar: AppBar(
@@ -332,12 +333,12 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            // showDialog(
-                            //     context: context,
-                            //     builder: (_) {
-                            //       return AddPictureDialog(
-                            //           controller: _registerFormController);
-                            //     });
+                            showDialog(
+                                context: context,
+                                builder: (_) {
+                                  return AddPictureVisitorDialog(
+                                      controller: _registerFormController);
+                                });
                           },
                           child: Stack(
                             children: [
@@ -405,7 +406,7 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                           padding: const EdgeInsets.symmetric(horizontal: 30),
                           child: Center(
                             child: Text(
-                              'É opcional entrar com uma foto do visitante. Para reconhecimento basta apresentar o QRCODE gerado e documento com foto.',
+                              'Você pode acrescentar a foto mais tarde. Após anexar uma foto o QRCODE será suficiente na portaria (não é necessário apresentar documento).',
                               style: kPoppinsMedium.copyWith(
                                 fontSize: SizeConfig.blockSizeHorizontal! * 4,
                                 color: kDarkBlue,
@@ -450,7 +451,7 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                                           right: 20,
                                         ),
                                         child: Text(
-                                          'Deseja que este visitante tenha passe livre e possa entrar no condominio à qualquer dia/hora?',
+                                          'Este visitante é um familiar próximo? habilitar acesso à qualquer dia/hora utilizando QRCODE (Marque abaixo).',
                                           style: kPoppinsMedium.copyWith(
                                             fontSize: SizeConfig
                                                     .blockSizeHorizontal! *
@@ -482,7 +483,7 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                                             if (!_registerFormController
                                                 .freePass)
                                               Text(
-                                                'Defina uma data para expirar o acesso do visitante ao condomínio',
+                                                'Defina uma data para expirar o acesso do visitante ao condomínio (você pode extender esta data depois)',
                                                 style: kPoppinsMedium.copyWith(
                                                   fontSize: SizeConfig
                                                           .blockSizeHorizontal! *
@@ -523,39 +524,83 @@ class _RegisterVisitorFormState extends State<RegisterVisitorForm> {
                                             MaterialStateProperty.all(kBlue),
                                       ),
                                       onPressed: () async {
-                                        // if (_registerFormController.image !=
-                                        //     null) {
-                                        //   final isValid =
-                                        //       _registerFormController.validate(
-                                        //           formKey:
-                                        //               _registerFormController
-                                        //                   .formKey);
-                                        //   if (isValid) {
-                                        //     setState(() {
-                                        //       _registerFormController
-                                        //           .loadingFinish = true;
-                                        //     });
-                                        //     if (fetchState
-                                        //         is CompleteFetchHomeUnitFetchStates) {
-                                        //       _registerFormController
-                                        //           .finalizeUpload(fetchState
-                                        //               .homeUnitEntity);
-                                        //     }
-                                        //     await Future.delayed(
-                                        //         const Duration(seconds: 5));
-                                        //     setState(() {
-                                        //       _registerFormController.finish =
-                                        //           true;
-                                        //       _registerFormController
-                                        //           .loadingFinish = false;
-                                        //     });
-                                        //   } else {
-                                        //     print('formValido nao valido');
-                                        //   }
-                                        // } else {
-                                        //   setState(() {
-                                        //   });
-                                        // }
+                                        if (_registerFormController.image !=
+                                            null) {
+                                          final isValid =
+                                              _registerFormController.validate(
+                                                  formKey:
+                                                      _registerFormController
+                                                          .formKey);
+                                          if (isValid) {
+                                            setState(() {
+                                              _registerFormController
+                                                  .loadingFinish = true;
+                                            });
+                                            if (fetchState
+                                                is CompleteFetchHomeUnitFetchStates) {
+                                              _registerFormController
+                                                  .finalizeUpload(fetchState
+                                                      .homeUnitEntity);
+                                            }
+                                            await Future.delayed(
+                                                const Duration(seconds: 3));
+                                            setState(() {
+                                              _registerFormController.finish =
+                                                  true;
+                                              _registerFormController
+                                                  .loadingFinish = false;
+                                            });
+                                          } else {
+                                            print('formValido nao valido');
+                                          }
+                                        } else {
+                                          final isValid =
+                                              _registerFormController.validate(
+                                                  formKey:
+                                                      _registerFormController
+                                                          .formKey);
+                                          if (isValid) {
+                                            setState(() {
+                                              _registerFormController
+                                                  .loadingFinish = true;
+                                            });
+                                            if (fetchState
+                                                is CompleteFetchHomeUnitFetchStates) {
+                                              var visitor =
+                                                  _registerFormController
+                                                      .generateVisitorForm(
+                                                          fetchState
+                                                              .homeUnitEntity,
+                                                          null);
+                                              _registerFormController
+                                                  .register(visitor);
+                                              await Future.delayed(
+                                                  const Duration(seconds: 3));
+                                              setState(() {
+                                                _registerFormController.finish =
+                                                    true;
+                                                _registerFormController
+                                                    .loadingFinish = false;
+                                              });
+                                            } else {
+                                              if (loginState
+                                                  is CompleteFetchUserResidentLoginState) {
+                                                context.read<FetchUnitBloc>().add(
+                                                    FetchHomeUnitFetchEvents(
+                                                        loginState.resident
+                                                            .homeUnitEntity));
+                                              } else {
+                                                final uid = FirebaseAuth
+                                                    .instance.currentUser!.uid
+                                                    .toString();
+                                                context.read<LoginBloc>().add(
+                                                    FetchUserLoginEvent(uid));
+                                              }
+                                            }
+                                          } else {
+                                            print('formValido nao valido');
+                                          }
+                                        }
                                       },
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(

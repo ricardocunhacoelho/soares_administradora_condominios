@@ -8,6 +8,7 @@ class JsonToFromVehicleEntity {
       'plate': vehicleEntity.plate,
       'model': vehicleEntity.model,
       'year': vehicleEntity.year,
+      'vehicleType': vehicleEntity.vehicleType.name,
     };
   }
 
@@ -18,6 +19,9 @@ class JsonToFromVehicleEntity {
       plate: json['plate'],
       model: json['model'],
       year: json['year'],
+      vehicleType: EVehicleType.values.firstWhere(
+        (element) => element.name == json['vehicleType'],
+      ),
     );
   }
 }

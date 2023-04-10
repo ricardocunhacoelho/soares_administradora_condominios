@@ -36,7 +36,6 @@ class ResidentFirebase implements IResidentDataSource {
       final docResidents = map!['residents'] as List;
       if (docResidents[index]['cpf'] == mapResident['cpf']) {
         docResidents[index] = mapResident;
-        print(docResidents[index]['picture']);
         await ref.update({'residents': docResidents});
       }
     });

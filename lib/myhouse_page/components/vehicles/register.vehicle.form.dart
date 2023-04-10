@@ -148,6 +148,15 @@ class _RegisterVehicleFormState extends State<RegisterVehicleForm> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
+                              _registerFormController.eVehicleType == EVehicleType.car ? 'Carro' : 'Moto',
+                              style: kPoppinsMedium.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
+                                color: kDarkBlue,
+                              ),
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
                               'Placa: ${_registerFormController.plate}',
                               style: kPoppinsMedium.copyWith(
                                 fontSize: SizeConfig.blockSizeHorizontal! * 3.5,
@@ -197,6 +206,63 @@ class _RegisterVehicleFormState extends State<RegisterVehicleForm> {
                             key: _registerFormController.formKey,
                             child: Column(
                               children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      child: Text(
+                                        'Veículo: ',
+                                        style: kPoppinsMedium.copyWith(
+                                          fontSize:
+                                              SizeConfig.blockSizeHorizontal! *
+                                                  4,
+                                          color: kDarkBlue,
+                                        ),
+                                        textAlign: TextAlign.justify,
+                                      ),
+                                    ),
+                                    Text(
+                                      'Carro: ',
+                                      style: kPoppinsMedium.copyWith(
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal! * 4,
+                                        color: kDarkBlue,
+                                      ),
+                                      textAlign: TextAlign.justify,
+                                    ),
+                                    Radio<EVehicleType>(
+                                      value: EVehicleType.car,
+                                      groupValue:
+                                          _registerFormController.eVehicleType,
+                                      onChanged: (EVehicleType? value) {
+                                        setState(() {
+                                          _registerFormController.eVehicleType =
+                                              value;
+                                        });
+                                      },
+                                    ),
+                                    Text(
+                                  'Moto: ',
+                                  style: kPoppinsMedium.copyWith(
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal! * 4,
+                                      color: kDarkBlue,
+                                  ),
+                                  textAlign: TextAlign.justify,
+                                ),
+                                    Radio<EVehicleType>(
+                                      value: EVehicleType.motorbike,
+                                      groupValue:
+                                          _registerFormController.eVehicleType,
+                                      onChanged: (EVehicleType? value) {
+                                        setState(() {
+                                          _registerFormController.eVehicleType =
+                                              value;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
                                 //PLATE
                                 fieldPlate(),
                                 //space

@@ -8,12 +8,14 @@ class VehicleModel extends VehicleEntity {
     required String plate,
     required String model,
     required int year,
+    required EVehicleType vehicleType
   }) : super(
           id: id,
           color: color,
           plate: plate,
           model: model,
           year: year,
+          vehicleType: vehicleType,
         );
 
   factory VehicleModel.empty() => VehicleModel(
@@ -22,6 +24,7 @@ class VehicleModel extends VehicleEntity {
         plate: '',
         model: '',
         year: 0,
+        vehicleType: EVehicleType.car,
       );
   VehicleModel copyWith({
     String? id,
@@ -29,6 +32,7 @@ class VehicleModel extends VehicleEntity {
     String? plate,
     String? model,
     int? year,
+    EVehicleType? vehicleType
   }) {
     return VehicleModel(
       id: id ?? this.id,
@@ -36,6 +40,7 @@ class VehicleModel extends VehicleEntity {
       plate: plate ?? this.plate,
       model: model ?? this.model,
       year: year ?? this.year,
+      vehicleType: vehicleType ?? this.vehicleType,
     );
   }
 
@@ -45,5 +50,6 @@ class VehicleModel extends VehicleEntity {
         plate: vehicle.plate,
         model: vehicle.model,
         year: vehicle.year,
+        vehicleType: vehicle.vehicleType,
       );
 }

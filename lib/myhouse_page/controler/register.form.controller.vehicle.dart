@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soares_administradora_condominios/myhouse_page/models/vehicle.model.dart';
+import 'package:soares_administradora_condominios/vehicle/domain/entity/vehicle.entity.dart';
 
 class RegisterVehicleFormController {
   final VoidCallback refresh;
@@ -8,6 +9,7 @@ class RegisterVehicleFormController {
   String? model;
   int? year;
   String? color;
+  EVehicleType? eVehicleType;
   bool loadingFinish = false;
   bool finish = false;
 
@@ -47,6 +49,7 @@ class RegisterVehicleFormController {
     vehicle = vehicle.copyWith(model: model);
     vehicle = vehicle.copyWith(color: color);
     vehicle = vehicle.copyWith(year: year);
+    vehicle = vehicle.copyWith(vehicleType: eVehicleType);
     return vehicle;
   }
 }

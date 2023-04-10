@@ -62,6 +62,40 @@ class DeleteVehicleLoadingMyHouseState implements MyHouseStates {}
 
 class DeleteVehicleErrorMyHouseState implements MyHouseStates {}
 
-class DeleteVehicleCloseMyHouseState implements MyHouseStates {}
-
 class DeleteVehicleCompleteMyHouseState implements MyHouseStates {}
+
+class DeleteVisitorLoadingMyHouseState implements MyHouseStates {}
+
+class DeleteVisitorErrorMyHouseState implements MyHouseStates {}
+
+class DeleteVisitorCompleteMyHouseState implements MyHouseStates {}
+
+class RegisterVisitorLoadingMyHouseState implements MyHouseStates {}
+
+class RegisterVisitorErrorMyHouseState implements MyHouseStates {}
+
+class RegisterVisitorCompleteMyHouseState implements MyHouseStates {}
+
+class RegisterHouseServiceProviderLoadingMyHouseState implements MyHouseStates {}
+
+class RegisterHouseServiceProviderErrorMyHouseState implements MyHouseStates {}
+
+class RegisterHouseServiceProviderCompleteMyHouseState implements MyHouseStates {}
+
+class DeleteHouseServiceProviderLoadingMyHouseState implements MyHouseStates {}
+
+class DeleteHouseServiceProviderErrorMyHouseState implements MyHouseStates {}
+
+class DeleteHouseServiceProviderCompleteMyHouseState implements MyHouseStates {}
+
+class UpdateVisitorLoadingMyHouseState implements MyHouseStates {}
+
+class UpdateVisitorCompleteMyHouseState implements MyHouseStates {}
+
+class UpdateVisitorErrorMyHouseState implements MyHouseStates {}
+
+class UpdateHouseServiceProviderLoadingMyHouseState implements MyHouseStates {}
+
+class UpdateHouseServiceProviderCompleteMyHouseState implements MyHouseStates {}
+
+class UpdateHouseServiceProviderErrorMyHouseState implements MyHouseStates {}

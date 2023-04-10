@@ -40,7 +40,7 @@ class _RegisterNewVisitorState extends State<RegisterNewVisitor> {
                     height: 50,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/cadastro.png'),
+                          image: AssetImage('assets/visitors_.png'),
                           fit: BoxFit.contain),
                     )),
                 const SizedBox(width: 15),
