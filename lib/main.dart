@@ -13,6 +13,7 @@ import 'package:soares_administradora_condominios/myhouse_page/components/reside
 import 'package:soares_administradora_condominios/myhouse_page/components/vehicles/register.vehicle.form.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/visitors/form.visitor.register.dart';
 import 'package:soares_administradora_condominios/myhouse_page/myhouse.modules.dart';
+import 'package:soares_administradora_condominios/myhouse_page/pages/all.qr.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/house.service.provider.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/residents.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/vehicles.page.dart';
@@ -87,11 +88,11 @@ class _MyAppState extends State<MyApp> {
         ...loginModules,
       ],
       child: MaterialApp(
-        localizationsDelegates: [
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
-        supportedLocales: [const Locale('pt', 'BR')],
+        // localizationsDelegates: [
+        //   GlobalMaterialLocalizations.delegate,
+        //   GlobalWidgetsLocalizations.delegate
+        // ],
+        // supportedLocales: [const Locale('pt', 'BR')],
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/': (_) => _isLogin
@@ -119,6 +120,7 @@ class _MyAppState extends State<MyApp> {
           '/houseServiceProviderPage': (_) => HouseServiceProviderPage(),
           '/registerHouseServiceProviderForm': (_) =>
               RegisterHouseServiceProviderForm(),
+          '/allQrPage': (_) => AllQrPage(),
         },
         title: 'Soares Administradora de Condomínios',
       ),

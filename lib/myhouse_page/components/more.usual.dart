@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -6,7 +7,8 @@ import '../../size.config.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/item.more.usual.dart';
 
 class MoreUsual extends StatelessWidget {
-  const MoreUsual({Key? key}) : super(key: key);
+  final ResidentEntity resident;
+  const MoreUsual({Key? key, required this.resident}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,30 +33,34 @@ class MoreUsual extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: <Widget>[
               ItemMoreUsual(
-                image:
-                    "assets/qrcodeimage.png",
-                title: 'QRCODE',
-                icon: 'assets/qrcode.png',
-                details:
-                    'Acesso a todos os QRCODE da família. Sempre apresente o seu na portaria',
-                index: 0,
+                "assets/qrcodeimage.png",
+                'QRCODE',
+                'assets/qrcode.png',
+                'Acesso a todos os QRCODE da família. Sempre apresente o seu na portaria',
+                0,
+                '/allQrPage',
+                context,
+                resident,
               ),
               ItemMoreUsual(
-                image:
-                    "assets/encomendafoto.png",
-                title: 'Encomendas',
-                icon: 'assets/encomenda.png',
-                details:
-                    'Confira encomendas aguardando retirada, avise o porteiro que está esperando encomenda ou consulte o histório retirada',
-                index: 1,
+                "assets/encomendafoto.png",
+                'Encomendas',
+                'assets/encomenda.png',
+                'Confira encomendas aguardando retirada, avise o porteiro que está esperando encomenda ou consulte o histório retirada',
+                1,
+                'rout',
+                context,
+                resident,
               ),
               ItemMoreUsual(
-                image:
-                    "assets/boletosfoto.png",
-                title: 'Boletos',
-                icon: 'assets/boleto.png',
-                details: 'Segunda via de boletos e historico dos pagamentos',
-                index: 2,
+                "assets/boletosfoto.png",
+                'Boletos',
+                'assets/boleto.png',
+                'Segunda via de boletos e historico dos pagamentos',
+                2,
+                'rout',
+                context,
+                resident,
               ),
             ],
           ),

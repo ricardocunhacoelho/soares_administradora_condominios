@@ -30,40 +30,44 @@ class _MyHouseState extends State<MyHouse> {
     final myHouseState = myHouseBloc.state;
 
     return SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.only(bottom: 40),
-        children: [
-          //HEADER MY HOUSE
-          HeaderMyHouse(),
-          SizedBox(height: 20),
-          //QRCODE RESIDENT
-          if (loginstate is CompleteFetchUserResidentLoginState)
-            QrCodeResident(
-              uid: loginstate.resident.id,
-              name: loginstate.resident.name,
+      child: loginstate is CompleteFetchUserResidentLoginState
+          ? ListView(
+              padding: const EdgeInsets.only(bottom: 40),
+              children: [
+                //HEADER MY HOUSE
+                const HeaderMyHouse(),
+                const SizedBox(height: 20),
+                //QRCODE RESIDENT
+                QrCodeResident(
+                  uid: loginstate.resident.id,
+                  name: loginstate.resident.name,
+                ),
+                const SizedBox(height: 20),
+                //MY HOUSE CIRCULAR ICONS
+                myFamilyCircularIcons(
+                    context, loginstate.resident, myHouseState),
+                const SizedBox(height: 30),
+                //HOME SERVICES PROVIDERS
+                HomeServiceProviders(resident: loginstate.resident),
+                const SizedBox(height: 25),
+                //divisor
+                const Divider(color: kLightGrey, thickness: 1),
+                const SizedBox(height: 15),
+                //MORE USUAL
+                MoreUsual(resident: loginstate.resident),
+                const SizedBox(height: 25),
+                //divisor
+                const Divider(color: kLightGrey, thickness: 1),
+                const SizedBox(height: 15),
+                //INDIVIDUAL ANNOUNCEMENTS AND NOTIFICATIONS
+                const IndividualAnnouncements(),
+              ],
+            )
+          : Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
-          const SizedBox(height: 20),
-          //MY HOUSE CIRCULAR ICONS
-          if (loginstate is CompleteFetchUserResidentLoginState)
-            myFamilyCircularIcons(context, loginstate.resident, myHouseState),
-          SizedBox(height: 30),
-          //HOME SERVICES PROVIDERS
-          if (loginstate is CompleteFetchUserResidentLoginState)
-            HomeServiceProviders(resident: loginstate.resident),
-          SizedBox(height: 25),
-          //divisor
-          Divider(color: kLightGrey, thickness: 1),
-          SizedBox(height: 15),
-          //MORE USUAL
-          MoreUsual(),
-          SizedBox(height: 25),
-          //divisor
-          Divider(color: kLightGrey, thickness: 1),
-          SizedBox(height: 15),
-          //INDIVIDUAL ANNOUNCEMENTS AND NOTIFICATIONS
-          IndividualAnnouncements(),
-        ],
-      ),
     );
   }
 }

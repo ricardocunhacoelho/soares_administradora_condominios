@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
+import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
+import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
+
 import '../../app.style.dart';
 import '../../size.config.dart';
 
-class ItemMoreUsual extends StatelessWidget {
-  final String image;
-  final String title;
-  final String icon;
-  final String details;
-  final int index;
-  ItemMoreUsual(
-      {required this.image,
-      required this.title,
-      required this.icon,
-      required this.index,
-      required this.details});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
+Widget ItemMoreUsual(
+  String image,
+  String title,
+  String icon,
+  String details,
+  int index,
+  String route,
+  BuildContext context,
+  ResidentEntity resident,
+) {
+  return GestureDetector(
+    onTap: (() {
+      context
+          .read<FetchUnitBloc>()
+          .add(FetchHomeUnitFetchEvents(resident.homeUnitEntity));
+      Navigator.pushNamed(context, route);
+    }),
+    child: Container(
       margin: index == 5
           ? const EdgeInsets.only(right: 20)
           : index == 0
@@ -94,6 +101,6 @@ class ItemMoreUsual extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
 }
