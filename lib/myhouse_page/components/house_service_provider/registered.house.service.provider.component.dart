@@ -23,8 +23,8 @@ class _RegisteredHouseServiceProviderState extends State<RegisteredHouseServiceP
     final fetchUnitBloc = context.watch<FetchUnitBloc>();
     final fetchState = fetchUnitBloc.state;
 
-    return Expanded(
-      child: Column(
+    return 
+     Column(
         children: <Widget>[
           if (fetchState is CompleteFetchHomeUnitFetchStates)
             fetchState.homeUnitEntity.houseServiceProviders.isNotEmpty
@@ -34,7 +34,7 @@ class _RegisteredHouseServiceProviderState extends State<RegisteredHouseServiceP
                       RegisterNewHouseServiceProvider(),
                       SizedBox(height: 25),
                       //LIST VisitorsS
-                      ListHouseServiceProvider(),
+                      SingleChildScrollView(child: ListHouseServiceProvider()),
                     ],
                   )
                 : GestureDetector(
@@ -85,7 +85,7 @@ class _RegisteredHouseServiceProviderState extends State<RegisteredHouseServiceP
                     ),
                   ),
         ],
-      ),
-    );
+      );
+    
   }
 }

@@ -21,8 +21,8 @@ class _RegisteredResidentsState extends State<RegisteredResidents> {
     final fetchUnitBloc = context.watch<FetchUnitBloc>();
     final fetchState = fetchUnitBloc.state;
 
-    return Expanded(
-      child: Column(
+    return 
+       Column(
         children: <Widget>[
           if (fetchState is CompleteFetchHomeUnitFetchStates)
             fetchState.homeUnitEntity.residents.isNotEmpty
@@ -32,7 +32,7 @@ class _RegisteredResidentsState extends State<RegisteredResidents> {
                       RegisterNewResident(),
                       SizedBox(height: 25),
                       //LIST RESIDENTS
-                      ListResidents(),
+                      SingleChildScrollView(child: ListResidents()),
                     ],
                   )
                 : GestureDetector(
@@ -83,7 +83,7 @@ class _RegisteredResidentsState extends State<RegisteredResidents> {
                     ),
                   ),
         ],
-      ),
-    );
+      );
+    
   }
 }

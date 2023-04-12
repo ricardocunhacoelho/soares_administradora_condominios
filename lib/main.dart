@@ -88,11 +88,11 @@ class _MyAppState extends State<MyApp> {
         ...loginModules,
       ],
       child: MaterialApp(
-        // localizationsDelegates: [
-        //   GlobalMaterialLocalizations.delegate,
-        //   GlobalWidgetsLocalizations.delegate
-        // ],
-        // supportedLocales: [const Locale('pt', 'BR')],
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        supportedLocales: [const Locale('pt', 'BR')],
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/': (_) => _isLogin

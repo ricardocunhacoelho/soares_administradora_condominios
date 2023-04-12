@@ -29,71 +29,67 @@ class _AllQrState extends State<AllQr> {
     final fetchUnitBloc = context.watch<FetchUnitBloc>();
     final fetchState = fetchUnitBloc.state;
 
-    return Expanded(
-      child: Column(
-        children: <Widget>[
-          if (fetchState is CompleteFetchHomeUnitFetchStates)
-            fetchState.homeUnitEntity.residents.isNotEmpty ||
-                    fetchState.homeUnitEntity.visitors.isNotEmpty ||
-                    fetchState.homeUnitEntity.houseServiceProviders.isNotEmpty
-                ? Column(
-                    children: [
-                      //REGISTER
-                      CategoriesSection(change: change, current: current),
-                      const SizedBox(height: 25),
-                      //LIST RESIDENTS
-                      ListQr(current: current),
-                    ],
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/registerResidentForm');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: kBlue,
-                            borderRadius: BorderRadius.circular(kBorderRadius),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: kDarkBlue.withOpacity(0.051),
-                                  offset: const Offset(0.0, 3.0),
-                                  blurRadius: 24.0,
-                                  spreadRadius: 0.0)
-                            ]),
-                        child: Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                        image:
-                                            AssetImage('assets/cadastro.png'),
-                                        fit: BoxFit.contain),
-                                  )),
-                              const SizedBox(width: 15),
-                              Expanded(
-                                child: Text(
-                                    'Você ainda não cadastrou moradores. Toque para cadastrar.',
-                                    style: kPoppinsMedium.copyWith(
-                                        fontSize:
-                                            SizeConfig.blockSizeHorizontal! *
-                                                3.5,
-                                        color: kDarkBlue)),
-                              ),
-                            ],
-                          ),
+    return Column(
+      children: <Widget>[
+        if (fetchState is CompleteFetchHomeUnitFetchStates)
+          fetchState.homeUnitEntity.residents.isNotEmpty ||
+                  fetchState.homeUnitEntity.visitors.isNotEmpty ||
+                  fetchState.homeUnitEntity.houseServiceProviders.isNotEmpty
+              ? Column(
+                  children: [
+                    //REGISTER
+                    CategoriesSection(change: change, current: current),
+                    const SizedBox(height: 25),
+                    //LIST RESIDENTS
+                    SingleChildScrollView(child: ListQr(current: current)),
+                  ],
+                )
+              : GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/registerResidentForm');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: kBlue,
+                          borderRadius: BorderRadius.circular(kBorderRadius),
+                          boxShadow: [
+                            BoxShadow(
+                                color: kDarkBlue.withOpacity(0.051),
+                                offset: const Offset(0.0, 3.0),
+                                blurRadius: 24.0,
+                                spreadRadius: 0.0)
+                          ]),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                                width: 50,
+                                height: 50,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                      image: AssetImage('assets/cadastro.png'),
+                                      fit: BoxFit.contain),
+                                )),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: Text(
+                                  'Você ainda não cadastrou moradores. Toque para cadastrar.',
+                                  style: kPoppinsMedium.copyWith(
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal! * 3.5,
+                                      color: kDarkBlue)),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-        ],
-      ),
+                ),
+      ],
     );
   }
 }

@@ -11,14 +11,14 @@ import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.ev
 import '../../app.style.dart';
 import '../../size.config.dart';
 
-class HeaderMyHouse extends StatefulWidget {
-  const HeaderMyHouse({super.key});
+class HeaderCondominium extends StatefulWidget {
+  const HeaderCondominium({super.key});
 
   @override
-  State<HeaderMyHouse> createState() => _HeaderMyHouseState();
+  State<HeaderCondominium> createState() => _HeaderCondominiumState();
 }
 
-class _HeaderMyHouseState extends State<HeaderMyHouse> {
+class _HeaderCondominiumState extends State<HeaderCondominium> {
   final FirebaseStorage storage = FirebaseStorage.instance;
   bool loading = false;
 
@@ -138,31 +138,13 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                       },
                     ),
                   ),
-                const SizedBox(width: 20),
-                Container(
-                  width: 130,
-                  child: loginstate is CompleteFetchUserResidentLoginState
-                      ? Container(
-                          child: Text(
-                              'Olá, ${loginstate.resident.name.split(' ')[0]}!',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: kPoppinsBold.copyWith(
-                                fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                                color: kLightWhite,
-                              )),
-                        )
-                      : SizedBox(
-                          width: 130,
-                        ),
-                ),
               ],
             ),
           ),
           Container(
-            width: 100,
+            width: 150,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 GestureDetector(
                     onTap: () {
@@ -170,6 +152,14 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                     },
                     child: Icon(
                       Icons.logout_outlined,
+                      color: kLightWhite,
+                      size: SizeConfig.blockSizeHorizontal! * 7.5,
+                    )),
+                const SizedBox(width: 10),
+                GestureDetector(
+                    onTap: () {},
+                    child: Icon(
+                      Icons.help_center,
                       color: kLightWhite,
                       size: SizeConfig.blockSizeHorizontal! * 7.5,
                     )),

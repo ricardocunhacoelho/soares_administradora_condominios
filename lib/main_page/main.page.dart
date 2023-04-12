@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/condominium/pages/condominium.page.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/myhouse.page.dart';
@@ -29,10 +30,9 @@ class _MainPageState extends State<MainPage> {
 
   late final screens = [
     const MyHouse(),
-    // const PaginaCondominio(),
+    const Condominium(),
     // const PaginaMais(),
     // Center(child: Text('PaginaMinhaCasa')),
-    Center(child: Text('PaginaCondominio')),
     Center(child: Text('PaginaMais')),
   ];
 

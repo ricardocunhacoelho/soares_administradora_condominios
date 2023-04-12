@@ -31,27 +31,30 @@ class _ForShareQrDialogState extends State<ForShareQrDialog> {
             children: [
               Screenshot(
                 controller: controller.screenshotController,
-                child: Column(
-                  children: [
-                    Text(widget.person.name,
-                        style: kPoppinsBold.copyWith(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                            color: kDarkBlue)),
-                    const SizedBox(height: 10),
-                    Text(widget.person.cpf,
-                        style: kPoppinsBold.copyWith(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 4,
-                            color: kDarkBlue)),
-                    const SizedBox(height: 10),
-                    Container(
-                        width: 200,
-                        height: 200,
-                        color: Colors.white,
-                        child: QrImage(
-                          data: widget.person.qrData,
-                          size: 200,
-                        )),
-                  ],
+                child: Container(
+                  color: Colors.white,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      Text(widget.person.name,
+                          style: kPoppinsBold.copyWith(
+                              fontSize: SizeConfig.blockSizeHorizontal! * 4,
+                              color: kDarkBlue)),
+                      const SizedBox(height: 10),
+                      Text(widget.person.cpf,
+                          style: kPoppinsBold.copyWith(
+                              fontSize: SizeConfig.blockSizeHorizontal! * 4,
+                              color: kDarkBlue)),
+                      const SizedBox(height: 10),
+                      Container(
+                          width: 200,
+                          height: 200,
+                          child: QrImage(
+                            data: widget.person.qrData,
+                            size: 200,
+                          )),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
