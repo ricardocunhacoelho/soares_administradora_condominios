@@ -112,7 +112,10 @@ flutter:
     - assets/gallery.png
     - assets/car-register.png
     - assets/visitors_.png
+    - assets/logo_small.png
     - assets/logo.png
+    - assets/ed_estrela.png
+    - assets/condominium_estrela.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
