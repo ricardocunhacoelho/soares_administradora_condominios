@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>707537672788-s5e24okqjehe1q7fu6n6vk3f1mpbka72.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.707537672788-s5e24okqjehe1q7fu6n6vk3f1mpbka72</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCsjvNEDX032lNzqzSY9nm13LQSBPiuisQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>707537672788</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.soaresAdministradoraCondominios</string>
+	<key>PROJECT_ID</key>
+	<string>soares-administradora-condomin</string>
+	<key>STORAGE_BUCKET</key>
+	<string>soares-administradora-condomin.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:707537672788:ios:eb6fe23b02ac0f7adaebc1</string>
+</dict>
+</plist>
