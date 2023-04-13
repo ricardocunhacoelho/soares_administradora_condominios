@@ -11,7 +11,7 @@ Widget frameCondominiumAdm(
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20),
     child: Container(
-      height: 150,
+      height: SizeConfig.blockSizeHorizontal! * 39,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         color: kDarkBlue,
@@ -46,7 +46,7 @@ Widget frameCondominiumAdm(
                   const SizedBox(height: 10),
                   Expanded(
                     child: Text(
-                        'Aproveite: mais de 20 recursos para nos conectarmos a você e suas necessidades.',
+                        'Aproveite: mais de 20 recursos para nos conectarmos a você e suas necessidades.\nSoares Adm. Condomínios',
                         style: kPoppinsSemiBold.copyWith(
                             fontSize: SizeConfig.blockSizeHorizontal! * 3,
                             color: kWhite)),
@@ -55,22 +55,25 @@ Widget frameCondominiumAdm(
               ),
             ),
           ),
-          Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              width: 120,
-              child: GestureDetector(
-                onTap: () {
-                  //abrir a imagem
-                },
-                child: Container(
-                  width: 80,
-                  height: 90,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.white),
-                  child: Image.asset('assets/logo.png', fit: BoxFit.contain),
-                ),
-              ))
+          Padding(
+            padding: const EdgeInsets.only(right:20),
+            child: Container(
+                padding: EdgeInsets.only(left: 20),
+                width: 100,
+                child: GestureDetector(
+                  onTap: () {
+                    //abrir a imagem
+                  },
+                  child: Container(
+                    width: SizeConfig.blockSizeHorizontal! * 14,
+                    height: SizeConfig.blockSizeHorizontal! * 21,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.white),
+                    child: Image.asset('assets/logo.png', fit: BoxFit.contain),
+                  ),
+                )),
+          )
         ],
       ),
     ),

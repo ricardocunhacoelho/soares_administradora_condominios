@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/condominium/components/circular.information.button.condominium.dart';
+import 'package:soares_administradora_condominios/condominium/components/communication.condominium.dart';
 import 'package:soares_administradora_condominios/condominium/components/frame.condominium.dart';
 import 'package:soares_administradora_condominios/condominium/components/header.condominium.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
@@ -30,13 +31,16 @@ class _CondominiumState extends State<Condominium> {
               padding: const EdgeInsets.only(bottom: 40),
               children: [
                 //HEADER CONDOMINIUM
-                HeaderCondominium(),
-                SizedBox(height: 20),
+                const HeaderCondominium(),
+                const SizedBox(height: 20),
                 //FRAME
                 frameCondominiumAdm(loginstate.resident),
-                SizedBox(height: 20),
+                const SizedBox(height: 15),
                 //CIRCULAR BUTTONS
                 circularInformationButtonCondominium(context),
+                const SizedBox(height: 20),
+                //COMMUNICATION
+                const CommunicationCondominium(),
               ],
             )
           : const SizedBox(
