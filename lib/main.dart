@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:soares_administradora_condominios/adm/calendar_condominium/calendar.condominium.modules.dart';
+import 'package:soares_administradora_condominios/adm/news_wall/news.wall.modules.dart';
 import 'package:soares_administradora_condominios/adm/requests_adm/requests.adm.modules.dart';
+import 'package:soares_administradora_condominios/condominium/condominium.modules.dart';
+import 'package:soares_administradora_condominios/condominium/pages/calendar.condominium.page.dart';
+import 'package:soares_administradora_condominios/condominium/pages/news.wall.page.dart';
 import 'package:soares_administradora_condominios/home_unit/home.unit.modules.dart';
 import 'package:soares_administradora_condominios/house_service_provider/house.service.provider.modules.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
@@ -84,6 +89,9 @@ class _MyAppState extends State<MyApp> {
         ...vehicleModules,
         ...visitorModules,
         ...houseServiceProviderModules,
+        ...newsWallModules,
+        ...calendarCondominiumModules,
+        ...condominiumModules,
         ...myHouseModules,
         ...loginModules,
       ],
@@ -121,6 +129,8 @@ class _MyAppState extends State<MyApp> {
           '/registerHouseServiceProviderForm': (_) =>
               RegisterHouseServiceProviderForm(),
           '/allQrPage': (_) => AllQrPage(),
+          '/newsWallPage': (_) => NewsWallPage(),
+          '/calendarCondominiumPage': (_) => CalendarCondominiumPage(),
         },
         title: 'Soares Administradora de Condomínios',
       ),

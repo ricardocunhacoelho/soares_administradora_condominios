@@ -13,9 +13,9 @@ Widget circularInformationButtonCondominium(BuildContext context) {
           scrollDirection: Axis.horizontal,
           children: <Widget>[
             itemInformationButtonCondominium("assets/news.png",
-                'Mural de Avisos', 0, '/residentsPage', context),
+                'Mural de Avisos', 0, '/newsWallPage', context),
             itemInformationButtonCondominium("assets/calendar.png",
-                'Calendário Cond.', 1, '/vehiclePage', context),
+                'Calendário Cond.', 1, '/calendarCondominiumPage', context),
             itemInformationButtonCondominium("assets/lost.png",
                 'Achados/Perdidos', 2, '/visitorPage', context),
             itemInformationButtonCondominium("assets/bad.png",

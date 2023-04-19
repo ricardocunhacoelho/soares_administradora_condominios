@@ -9,7 +9,7 @@ Widget frameCondominiumAdm(
   ResidentEntity resident,
 ) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20),
+    padding: const EdgeInsets.symmetric(horizontal: 15),
     child: Container(
       height: SizeConfig.blockSizeHorizontal! * 39,
       decoration: BoxDecoration(
@@ -44,21 +44,24 @@ Widget frameCondominiumAdm(
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Expanded(
-                    child: Text(
-                        'Aproveite: mais de 20 recursos para nos conectarmos a você e suas necessidades.\nSoares Adm. Condomínios',
-                        style: kPoppinsSemiBold.copyWith(
-                            fontSize: SizeConfig.blockSizeHorizontal! * 3,
-                            color: kWhite)),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                            'Aproveite: mais de 20 recursos para nos conectarmos a você e suas necessidades.\nSoares Adm. Condomínios',
+                            style: kPoppinsSemiBold.copyWith(
+                                fontSize: SizeConfig.blockSizeHorizontal! * 3,
+                                color: kWhite)),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(right:20),
-            child: Container(
-                padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: SizedBox(
                 width: 100,
                 child: GestureDetector(
                   onTap: () {

@@ -16,10 +16,10 @@ class ResidentsPage extends StatefulWidget {
   const ResidentsPage({super.key});
 
   @override
-  State<ResidentsPage> createState() => _ResidentPageState();
+  State<ResidentsPage> createState() => _ResidentsPageState();
 }
 
-class _ResidentPageState extends State<ResidentsPage> {
+class _ResidentsPageState extends State<ResidentsPage> {
   @override
   Widget build(BuildContext context) {
     final fetchBloc = context.watch<FetchUnitBloc>();

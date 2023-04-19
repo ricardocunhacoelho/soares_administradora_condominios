@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/condominium/bloc/get.news.wall.bloc.dart';
+import 'package:soares_administradora_condominios/condominium/bloc/get.task.condominium.bloc.dart';
+import 'package:soares_administradora_condominios/condominium/events/condominium.events.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -12,9 +16,14 @@ Widget itemInformationButtonCondominium(
 ) {
   return GestureDetector(
     onTap: () {
-      // context
-      //     .read<FetchUnitBloc>()
-      //     .add(FetchHomeUnitFetchEvents(resident.homeUnitEntity));
+      if (route == '/newsWallPage') {
+        context.read<GetNewsWallBloc>().add(GetNewsWallEvent());
+      }
+      if (route == '/calendarCondominiumPage') {
+        context
+            .read<GetTaskCondominiumBloc>()
+            .add(GetAllTaskCondominiumEvent());
+      }
       Navigator.pushNamed(context, route);
     },
     child: Column(
@@ -25,10 +34,10 @@ Widget itemInformationButtonCondominium(
           width: SizeConfig.blockSizeHorizontal! * 13,
           height: SizeConfig.blockSizeHorizontal! * 13,
           margin: index == 4
-          ? const EdgeInsets.only(right: 20)
-          : index == 0
-              ? const EdgeInsets.only(left: 25, right: 20)
-              : const EdgeInsets.only(right: 20),
+              ? const EdgeInsets.only(right: 20)
+              : index == 0
+                  ? const EdgeInsets.only(left: 25, right: 20)
+                  : const EdgeInsets.only(right: 20),
           decoration: BoxDecoration(
             color: Colors.white,
             boxShadow: [
@@ -60,10 +69,10 @@ Widget itemInformationButtonCondominium(
               Expanded(
                   child: Container(
                 margin: index == 4
-          ? const EdgeInsets.only(right: 20)
-          : index == 0
-              ? const EdgeInsets.only(left: 25, right: 20)
-              : const EdgeInsets.only(right: 20),
+                    ? const EdgeInsets.only(right: 20)
+                    : index == 0
+                        ? const EdgeInsets.only(left: 25, right: 20)
+                        : const EdgeInsets.only(right: 20),
                 child: Text(
                   nome,
                   style: kDoppio_One.copyWith(

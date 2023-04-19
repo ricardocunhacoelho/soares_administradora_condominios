@@ -62,3 +62,20 @@ final kDoppio_One = GoogleFonts.doppioOne(
   color: kDarkBlue,
   fontWeight: FontWeight.w700,
 );
+
+final kLatoBold = GoogleFonts.lato(
+  color: kDarkBlue,
+  fontWeight: FontWeight.w700,
+);
+final kLatoSemiBold = GoogleFonts.lato(
+  color: kDarkBlue,
+  fontWeight: FontWeight.w600,
+);
+final kLatoMedium = GoogleFonts.lato(
+  color: kDarkBlue,
+  fontWeight: FontWeight.w500,
+);
+final kLatoRegular = GoogleFonts.lato(
+  color: kDarkBlue,
+  fontWeight: FontWeight.w400,
+);
