@@ -4,7 +4,6 @@ class NewsEntity {
   final String text;
   final String author;
   final DateTime date;
-  final ELevelUrgency levelUrgency;
   final String? image;
 
   NewsEntity({
@@ -13,7 +12,6 @@ class NewsEntity {
     required this.text,
     required this.author,
     required this.date,
-    required this.levelUrgency,
     this.image,
   });
 }

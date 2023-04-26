@@ -19,6 +19,29 @@ const Color kMediumDarkBlue = Color.fromARGB(255, 55, 69, 95);
 
 const double kBorderRadius = 16.0;
 
+const greyScale = ColorFilter.matrix(<double>[
+  0.2126,
+  0.7152,
+  0.0722,
+  0,
+  0,
+  0.2126,
+  0.7152,
+  0.0722,
+  0,
+  0,
+  0.2126,
+  0.7152,
+  0.0722,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0
+]);
+
 final kBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(kBorderRadius),
   borderSide: BorderSide.none,

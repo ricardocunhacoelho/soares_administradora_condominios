@@ -5,12 +5,12 @@ import 'package:soares_administradora_condominios/vehicle/infra/adapters/json.to
 void main() {
   test('deve converter um VehicleEntity em map ', () {
     final vehicleEntity = VehicleEntity(
-      id: 'idtransformarmap',
-      color: 'vermelho',
-      plate: '8KB3',
-      model: 'sedan',
-      year: 10,
-    );
+        id: 'idtransformarmap',
+        color: 'vermelho',
+        plate: '8KB3',
+        model: 'sedan',
+        year: 10,
+        vehicleType: EVehicleType.car);
     final map = JsonToFromVehicleEntity.toMap(vehicleEntity);
     expect(map, isA<Map>());
   });
@@ -21,6 +21,7 @@ void main() {
       'plate': '8KB3',
       'model': 'sedan',
       'year': 10,
+      'vehicleType': 'car',
     });
     expect(vehicleEntity, isA<VehicleEntity>());
   });

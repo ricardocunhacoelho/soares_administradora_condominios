@@ -58,3 +58,54 @@ exports.onHouse_Service_ProvidersCreate = functions.firestore.document('house_se
         })
 
 })
+export const newVote = functions.firestore
+    .document('user_polling_responses/{user_polling_response_id}')
+    .onWrite(contador);
+
+async function contador(change: any, context: any) {
+    const valorAntigo = change.before.exists ? change.before.data() : null;
+    const valorNovo = change.after.exists ? change.after.data() : null;
+
+
+    var batch = db.batch();
+
+    var newVoteRef = db.doc(`pollings/${valorNovo.id_polling}`);
+
+
+    if (valorAntigo != null) {
+
+        if (valorNovo.pollingChange == 0) {
+            if (valorNovo.vote == 1) {
+
+                batch.set(newVoteRef, { votesYes: admin.firestore.FieldValue.increment(1) }, { merge: true });
+            } if (valorNovo.vote == 0) {
+
+                batch.set(newVoteRef, { votesNo: admin.firestore.FieldValue.increment(1) }, { merge: true });
+            }
+
+        }
+        if (valorNovo.pollingChange == 1) {
+            if (valorNovo.vote == 1) {
+                batch.set(newVoteRef, { votesNo: admin.firestore.FieldValue.increment(-1) }, { merge: true });
+
+                batch.set(newVoteRef, { votesYes: admin.firestore.FieldValue.increment(1) }, { merge: true });
+            } else {
+                batch.set(newVoteRef, { votesNo: admin.firestore.FieldValue.increment(1) }, { merge: true });
+
+                batch.set(newVoteRef, { votesYes: admin.firestore.FieldValue.increment(-1) }, { merge: true });
+            }
+
+        }
+    }
+    if (valorAntigo == null && valorNovo != null) {
+        if (valorNovo.vote == 1) {
+
+            batch.set(newVoteRef, { votesYes: admin.firestore.FieldValue.increment(1) }, { merge: true });
+        } if (valorNovo.vote == 0) {
+
+            batch.set(newVoteRef, { votesNo: admin.firestore.FieldValue.increment(1) }, { merge: true });
+        }
+    }
+
+    return await batch.commit();
+}

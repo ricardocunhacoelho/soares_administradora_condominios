@@ -21,7 +21,14 @@ void main() {
         access: true,
         unit: UnitEntity(id: 'id', block: 'block', number: 2),
         homeUnitEntity: '',
-        deliveriesReceived: []);
+        deliveriesReceived: [],
+        answeredPolling: [
+          {
+            'changed': 0,
+            'id': 'id',
+            'vote': 1,
+          }
+        ]);
     final map = JsonToFromResidentEntity.toMap(residentEntity);
     expect(map, isA<Map>());
   });
@@ -42,6 +49,7 @@ void main() {
       'unit': {'id': 'id', 'block': 'block', 'number': 2},
       'homeUnitEntity': 'id',
       'deliveriesReceived': [],
+      'answeredPolling': [],
     });
     expect(residentEntity, isA<ResidentEntity>());
   });

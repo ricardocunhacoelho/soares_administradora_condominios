@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/condominium/bloc/get.employee.bloc.dart';
+import 'package:soares_administradora_condominios/condominium/bloc/get.lost.found.bloc.dart';
 import 'package:soares_administradora_condominios/condominium/bloc/get.news.wall.bloc.dart';
+import 'package:soares_administradora_condominios/condominium/bloc/get.polling.bloc.dart';
 import 'package:soares_administradora_condominios/condominium/bloc/get.task.condominium.bloc.dart';
 import 'package:soares_administradora_condominios/condominium/events/condominium.events.dart';
 
@@ -24,13 +27,22 @@ Widget itemInformationButtonCondominium(
             .read<GetTaskCondominiumBloc>()
             .add(GetAllTaskCondominiumEvent());
       }
+      if (route == '/lostFoundPage') {
+        context.read<GetLostFoundBloc>().add(GetAllLostFoundEvent());
+      }
+      if (route == '/employeePage') {
+        context.read<GetEmployeeBloc>().add(GetAllEmployeeEvent());
+      }
+      if (route == '/pollingPage') {
+        context.read<GetPollingBloc>().add(GetAllPollingEvent());
+      }
       Navigator.pushNamed(context, route);
     },
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          padding: EdgeInsets.all(13),
+          padding: const EdgeInsets.all(13),
           width: SizeConfig.blockSizeHorizontal! * 13,
           height: SizeConfig.blockSizeHorizontal! * 13,
           margin: index == 4
@@ -48,7 +60,7 @@ Widget itemInformationButtonCondominium(
                 spreadRadius: 2,
               )
             ],
-            borderRadius: BorderRadius.all(
+            borderRadius: const BorderRadius.all(
               Radius.circular(
                 67,
               ),

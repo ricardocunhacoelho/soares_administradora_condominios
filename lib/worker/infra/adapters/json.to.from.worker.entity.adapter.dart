@@ -1,6 +1,7 @@
 import 'package:soares_administradora_condominios/single_notification/infra/adapters/json.to.from.single.notification.dart';
 import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 import 'package:soares_administradora_condominios/worker/domain/entity/worker.entity.dart';
+import 'package:soares_administradora_condominios/adm/employee/domain/entity/employee.entity.dart';
 
 class JsonToFromWorkerEntity {
   static Map<String, dynamic> toMap(WorkerEntity workerEntity) {
@@ -34,8 +35,11 @@ class JsonToFromWorkerEntity {
       email: json['email'],
       bornDate: DateTime.parse(json['bornDate']),
       phoneNumber: json['phoneNumber'],
-      profileImage: json.containsKey('profileImage') ? json['profileImage'] : null,
-      profileImageThumb: json.containsKey('profileImageThumb') ? json['profileImageThumb'] : null,
+      profileImage:
+          json.containsKey('profileImage') ? json['profileImage'] : null,
+      profileImageThumb: json.containsKey('profileImageThumb')
+          ? json['profileImageThumb']
+          : null,
       picture: json['picture'],
       notifications: json.containsKey('notifications')
           ? (json['notifications'] as List)
@@ -43,7 +47,7 @@ class JsonToFromWorkerEntity {
               .toList()
           : [],
       access: json['access'],
-      function: EFunctionWorkerEntity.values.firstWhere(
+      function: EFunctionEmployee.values.firstWhere(
         (element) => element.name == json['function'],
       ),
     );

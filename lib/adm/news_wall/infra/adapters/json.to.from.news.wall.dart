@@ -1,4 +1,3 @@
-
 import 'package:soares_administradora_condominios/adm/news_wall/domain/entity/news.entity.dart';
 
 class JsonToFromNewsEntity {
@@ -9,8 +8,7 @@ class JsonToFromNewsEntity {
       'text': news.text,
       'author': news.author,
       'date': news.date.toIso8601String(),
-      'levelUrgency': news.levelUrgency.name,
-      'image': news.image,
+      'image': news.image ?? news.image,
     };
   }
 
@@ -20,11 +18,8 @@ class JsonToFromNewsEntity {
       title: json['title'],
       text: json['text'],
       author: json['author'],
-      image: json['image'],
+      image: json.containsKey('image') ? json['image'] : null,
       date: DateTime.parse(json['date']),
-      levelUrgency: ELevelUrgency.values.firstWhere(
-        (element) => element.name == json['levelUrgency'],
-      ),
     );
   }
 }

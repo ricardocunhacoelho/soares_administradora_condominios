@@ -48,20 +48,19 @@ class _ListTaskCondominiumState extends State<ListTaskCondominium> {
                       itemBuilder: (context, index) {
                         final task = taskListToday[index];
                         final progress = task.endTaskDate != null &&
-                            task.startTaskDate.isBefore(
-                                widget.controllerCalendar.daySelected) &&
-                            (task.endTaskDate!.isAfter(
-                                    widget.controllerCalendar.daySelected) ||
-                                (task.endTaskDate!.day ==
-                                        widget.controllerCalendar.daySelected
-                                            .day &&
-                                    task.endTaskDate!.month ==
-                                        widget.controllerCalendar.daySelected
-                                            .month &&
-                                    task.endTaskDate!.year ==
-                                        widget.controllerCalendar.daySelected
-                                            .year));
-                        return ItemTaskCondominium(task, false, progress);
+                            widget.controllerCalendar
+                                .dateOnly(task.startTaskDate)
+                                .isBefore(widget.controllerCalendar.dateOnly(
+                                    widget.controllerCalendar.daySelected)) &&
+                            (widget.controllerCalendar
+                                    .dateOnly(task.endTaskDate!)
+                                    .isAfter(widget.controllerCalendar.dateOnly(
+                                        widget
+                                            .controllerCalendar.daySelected)) ||
+                                (DateUtils.isSameDay(task.endTaskDate!,
+                                    widget.controllerCalendar.daySelected)));
+
+                        return ItemTaskCondominium(task, false, progress, null);
                       })
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -87,7 +86,10 @@ class _ListTaskCondominiumState extends State<ListTaskCondominium> {
                       physics: ScrollPhysics(),
                       itemBuilder: (context, index) {
                         final task = taskListDayAfter[index];
-                        return ItemTaskCondominium(task, true, null);
+                        final alreadyStarted =
+                            taskListToday.contains(taskListDayAfter[index]);
+                        return ItemTaskCondominium(
+                            task, true, null, alreadyStarted);
                       })
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),

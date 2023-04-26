@@ -28,6 +28,7 @@ module.exports = {
     "quotes": ["error", "double"],
     "import/no-unresolved": 0,
     "indent": ["error", 2],
-    "comma-dangle": 0
+    "comma-dangle": 0,
+    "linebreak-style": 0
   },
 };

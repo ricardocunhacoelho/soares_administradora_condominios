@@ -1,7 +1,8 @@
+import 'package:soares_administradora_condominios/adm/employee/domain/entity/employee.entity.dart';
 import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
 import 'package:soares_administradora_condominios/user/domain/entity/user.entity.dart';
 
-class WorkerEntity implements UserEntity {
+class WorkerEntity implements UserEntity, EmployeeEntity {
   final String id;
   final String name;
   final DateTime bornDate;
@@ -13,7 +14,7 @@ class WorkerEntity implements UserEntity {
   final String picture;
   final EUserType userType;
   final List<SingleNotificationEntity> notifications;
-  final EFunctionWorkerEntity function;
+  final EFunctionEmployee function;
   final bool access;
   WorkerEntity({
     required this.id,
@@ -31,5 +32,3 @@ class WorkerEntity implements UserEntity {
     required this.access,
   });
 }
-
-enum EFunctionWorkerEntity { sindico, recepcionista, porteiro, zelador }

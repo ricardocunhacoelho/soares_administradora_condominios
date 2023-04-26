@@ -7,7 +7,7 @@ import 'package:soares_administradora_condominios/condominium/states/states.cond
 
 
 
-class GetNewsWallBloc extends Bloc<GetNewsWallEvent, GetNewsWallStates> {
+class GetNewsWallBloc extends Bloc<GetNewsWallEvents, GetNewsWallStates> {
   final IGetAllNewsInWall getAllNewsInWallUsecase;
 
   GetNewsWallBloc(

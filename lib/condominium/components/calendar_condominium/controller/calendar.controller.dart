@@ -39,10 +39,23 @@ class CalendarController {
 
   List<DateTime> generateListTaskDate(List<TaskCondominiumEntity> tasks) {
     List<DateTime> listTaskDate = [];
+    List<String> listTaskDateExtense = [];
     final dayNow = DateTime.now();
     tasks.forEach((element) {
-      if (element.startTaskDate.isAfter(dayNow)) {
+      if (dateOnly(element.startTaskDate).compareTo(dateOnly(dayNow)) == 1 &&
+          (DateFormat('dd-MM-yyyy').format(element.startTaskDate) !=
+              DateFormat('dd-MM-yyyy').format(dayNow))) {
+        listTaskDateExtense
+            .add(DateFormat('dd-MM-yyyy').format(element.startTaskDate));
         listTaskDate.add(element.startTaskDate);
+      }
+      if ((element.endTaskDate != null) &&
+          (element.endTaskDate!.isAfter(dayNow)) &&
+          !listTaskDateExtense.contains(
+              DateFormat('dd-MM-yyyy').format(element.endTaskDate!))) {
+        listTaskDateExtense
+            .add(DateFormat('dd-MM-yyyy').format(element.endTaskDate!));
+        listTaskDate.add(element.endTaskDate!);
       }
     });
     return listTaskDate;
@@ -52,13 +65,13 @@ class CalendarController {
       List<TaskCondominiumEntity> tasks) {
     List<TaskCondominiumEntity> listTask = [];
     tasks.forEach((element) {
-      if ((element.startTaskDate.day == daySelected.day &&
-              element.startTaskDate.month == daySelected.month &&
-              element.startTaskDate.year == daySelected.year) ||
+      if ((DateUtils.isSameDay(element.startTaskDate, daySelected)) ||
           (element.endTaskDate != null &&
-              (element.endTaskDate!.isAfter(daySelected) || element.endTaskDate!.day == daySelected.day &&
-              element.endTaskDate!.month == daySelected.month &&
-              element.endTaskDate!.year == daySelected.year) && element.startTaskDate.isBefore(daySelected))) {
+              (dateOnly(element.endTaskDate!).isAfter(dateOnly(daySelected)) ||
+                  element.endTaskDate!.day == daySelected.day &&
+                      element.endTaskDate!.month == daySelected.month &&
+                      element.endTaskDate!.year == daySelected.year) &&
+              element.startTaskDate.isBefore(daySelected))) {
         listTask.add(element);
       }
     });
@@ -71,11 +84,23 @@ class CalendarController {
       List<TaskCondominiumEntity> tasks) {
     List<TaskCondominiumEntity> listTask = [];
     tasks.forEach((element) {
-      if (element.startTaskDate.isAfter(daySelected)) {
+      if ((dateOnly(element.startTaskDate).isAfter(dateOnly(daySelected))) ||
+          (element.endTaskDate != null &&
+              (dateOnly(element.startTaskDate)
+                      .compareTo(dateOnly(daySelected)) !=
+                  0) &&
+              dateOnly(element.endTaskDate!).isAfter(dateOnly(daySelected)))) {
         listTask.add(element);
       }
     });
+
+    listTask.sort((a, b) => a.startTaskDate.isBefore(b.startTaskDate) ? 1 : -1);
+
     return listTask;
+  }
+
+  DateTime dateOnly(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
   }
 
   String convertDayOfTheWeekPT(DateTime day) {

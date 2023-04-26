@@ -1,3 +1,5 @@
+
+import 'package:soares_administradora_condominios/adm/polling/domain/entity/response.polling.entity.dart';
 import 'package:soares_administradora_condominios/delivery_received/domain/entity/delivery.received.entity.dart';
 import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
 import 'package:soares_administradora_condominios/unit/domain/entity/unit.entity.dart';
@@ -19,6 +21,7 @@ class ResidentEntity implements UserEntity {
   final UnitEntity unit;
   final String homeUnitEntity;
   final List<DeliveryReceivedEntity> deliveriesReceived;
+  final List<ResponsePollingEntity> answeredPolling;
 
   ResidentEntity({
     required this.id,
@@ -36,5 +39,6 @@ class ResidentEntity implements UserEntity {
     required this.unit,
     required this.homeUnitEntity,
     required this.deliveriesReceived,
+    required this.answeredPolling,
   });
 }

@@ -1,3 +1,4 @@
+import 'package:soares_administradora_condominios/adm/polling/domain/entity/response.polling.entity.dart';
 import 'package:soares_administradora_condominios/delivery_received/domain/entity/delivery.received.entity.dart';
 import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 import 'package:soares_administradora_condominios/single_notification/domain/entity/single.notification.entity.dart';
@@ -21,6 +22,7 @@ class MyHouseResidentModel extends ResidentEntity {
     required UnitEntity unit,
     required String homeUnitEntity,
     required List<DeliveryReceivedEntity> deliveriesReceived,
+    required List<ResponsePollingEntity> answeredPolling,
   }) : super(
           id: id,
           name: name,
@@ -37,6 +39,7 @@ class MyHouseResidentModel extends ResidentEntity {
           unit: unit,
           homeUnitEntity: homeUnitEntity,
           deliveriesReceived: deliveriesReceived,
+          answeredPolling: answeredPolling,
         );
 
   factory MyHouseResidentModel.empty() => MyHouseResidentModel(
@@ -55,6 +58,7 @@ class MyHouseResidentModel extends ResidentEntity {
         unit: UnitEntity(id: '', block: '', number: 0),
         homeUnitEntity: '',
         deliveriesReceived: [],
+        answeredPolling:[],
       );
   MyHouseResidentModel copyWith({
     String? id,
@@ -72,6 +76,7 @@ class MyHouseResidentModel extends ResidentEntity {
     UnitEntity? unit,
     String? homeUnitEntity,
     List<DeliveryReceivedEntity>? deliveriesReceived,
+    List<ResponsePollingEntity>? answeredPolling,
   }) {
     return MyHouseResidentModel(
       id: id ?? this.id,
@@ -89,6 +94,7 @@ class MyHouseResidentModel extends ResidentEntity {
       unit: unit ?? this.unit,
       homeUnitEntity: homeUnitEntity ?? this.homeUnitEntity,
       deliveriesReceived: deliveriesReceived ?? this.deliveriesReceived,
+      answeredPolling: answeredPolling ?? this.answeredPolling,
     );
   }
 
@@ -109,5 +115,6 @@ class MyHouseResidentModel extends ResidentEntity {
         unit: resident.unit,
         homeUnitEntity: resident.homeUnitEntity,
         deliveriesReceived: resident.deliveriesReceived,
+        answeredPolling: resident.answeredPolling,
       );
 }

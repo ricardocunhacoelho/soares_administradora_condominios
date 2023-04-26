@@ -1,14 +1,25 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:soares_administradora_condominios/adm/calendar_condominium/calendar.condominium.modules.dart';
+import 'package:soares_administradora_condominios/adm/called_condominium/called.modules.dart';
+import 'package:soares_administradora_condominios/adm/employee/employee.modules.dart';
+import 'package:soares_administradora_condominios/adm/lost_found/lost.found.modules.dart';
+import 'package:soares_administradora_condominios/adm/maintenance/maintenance.modules.dart';
 import 'package:soares_administradora_condominios/adm/news_wall/news.wall.modules.dart';
+import 'package:soares_administradora_condominios/adm/polling/polling.modules.dart';
 import 'package:soares_administradora_condominios/adm/requests_adm/requests.adm.modules.dart';
 import 'package:soares_administradora_condominios/condominium/condominium.modules.dart';
 import 'package:soares_administradora_condominios/condominium/pages/calendar.condominium.page.dart';
+import 'package:soares_administradora_condominios/condominium/pages/called.page.dart';
+import 'package:soares_administradora_condominios/condominium/pages/employee.page.dart';
+import 'package:soares_administradora_condominios/condominium/pages/lost.found.page.dart';
+import 'package:soares_administradora_condominios/condominium/pages/maintenance.page.dart';
 import 'package:soares_administradora_condominios/condominium/pages/news.wall.page.dart';
+import 'package:soares_administradora_condominios/condominium/pages/polling.page.dart';
 import 'package:soares_administradora_condominios/home_unit/home.unit.modules.dart';
 import 'package:soares_administradora_condominios/house_service_provider/house.service.provider.modules.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
@@ -24,6 +35,7 @@ import 'package:soares_administradora_condominios/myhouse_page/pages/residents.p
 import 'package:soares_administradora_condominios/myhouse_page/pages/vehicles.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/visitors.page.dart';
 import 'package:soares_administradora_condominios/resident/resident.modules.dart';
+import 'package:soares_administradora_condominios/test_storage/test.enquete.dart';
 import 'package:soares_administradora_condominios/user/user.modules.dart';
 import 'package:soares_administradora_condominios/vehicle/vehicle.modules.dart';
 import 'package:soares_administradora_condominios/visitor/visitor.modules.dart';
@@ -42,6 +54,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(const MyApp());
 }
 
@@ -91,6 +104,11 @@ class _MyAppState extends State<MyApp> {
         ...houseServiceProviderModules,
         ...newsWallModules,
         ...calendarCondominiumModules,
+        ...lostFoundModules,
+        ...employeeModules,
+        ...pollingModules,
+        ...calledModules,
+        ...maintenanceModules,
         ...condominiumModules,
         ...myHouseModules,
         ...loginModules,
@@ -118,19 +136,24 @@ class _MyAppState extends State<MyApp> {
                     }
                     return const LoadingPage();
                   })
-              : LoginPage(),
-          '/residentsPage': (_) => ResidentsPage(),
-          '/registerResidentForm': (_) => RegisterResidentForm(),
-          '/vehiclePage': (_) => VehiclesPage(),
-          '/registerVehicleForm': (_) => RegisterVehicleForm(),
-          '/visitorPage': (_) => VisitorsPage(),
-          '/registerVisitorForm': (_) => RegisterVisitorForm(),
-          '/houseServiceProviderPage': (_) => HouseServiceProviderPage(),
+              : const LoginPage(),
+          '/residentsPage': (_) => const ResidentsPage(),
+          '/registerResidentForm': (_) => const RegisterResidentForm(),
+          '/vehiclePage': (_) => const VehiclesPage(),
+          '/registerVehicleForm': (_) => const RegisterVehicleForm(),
+          '/visitorPage': (_) => const VisitorsPage(),
+          '/registerVisitorForm': (_) => const RegisterVisitorForm(),
+          '/houseServiceProviderPage': (_) => const HouseServiceProviderPage(),
           '/registerHouseServiceProviderForm': (_) =>
-              RegisterHouseServiceProviderForm(),
-          '/allQrPage': (_) => AllQrPage(),
-          '/newsWallPage': (_) => NewsWallPage(),
-          '/calendarCondominiumPage': (_) => CalendarCondominiumPage(),
+              const RegisterHouseServiceProviderForm(),
+          '/allQrPage': (_) => const AllQrPage(),
+          '/newsWallPage': (_) => const NewsWallPage(),
+          '/calendarCondominiumPage': (_) => const CalendarCondominiumPage(),
+          '/lostFoundPage': (_) => const LostFoundPage(),
+          '/employeePage': (_) => const EmployeePage(),
+          '/pollingPage': (_) => const PollingPage(),
+          '/calledPage': (_) => const CalledPage(),
+          '/maintenancePage': (_) => const MaintenancePage(),
         },
         title: 'Soares Administradora de Condomínios',
       ),
