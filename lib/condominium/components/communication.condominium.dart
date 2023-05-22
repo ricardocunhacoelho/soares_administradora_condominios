@@ -33,7 +33,7 @@ class CommunicationCondominium extends StatelessWidget {
               itemCommunicationCondominium('assets/megaphone.png', 'Falar com o condomínio',
                   'descrição aqui', Icons.message, 0, '/calledPage', context),
               itemCommunicationCondominium('assets/agenda3.png', 'Reserva de espaços',
-                  'descrição aqui', Icons.edit_calendar_rounded, 0, 'rout', context),
+                  'descrição aqui', Icons.edit_calendar_rounded, 0, '/areaCondominiumPage', context),
               itemCommunicationCondominium('assets/maintenance2.png', 'Solicitar Manutenção',
                   'descrição aqui', Icons.build_rounded, 0, '/maintenancePage', context),
             ],

@@ -13,3 +13,4 @@ class FetchUserLoginEvent implements LoginEvents {
   FetchUserLoginEvent(this.uid);
 }
 
+class ChangeProfileImageEvent implements LoginEvents {}

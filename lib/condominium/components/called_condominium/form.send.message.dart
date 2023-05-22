@@ -6,7 +6,6 @@ import 'package:soares_administradora_condominios/condominium/bloc/called.bloc.d
 import 'package:soares_administradora_condominios/condominium/components/called_condominium/controller/called.controller.dart';
 import 'package:soares_administradora_condominios/condominium/events/condominium.events.dart';
 import 'package:soares_administradora_condominios/condominium/states/states.condominium.dart';
-import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
 
 import '../../../size.config.dart';
 

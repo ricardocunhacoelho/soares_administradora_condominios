@@ -1,9 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:soares_administradora_condominios/adm/areas_condominium/area.condominium.modules.dart';
 import 'package:soares_administradora_condominios/adm/calendar_condominium/calendar.condominium.modules.dart';
 import 'package:soares_administradora_condominios/adm/called_condominium/called.modules.dart';
 import 'package:soares_administradora_condominios/adm/employee/employee.modules.dart';
@@ -12,7 +13,11 @@ import 'package:soares_administradora_condominios/adm/maintenance/maintenance.mo
 import 'package:soares_administradora_condominios/adm/news_wall/news.wall.modules.dart';
 import 'package:soares_administradora_condominios/adm/polling/polling.modules.dart';
 import 'package:soares_administradora_condominios/adm/requests_adm/requests.adm.modules.dart';
+import 'package:soares_administradora_condominios/condominium/components/area_condominium/area.dart';
+import 'package:soares_administradora_condominios/condominium/components/area_condominium/form.reservation.dart';
+import 'package:soares_administradora_condominios/condominium/components/area_condominium/payment.reserve.dart';
 import 'package:soares_administradora_condominios/condominium/condominium.modules.dart';
+import 'package:soares_administradora_condominios/condominium/pages/area.condominium.page.dart';
 import 'package:soares_administradora_condominios/condominium/pages/calendar.condominium.page.dart';
 import 'package:soares_administradora_condominios/condominium/pages/called.page.dart';
 import 'package:soares_administradora_condominios/condominium/pages/employee.page.dart';
@@ -22,7 +27,7 @@ import 'package:soares_administradora_condominios/condominium/pages/news.wall.pa
 import 'package:soares_administradora_condominios/condominium/pages/polling.page.dart';
 import 'package:soares_administradora_condominios/home_unit/home.unit.modules.dart';
 import 'package:soares_administradora_condominios/house_service_provider/house.service.provider.modules.dart';
-import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/house_service_provider/form.house.service.provider.register.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/residents/register.resident.form.dart';
@@ -35,10 +40,11 @@ import 'package:soares_administradora_condominios/myhouse_page/pages/residents.p
 import 'package:soares_administradora_condominios/myhouse_page/pages/vehicles.page.dart';
 import 'package:soares_administradora_condominios/myhouse_page/pages/visitors.page.dart';
 import 'package:soares_administradora_condominios/resident/resident.modules.dart';
-import 'package:soares_administradora_condominios/test_storage/test.enquete.dart';
 import 'package:soares_administradora_condominios/user/user.modules.dart';
 import 'package:soares_administradora_condominios/vehicle/vehicle.modules.dart';
 import 'package:soares_administradora_condominios/visitor/visitor.modules.dart';
+import 'package:soares_administradora_condominios/.env';
+
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
@@ -51,6 +57,8 @@ import 'package:soares_administradora_condominios/main_page/error.page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey = stripePublishableKey;
+  await Stripe.instance.applySettings();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -109,16 +117,17 @@ class _MyAppState extends State<MyApp> {
         ...pollingModules,
         ...calledModules,
         ...maintenanceModules,
+        ...areaCondominiumModules,
         ...condominiumModules,
         ...myHouseModules,
         ...loginModules,
       ],
       child: MaterialApp(
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate
         ],
-        supportedLocales: [const Locale('pt', 'BR')],
+        supportedLocales: const [Locale('pt', 'BR')],
         debugShowCheckedModeBanner: false,
         routes: <String, WidgetBuilder>{
           '/': (_) => _isLogin
@@ -128,7 +137,9 @@ class _MyAppState extends State<MyApp> {
                     if (app.connectionState == ConnectionState.done) {
                       final uid =
                           FirebaseAuth.instance.currentUser!.uid.toString();
-                      context.read<LoginBloc>().add(FetchUserLoginEvent(uid));
+                      context
+                          .read<FetchUserBloc>()
+                          .add(FetchUserLoginEvent(uid));
                       return const MainPage();
                     }
                     if (app.hasError) {
@@ -154,6 +165,10 @@ class _MyAppState extends State<MyApp> {
           '/pollingPage': (_) => const PollingPage(),
           '/calledPage': (_) => const CalledPage(),
           '/maintenancePage': (_) => const MaintenancePage(),
+          '/areaCondominiumPage': (_) => const AreaCondominiumPage(),
+          AreaPage.routeName: (_) => const AreaPage(),
+          '/formReservationPage': (_) => const FormReservation(),
+          PaymentReservation.routeName: (_) => const PaymentReservation(),
         },
         title: 'Soares Administradora de Condomínios',
       ),

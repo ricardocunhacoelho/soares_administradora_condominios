@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/controler/profile.image.controller.dart';
@@ -12,9 +14,10 @@ import '../../app.style.dart';
 import '../../size.config.dart';
 
 class AddProfileImageDialogComponente extends StatefulWidget {
+  final VoidCallback attImage1;
   final String name;
 
-  const AddProfileImageDialogComponente({super.key, required this.name});
+  const AddProfileImageDialogComponente({super.key, required this.name, required this.attImage1});
   @override
   _AddProfileImageDialogComponenteState createState() =>
       new _AddProfileImageDialogComponenteState();
@@ -22,53 +25,29 @@ class AddProfileImageDialogComponente extends StatefulWidget {
 
 class _AddProfileImageDialogComponenteState
     extends State<AddProfileImageDialogComponente> {
-  List<Reference> refs = [];
-  List<String> arquivos = [];
-  bool loading = false;
-  String urlValida = '';
 
-  loadImages() async {
-    setState(() {
-      loading = true;
-    });
-    final uid = FirebaseAuth.instance.currentUser!.uid.toString();
-    Reference ref = storage.ref().child('images/${uid}_200x200.jpg');
-    final url = await ref.getDownloadURL();
-    context.read<MyHouseBloc>().add(UpdateValueUserMyHouseEvent(
-        'users', 'profileImage', await ref.getDownloadURL()));
-    setState(() {
-      urlValida = url;
-    });
-  }
+  int _imageVersion = 1;
 
-  final FirebaseStorage storage = FirebaseStorage.instance;
-
-  updateValueUser() async {
-    context
-        .read<MyHouseBloc>()
-        .add(UpdateValueUserMyHouseEvent('users', 'profileImage', 'ref'));
+  Future<void> _refreshImage() async {
+    //call API & update the image
+    _imageVersion++;
     setState(() {});
+    widget.attImage1();
+     context
+          .read<LoginBloc>()
+          .add(ChangeProfileImageEvent());
   }
 
   late final controller = ProfileImageController(() {
     setState(() {});
-  }, '', updateValueUser);
+  }, '',_refreshImage);
 
   @override
   Widget build(BuildContext context) {
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
-
-    if (loginstate is CompleteFetchUserResidentLoginState) {
-      setState(() {
-        controller.url = loginstate.resident.profileImage!;
-      });
-      if (loginstate.resident.profileImage == 'ref') {
-        loadImages();
-        setState(() {
-          loading = false;
-        });
-      }
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
+    if (fetchUserState is CompleteFetchUserResidentLoginState){
+      _refreshImage();
     }
     return AlertDialog(
       backgroundColor: kLightGrey,
@@ -78,8 +57,8 @@ class _AddProfileImageDialogComponenteState
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (loginstate is CompleteFetchUserResidentLoginState)
-              controller.url == ''
+            if (fetchUserState is CompleteFetchUserResidentLoginState)
+              fetchUserState.resident.profileImageThumb == ''
                   ? Container(
                       height: 150,
                       width: 150,
@@ -119,19 +98,21 @@ class _AddProfileImageDialogComponenteState
                         borderRadius: BorderRadius.circular(kBorderRadius),
                         color: kLightWhite,
                       ),
-                      child: loading ||
-                              controller.uploading ||
-                              loginstate.resident.profileImage == 'ref'
+                      child: controller.uploading
                           ? const Padding(
                               padding: EdgeInsets.all(10),
                               child: CircularProgressIndicator(),
                             )
                           : Image(
-                              image: NetworkImage(controller.url),
+                              image: NetworkImage(fetchUserState
+                                          .resident.profileImageThumb! +
+                                      '#' +
+                                      _imageVersion.toString()),
                               fit: BoxFit.cover),
                     ),
             const SizedBox(height: 15),
-            Text('Nome ${widget.name}',
+            if (fetchUserState is CompleteFetchUserResidentLoginState)
+            Text('Nome ${fetchUserState.resident.name}',
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: kPoppinsBold.copyWith(
@@ -139,7 +120,7 @@ class _AddProfileImageDialogComponenteState
                   color: kLightWhite,
                 )),
             const SizedBox(height: 15),
-            if (loginstate is CompleteFetchUserResidentLoginState)
+            if (fetchUserState is CompleteFetchUserResidentLoginState)
               Column(
                 children: [
                   Container(
@@ -167,8 +148,7 @@ class _AddProfileImageDialogComponenteState
                                   color: kBlue,
                                 ))),
                   ),
-                  if (controller.url != '' &&
-                      loginstate.resident.profileImage != 'ref')
+                  if (fetchUserState.resident.profileImageThumb! != '')
                     Column(
                       children: [
                         const SizedBox(height: 15),

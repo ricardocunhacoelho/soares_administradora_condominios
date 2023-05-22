@@ -45,10 +45,12 @@ class UserFirebase implements IUserDataSource {
   }
 
   Map<dynamic, dynamic> _convert(DocumentSnapshot<Map<String, dynamic>> doc) {
-    return {
+     var ex = {
       'id': doc.id,
       ...doc.data()!,
     };
+    print(ex);
+    return ex;
   }
 
   @override
@@ -78,9 +80,7 @@ class UserFirebase implements IUserDataSource {
   @override
   Future<void> deleteProfileImageUser() async {
     final uid = firebaseAuth.currentUser!.uid;
-    await firebaseStorage.ref('images/$uid.jpg').delete();
-    await firebaseStorage.ref('images/thumb@256_$uid.jpg').delete();
-    await firebaseStorage.ref('images/thumb@128_$uid.jpg').delete();
-    await firebaseStorage.ref('images/thumb@64_$uid.jpg').delete();
+    await firebaseStorage.ref('images/profile/$uid.jpg').delete();
+    await firebaseStorage.ref('images/profile/thumb_$uid.jpg').delete();
   }
 }

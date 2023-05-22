@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/condominium/components/called_condominium/form.send.message.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 
@@ -17,8 +18,8 @@ class CalledPage extends StatefulWidget {
 class _CalledPageState extends State<CalledPage> {
   @override
   Widget build(BuildContext context) {
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
 
     return Scaffold(
       appBar: AppBar(
@@ -63,17 +64,17 @@ class _CalledPageState extends State<CalledPage> {
                       color: kDarkBlue)),
             ),
             //LOADING
-            if (loginstate is LoadingFetchUserLoginState)
+            if (fetchUserState is LoadingFetchUserLoginState)
               const Center(
                 child: CircularProgressIndicator(),
               ),
             //REGISTERED RESIDENTS
-            if (loginstate is CompleteFetchUserResidentLoginState)
+            if (fetchUserState is CompleteFetchUserResidentLoginState)
               FormSendMessage(
-                  residentID: loginstate.resident.id,
-                  unitId: loginstate.resident.unit.id),
+                  residentID: fetchUserState.resident.id,
+                  unitId: fetchUserState.resident.unit.id),
             //ERROR
-            if (loginstate is ErrorFetchUserLoginState)
+            if (fetchUserState is ErrorFetchUserLoginState)
               Center(
                 child: IconButton(
                     onPressed: () async {

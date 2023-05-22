@@ -5,6 +5,7 @@ class PollingFirebase implements IPollingDataSource {
   final FirebaseFirestore firebaseFirestore;
   PollingFirebase(this.firebaseFirestore);
 
+  @override
   Stream<List<dynamic>> getAllPolling() {
     final ref = firebaseFirestore.collection('pollings');
     final snapshots = ref.snapshots();

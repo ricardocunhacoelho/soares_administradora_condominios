@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:soares_administradora_condominios/myhouse_page/bloc/fetch.unit.bloc.dart';
-import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
+import 'package:soares_administradora_condominios/condominium/bloc/get.area.condominium.bloc.dart';
+import 'package:soares_administradora_condominios/condominium/events/condominium.events.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -18,9 +18,11 @@ Widget itemCommunicationCondominium(
 ) {
   return ListTile(
     onTap: () {
-      // context
-      //     .read<FetchUnitBloc>()
-      //     .add(FetchHomeUnitFetchEvents(resident.homeUnitEntity));
+      if (route == '/areaCondominiumPage') {
+        context
+            .read<GetAreaCondominiumBloc>()
+            .add(GetAllAreaCondominiumEvent());
+      }
       Navigator.pushNamed(context, route);
     },
     horizontalTitleGap: 18,
@@ -40,9 +42,7 @@ Widget itemCommunicationCondominium(
       width: 60,
       height: 60,
       decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(image),
-            fit: BoxFit.contain),
+        image: DecorationImage(image: AssetImage(image), fit: BoxFit.contain),
       ),
     ),
   );

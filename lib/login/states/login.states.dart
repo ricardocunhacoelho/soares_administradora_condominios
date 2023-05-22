@@ -4,24 +4,32 @@ import 'package:soares_administradora_condominios/worker/domain/entity/worker.en
 
 abstract class LoginStates {}
 
+abstract class FetchUserStates {}
+
 class InitialLoginState implements LoginStates {}
 
-class LoadingFetchUserLoginState implements LoginStates {}
+class ChangeProfileImageState implements LoginStates {}
 
-class CompleteFetchUserResidentLoginState implements LoginStates {
+class ChangeProfileImageCompleteState implements LoginStates {}
+
+class InitialFetchUserState implements FetchUserStates {}
+
+class LoadingFetchUserLoginState implements FetchUserStates {}
+
+class CompleteFetchUserResidentLoginState implements FetchUserStates {
   final ResidentEntity resident;
 
   CompleteFetchUserResidentLoginState(this.resident);
 }
 
-class CompleteFetchUserWorkerLoginState implements LoginStates {
+class CompleteFetchUserWorkerLoginState implements FetchUserStates {
   final WorkerEntity worker;
 
   CompleteFetchUserWorkerLoginState(this.worker);
 
 }
 
-class ErrorFetchUserLoginState implements LoginStates {
+class ErrorFetchUserLoginState implements FetchUserStates {
   final String message;
 
   ErrorFetchUserLoginState(this.message);

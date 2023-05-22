@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/house_service_provider/domain/entity/house.service.provider.entity.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
@@ -198,8 +199,8 @@ class _RegisterHouseServiceProviderFormState
   Widget build(BuildContext context) {
     final fetchBloc = context.watch<FetchUnitBloc>();
     final fetchState = fetchBloc.state;
-    final loginBloc = context.watch<LoginBloc>();
-    final loginState = loginBloc.state;
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
 
     return Scaffold(
       appBar: AppBar(
@@ -497,11 +498,11 @@ class _RegisterHouseServiceProviderFormState
                                                   .loadingFinish = false;
                                             });
                                           } else {
-                                            if (loginState
+                                            if (fetchUserState
                                                 is CompleteFetchUserResidentLoginState) {
                                               context.read<FetchUnitBloc>().add(
                                                   FetchHomeUnitFetchEvents(
-                                                      loginState.resident
+                                                      fetchUserState.resident
                                                           .homeUnitEntity));
                                             } else {
                                               final uid = FirebaseAuth

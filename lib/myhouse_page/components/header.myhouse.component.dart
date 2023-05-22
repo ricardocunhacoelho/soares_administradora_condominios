@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
-import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/add.profile.image.dart';
-import 'package:soares_administradora_condominios/myhouse_page/events/myhouse.events.dart';
 
 import '../../app.style.dart';
 import '../../size.config.dart';
@@ -19,39 +18,27 @@ class HeaderMyHouse extends StatefulWidget {
 }
 
 class _HeaderMyHouseState extends State<HeaderMyHouse> {
-  final FirebaseStorage storage = FirebaseStorage.instance;
-  bool loading = false;
+  var auth = FirebaseAuth.instance;
+  String url = '';
+  int _imageVersion = 1;
 
-  loadImages() async {
-    setState(() {
-      loading = true;
-    });
-    final uid = FirebaseAuth.instance.currentUser!.uid.toString();
-    Reference ref = storage.ref().child('images/${uid}_60x60.jpg');
-    context.read<MyHouseBloc>().add(UpdateValueUserMyHouseEvent(
-        'users', 'profileImageThumb', await ref.getDownloadURL()));
+  Future<void> _refreshImage() async {
+    //call API & update the image
+    _imageVersion++;
+    setState(() {});
+        print('version : $_imageVersion');
+
   }
 
-  String url = '';
-  String title = '';
-  var auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
-
-    if (loginstate is CompleteFetchUserResidentLoginState) {
-      url = loginstate.resident.profileImage!;
-      title = loginstate.resident.name;
-      if (loginstate.resident.profileImage == 'ref') {
-        loadImages();
-        setState(() {
-          loading = false;
-        });
-      }
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
+    if (fetchUserState is CompleteFetchUserResidentLoginState) {
+      url = fetchUserState.resident.profileImageThumb!;
+      _refreshImage();
     }
-
     return Container(
       height: 100,
       color: kDarkBlue,
@@ -63,8 +50,8 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
             alignment: Alignment.centerLeft,
             child: Row(
               children: [
-                if (loginstate is CompleteFetchUserResidentLoginState)
-                  loginstate.resident.profileImage == ''
+                if (fetchUserState is CompleteFetchUserResidentLoginState)
+                  fetchUserState.resident.profileImageThumb == ''
                       ? Container(
                           height: 51,
                           width: 51,
@@ -80,7 +67,8 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                                     context: context,
                                     builder: (_) {
                                       return AddProfileImageDialogComponente(
-                                        name: title,
+                                        name: fetchUserState.resident.name,
+                                        attImage1: _refreshImage,
                                       );
                                     });
                               },
@@ -93,7 +81,8 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                                 context: context,
                                 builder: (_) {
                                   return AddProfileImageDialogComponente(
-                                    name: title,
+                                    name: fetchUserState.resident.name,
+                                    attImage1: _refreshImage,
                                   );
                                 });
                           },
@@ -105,25 +94,18 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                                   BorderRadius.circular(kBorderRadius),
                               color: kLightWhite,
                             ),
-                            child: loading ||
-                                    loginstate.resident.profileImage == 'ref'
-                                ? Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(kBorderRadius),
-                                    color: kWhite,
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            loginstate.resident.profileImage!),
-                                        fit: BoxFit.cover),
-                                  )),
+                            child: Container(
+                                decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadius),
+                              color: kWhite,
+                              image: DecorationImage(
+                                  image: NetworkImage(url + '#' + _imageVersion.toString()),
+                                  fit: BoxFit.cover),
+                            )),
                           ),
                         ),
-                if (loginstate is ErrorFetchUserLoginState)
+                if (fetchUserState is ErrorFetchUserLoginState)
                   Container(
                     height: 51,
                     width: 51,
@@ -141,10 +123,10 @@ class _HeaderMyHouseState extends State<HeaderMyHouse> {
                 const SizedBox(width: 20),
                 Container(
                   width: 130,
-                  child: loginstate is CompleteFetchUserResidentLoginState
+                  child: fetchUserState is CompleteFetchUserResidentLoginState
                       ? Container(
                           child: Text(
-                              'Olá, ${loginstate.resident.name.split(' ')[0]}!',
+                              'Olá, ${fetchUserState.resident.name.split(' ')[0]}!',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: kPoppinsBold.copyWith(

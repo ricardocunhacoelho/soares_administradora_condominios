@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:soares_administradora_condominios/myhouse_page/components/qrcode.resident.component.dart';
 
 import '../../app.style.dart';
@@ -24,13 +24,13 @@ class MyHouse extends StatefulWidget {
 class _MyHouseState extends State<MyHouse> {
   @override
   Widget build(BuildContext context) {
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
     final myHouseBloc = context.watch<MyHouseBloc>();
     final myHouseState = myHouseBloc.state;
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
 
     return SafeArea(
-      child: loginstate is CompleteFetchUserResidentLoginState
+      child: fetchUserState is CompleteFetchUserResidentLoginState
           ? ListView(
               padding: const EdgeInsets.only(bottom: 40),
               children: [
@@ -39,22 +39,22 @@ class _MyHouseState extends State<MyHouse> {
                 const SizedBox(height: 20),
                 //QRCODE RESIDENT
                 QrCodeResident(
-                  uid: loginstate.resident.id,
-                  name: loginstate.resident.name,
+                  uid: fetchUserState.resident.id,
+                  name: fetchUserState.resident.name,
                 ),
                 const SizedBox(height: 20),
                 //MY HOUSE CIRCULAR ICONS
                 myFamilyCircularIcons(
-                    context, loginstate.resident, myHouseState),
+                    context, fetchUserState.resident, myHouseState),
                 const SizedBox(height: 30),
                 //HOME SERVICES PROVIDERS
-                HomeServiceProviders(resident: loginstate.resident),
+                HomeServiceProviders(resident: fetchUserState.resident),
                 const SizedBox(height: 25),
                 //divisor
                 const Divider(color: kLightGrey, thickness: 1),
                 const SizedBox(height: 15),
                 //MORE USUAL
-                MoreUsual(resident: loginstate.resident),
+                MoreUsual(resident: fetchUserState.resident),
                 const SizedBox(height: 25),
                 //divisor
                 const Divider(color: kLightGrey, thickness: 1),

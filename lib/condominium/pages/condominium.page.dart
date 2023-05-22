@@ -4,6 +4,7 @@ import 'package:soares_administradora_condominios/condominium/components/circula
 import 'package:soares_administradora_condominios/condominium/components/communication.condominium.dart';
 import 'package:soares_administradora_condominios/condominium/components/frame.condominium.dart';
 import 'package:soares_administradora_condominios/condominium/components/header.condominium.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 import 'package:soares_administradora_condominios/myhouse_page/bloc/myhouse.bloc.dart';
@@ -20,13 +21,11 @@ class Condominium extends StatefulWidget {
 class _CondominiumState extends State<Condominium> {
   @override
   Widget build(BuildContext context) {
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
-    final myHouseBloc = context.watch<MyHouseBloc>();
-    final myHouseState = myHouseBloc.state;
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
 
     return SafeArea(
-      child: loginstate is CompleteFetchUserResidentLoginState
+      child: fetchUserState is CompleteFetchUserResidentLoginState
           ? ListView(
               padding: const EdgeInsets.only(bottom: 40),
               children: [
@@ -34,7 +33,7 @@ class _CondominiumState extends State<Condominium> {
                 const HeaderCondominium(),
                 const SizedBox(height: 20),
                 //FRAME
-                frameCondominiumAdm(loginstate.resident),
+                frameCondominiumAdm(fetchUserState.resident),
                 const SizedBox(height: 15),
                 //CIRCULAR BUTTONS
                 circularInformationButtonCondominium(context),

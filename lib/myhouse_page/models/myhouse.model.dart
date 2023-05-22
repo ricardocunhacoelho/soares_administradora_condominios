@@ -1,3 +1,4 @@
+import 'package:soares_administradora_condominios/adm/areas_condominium/domain/entity/reserve.entity.dart';
 import 'package:soares_administradora_condominios/adm/polling/domain/entity/response.polling.entity.dart';
 import 'package:soares_administradora_condominios/delivery_received/domain/entity/delivery.received.entity.dart';
 import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
@@ -23,6 +24,7 @@ class MyHouseResidentModel extends ResidentEntity {
     required String homeUnitEntity,
     required List<DeliveryReceivedEntity> deliveriesReceived,
     required List<ResponsePollingEntity> answeredPolling,
+    required List<ReserveEntity> reserves,
   }) : super(
           id: id,
           name: name,
@@ -40,6 +42,7 @@ class MyHouseResidentModel extends ResidentEntity {
           homeUnitEntity: homeUnitEntity,
           deliveriesReceived: deliveriesReceived,
           answeredPolling: answeredPolling,
+          reserves: reserves,
         );
 
   factory MyHouseResidentModel.empty() => MyHouseResidentModel(
@@ -59,6 +62,7 @@ class MyHouseResidentModel extends ResidentEntity {
         homeUnitEntity: '',
         deliveriesReceived: [],
         answeredPolling:[],
+        reserves:[],
       );
   MyHouseResidentModel copyWith({
     String? id,
@@ -77,6 +81,7 @@ class MyHouseResidentModel extends ResidentEntity {
     String? homeUnitEntity,
     List<DeliveryReceivedEntity>? deliveriesReceived,
     List<ResponsePollingEntity>? answeredPolling,
+    List<ReserveEntity>? reserves,
   }) {
     return MyHouseResidentModel(
       id: id ?? this.id,
@@ -95,6 +100,7 @@ class MyHouseResidentModel extends ResidentEntity {
       homeUnitEntity: homeUnitEntity ?? this.homeUnitEntity,
       deliveriesReceived: deliveriesReceived ?? this.deliveriesReceived,
       answeredPolling: answeredPolling ?? this.answeredPolling,
+      reserves: reserves ?? this.reserves,
     );
   }
 
@@ -116,5 +122,6 @@ class MyHouseResidentModel extends ResidentEntity {
         homeUnitEntity: resident.homeUnitEntity,
         deliveriesReceived: resident.deliveriesReceived,
         answeredPolling: resident.answeredPolling,
+        reserves: resident.reserves,
       );
 }

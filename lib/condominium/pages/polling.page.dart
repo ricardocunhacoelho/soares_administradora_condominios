@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:soares_administradora_condominios/condominium/bloc/get.polling.bloc.dart';
 import 'package:soares_administradora_condominios/condominium/components/polling/list.pollings.dart';
 import 'package:soares_administradora_condominios/condominium/states/states.condominium.dart';
-import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
 
 import '../../app.style.dart';
@@ -21,8 +21,8 @@ class _PollingPageState extends State<PollingPage> {
   Widget build(BuildContext context) {
     final fetchPollingBloc = context.watch<GetPollingBloc>();
     final fetchPollingState = fetchPollingBloc.state;
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
 
     return Scaffold(
       appBar: AppBar(
@@ -67,14 +67,14 @@ class _PollingPageState extends State<PollingPage> {
                       color: kDarkBlue)),
             ),
             //LOADING
-            if (fetchPollingState is LoadingGetPollingState || loginstate is LoadingFetchUserLoginState)
+            if (fetchPollingState is LoadingGetPollingState || fetchUserState is LoadingFetchUserLoginState)
               const Center(
                 child: CircularProgressIndicator(),
               ),
             //REGISTERED RESIDENTS
             if (fetchPollingState is CompleteGetPollingState &&
-                loginstate is CompleteFetchUserResidentLoginState)
-              ListPollings(listPollingsUser : loginstate.resident.answeredPolling, uid: loginstate.resident.id),
+                fetchUserState is CompleteFetchUserResidentLoginState)
+              ListPollings(listPollingsUser : fetchUserState.resident.answeredPolling, uid: fetchUserState.resident.id),
             //ERROR
             if (fetchPollingState is ErrorGetPollingState)
               Center(

@@ -1,3 +1,4 @@
+import 'package:soares_administradora_condominios/adm/areas_condominium/domain/entity/area.condominium.entity.dart';
 import 'package:soares_administradora_condominios/adm/calendar_condominium/domain/entity/task.condominium.entity.dart';
 import 'package:soares_administradora_condominios/adm/employee/domain/entity/employee.entity.dart';
 import 'package:soares_administradora_condominios/adm/lost_found/domain/entity/lost.found.entity.dart';
@@ -16,9 +17,15 @@ abstract class GetEmployeeStates {}
 
 abstract class GetPollingStates {}
 
+abstract class GetAreaCondominiumStates {}
+
+abstract class FetchAreaCondominiumStates {}
+
 abstract class PollingStates {}
 
 abstract class CalledStates {}
+
+abstract class AreaCondominiumStates {}
 
 abstract class MaintenanceStates {}
 
@@ -102,6 +109,22 @@ class ErrorGetPollingState implements GetPollingStates {
   ErrorGetPollingState(this.message);
 }
 
+class InitialGetAreaCondominiumStates implements GetAreaCondominiumStates {}
+
+class LoadingGetAreaCondominiumState implements GetAreaCondominiumStates {}
+
+class CompleteGetAreaCondominiumState implements GetAreaCondominiumStates {
+  final List<AreaCondominiumEntity> areaCondominiumList;
+
+  CompleteGetAreaCondominiumState(this.areaCondominiumList);
+}
+
+class ErrorGetAreaCondominiumState implements GetAreaCondominiumStates {
+  final String message;
+
+  ErrorGetAreaCondominiumState(this.message);
+}
+
 class InitialPollingsState implements PollingStates {}
 
 class LoadingAnswerPollingState implements PollingStates {}
@@ -136,4 +159,30 @@ class ErrorRequestMaintenanceState implements MaintenanceStates {
   final String message;
 
   ErrorRequestMaintenanceState(this.message);
+}
+
+class InitialFetchAreaCondominiumState implements FetchAreaCondominiumStates {}
+
+class LoadingFetchAreaCondominiumState implements FetchAreaCondominiumStates {}
+
+class CompleteFetchAreaCondominiumState implements FetchAreaCondominiumStates {
+  final AreaCondominiumEntity area;
+
+  CompleteFetchAreaCondominiumState(this.area);
+}
+
+class ErrorFetchAreaCondominiumState implements FetchAreaCondominiumStates {
+  final String message;
+
+  ErrorFetchAreaCondominiumState(this.message);
+}
+
+class InitialAreaCondominiumState implements AreaCondominiumStates{}
+
+class LoadingMakeReserveAreaCondominiumState implements AreaCondominiumStates{}
+class CompleteMakeReserveAreaCondominiumState implements AreaCondominiumStates{}
+class ErrorMakeReserveAreaCondominiumState implements AreaCondominiumStates{
+    final String message;
+
+  ErrorMakeReserveAreaCondominiumState(this.message);
 }

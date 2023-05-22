@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soares_administradora_condominios/login/bloc/fetch.user.login.bloc.dart';
 import 'package:soares_administradora_condominios/login/bloc/login.bloc.dart';
 import 'package:soares_administradora_condominios/login/events/login.events.dart';
 import 'package:soares_administradora_condominios/login/states/login.states.dart';
@@ -24,13 +25,13 @@ class _ResidentsPageState extends State<ResidentsPage> {
   Widget build(BuildContext context) {
     final fetchBloc = context.watch<FetchUnitBloc>();
     final fetchState = fetchBloc.state;
-    final loginbloc = context.watch<LoginBloc>();
-    final loginstate = loginbloc.state;
+    final fetchUserBloc = context.watch<FetchUserBloc>();
+    final fetchUserState = fetchUserBloc.state;
 
-    if (loginstate is CompleteFetchUserResidentLoginState) {
+    if (fetchUserState is CompleteFetchUserResidentLoginState) {
       context
           .read<FetchUnitBloc>()
-          .add(FetchHomeUnitFetchEvents(loginstate.resident.homeUnitEntity));
+          .add(FetchHomeUnitFetchEvents(fetchUserState.resident.homeUnitEntity));
     }
     return Scaffold(
       appBar: AppBar(
@@ -84,17 +85,17 @@ class _ResidentsPageState extends State<ResidentsPage> {
               const RegisteredResidents(),
             //ERROR
             if (fetchState is ErrorFetchHomeUnitFetchStates ||
-                loginstate is ErrorFetchUserLoginState)
+                fetchUserState is ErrorFetchUserLoginState)
               Center(
                 child: IconButton(
                     onPressed: () async {
                       final uid =
                           FirebaseAuth.instance.currentUser!.uid.toString();
                       context.read<LoginBloc>().add(FetchUserLoginEvent(uid));
-                      if (loginstate is CompleteFetchUserResidentLoginState) {
+                      if (fetchUserState is CompleteFetchUserResidentLoginState) {
                         context.read<FetchUnitBloc>().add(
                             FetchHomeUnitFetchEvents(
-                                loginstate.resident.homeUnitEntity));
+                                fetchUserState.resident.homeUnitEntity));
                       }
                     },
                     icon: const Icon(Icons.refresh)),

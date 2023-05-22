@@ -1,4 +1,4 @@
-
+import 'package:soares_administradora_condominios/adm/areas_condominium/infra/adapters/json.to.from.reservation.entity.dart';
 import 'package:soares_administradora_condominios/adm/polling/infra/adapters/json.to.from.response.polling.entity.dart';
 import 'package:soares_administradora_condominios/delivery_received/infra/adapters/json.to.from.delivery.received.dart';
 import 'package:soares_administradora_condominios/resident/domain/entity/resident.entity.dart';
@@ -30,6 +30,9 @@ class JsonToFromResidentEntity {
           .toList(),
       'answeredPolling': residentEntity.answeredPolling
           .map((e) => JsonToFromResponsePollingEntity.toMap(e))
+          .toList(),
+      'reserves': residentEntity.reserves
+          .map((e) => JsonToFromReserveEntity.toMap(e))
           .toList(),
     };
   }
@@ -64,6 +67,11 @@ class JsonToFromResidentEntity {
       answeredPolling: json.containsKey('answeredPolling')
           ? (json['answeredPolling'] as List)
               .map(JsonToFromResponsePollingEntity.fromMap)
+              .toList()
+          : [],
+      reserves: json.containsKey('reserves')
+          ? (json['reserves'] as List)
+              .map(JsonToFromReserveEntity.fromMap)
               .toList()
           : [],
     );

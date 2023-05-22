@@ -10,12 +10,12 @@ class ProfileImageController {
   bool uploading = false;
   double total = 0;
   final VoidCallback refresh;
+  final VoidCallback _attImage;
   String url = '';
   String ref = '';
   final String uidFix;
-  final Function updateValueUser;
-
-  ProfileImageController(this.refresh, this.uidFix, this.updateValueUser);
+  
+  ProfileImageController(this.refresh, this.uidFix, this._attImage);
 
   Future<XFile?> getImage() async {
     final ImagePicker _picker = ImagePicker();
@@ -27,7 +27,7 @@ class ProfileImageController {
     File file = File(path);
     try {
       final uid = FirebaseAuth.instance.currentUser!.uid.toString();
-      ref = 'images/$uid.jpg';
+      ref = 'images/profile/$uid.jpg';
       return storage.ref(ref).putFile(file);
     } on FirebaseException catch (e) {
       throw Exception('Erro no upload: ${e.code}');
@@ -43,13 +43,15 @@ class ProfileImageController {
           uploading = true;
           total = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           refresh();
+          
         } else if (snapshot.state == TaskState.success) {
           refresh();
         }
       });
       await Future.delayed(Duration(seconds: 5));
-      await updateValueUser();
+      // await updateValueUser();
       uploading = false;
+      _attImage();
       refresh();
     } else {
       print('erro ao pegar caminho da imagem');
